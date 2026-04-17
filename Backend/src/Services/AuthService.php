@@ -33,9 +33,13 @@ class AuthService
         if ($error = $this->validation->passwordLengthValidation($password)) {
             $errors[] = $error;
         }
+        $userExists = $this->repository->userAlreadyExistsQuery($email);
+        if ($userExists) {
+            $errors[] = 'User with this email is already exists.';
+        }
 
         if (!empty($errors)) {
-            return $errors;
+            return ['errors' => $errors];
         } else {
             $hashPassword = password_hash($password, PASSWORD_DEFAULT);
             return $this->repository->userRegistrationQuery($name, $email, $hashPassword);

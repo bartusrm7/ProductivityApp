@@ -22,7 +22,7 @@ export default function SignUp() {
 			}
 			const data = await response.json();
 			console.log(data);
-			if (data) {
+			if (!data.errors) {
 				setIsRegisterSuccessful(true);
 			}
 		} catch (error) {
@@ -31,7 +31,7 @@ export default function SignUp() {
 	}
 	useEffect(() => {
 		document.title = "ProductivityApp - Sign Up";
-	});
+	}, [isRegisterSuccessful]);
 
 	return (
 		<div className='d-flex justify-content-center align-items-center min-vh-100'>

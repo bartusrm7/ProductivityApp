@@ -23,7 +23,11 @@ class AuthController
             $password = $data['password'];
 
             $result = $this->service->userRegistration($name, $email, $password);
-            json_encode($result);
+            if (is_array($result)) {
+                echo json_encode(['errors' => $result]);
+                return;
+            }
+            json_encode(['success' => 'User registration successfully.']);
         }
     }
 }
