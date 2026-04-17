@@ -23,7 +23,7 @@ class AuthController
             $password = $data['password'];
 
             $result = $this->service->userRegistration($name, $email, $password);
-            json_encode($result);
+            echo json_encode($result);
         }
     }
 }

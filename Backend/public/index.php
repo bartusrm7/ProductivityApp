@@ -6,6 +6,43 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+use App\Controllers\AuthController;
+use App\Database\Database;
+use App\Repositories\AuthRepository;
+use App\Services\AuthService;
+use App\Validations\AuthValidation;
+use Dotenv\Dotenv;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+$db = new Database;
+
+// REPOSITORIES
+$authRepository = new AuthRepository($db);
+
+// VALIDATIONS
+$authValidation = new AuthValidation();
+
+// SERVICES
+$authService = new AuthService($authRepository, $authValidation);
+
+// CONTROLLERS
+$authController = new AuthController($authService);
+
+$controllers = [
+    AuthController::class => $authController
+];
+
+$dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
+    // POST
+
+    // AUTH
+    $r->addRoute('POST', '/sign-up', [AuthController::class, 'userRegistration']);
+});
+
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
 
@@ -31,4 +68,6 @@ switch ($routeInfo[0]) {
             return $handler($vars);
         }
         [$class, $method] = $handler;
+        $controller = $controllers[$class];
+        return $controller->$method();
 }
