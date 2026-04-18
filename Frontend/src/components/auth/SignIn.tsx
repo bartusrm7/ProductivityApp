@@ -1,11 +1,41 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Form } from "react-bootstrap";
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
+import type { UserLoginData } from "../../types/auth";
 
 export default function SignIn() {
+	const [userData, setUserData] = useState<UserLoginData>({ email: "", password: "" });
+	const [isLoginSuccessful, setIsLoginSuccessful] = useState<boolean>(false);
+	const [errorsArray, setErrorsArray] = useState<string[]>([]);
+
+	async function handleUserLogin(e: any) {
+		e.preventDefault();
+		try {
+			const response = await fetch("http://productivityapp.local/sign-in", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(userData),
+			});
+			const data = await response.json();
+			if (data.errors) {
+				setErrorsArray(data.errors);
+			} else {
+				setIsLoginSuccessful(true);
+			}
+		} catch (error) {
+			setErrorsArray(["Server error. Try again."]);
+		}
+	}
+
 	useEffect(() => {
 		document.title = "ProductivityApp - Sign In";
-	});
+
+		if (isLoginSuccessful) {
+			<Navigate to='/dashboard' />;
+		}
+	}, [isLoginSuccessful]);
 
 	return (
 		<div className='d-flex justify-content-center align-items-center min-vh-100'>
@@ -15,22 +45,34 @@ export default function SignIn() {
 						<h2>Sign In</h2>
 						<p>To visit on dashboard please sign in.</p>
 					</div>
-					<Form>
+					<Form onSubmit={handleUserLogin}>
 						<Form.Group className='mb-3'>
 							<Form.Floating>
-								<Form.Control type='email' placeholder='Address email' />
+								<Form.Control value={userData.email} onChange={e => setUserData(prevState => ({ ...prevState, email: e.target.value }))} type='email' placeholder='Address email' />
 								<Form.Label>Address email</Form.Label>
 							</Form.Floating>
 						</Form.Group>
 
 						<Form.Group className='mb-3'>
 							<Form.Floating>
-								<Form.Control type='password' placeholder='Password' />
+								<Form.Control value={userData.password} onChange={e => setUserData(prevState => ({ ...prevState, password: e.target.value }))} type='password' placeholder='Password' />
 								<Form.Label>Password</Form.Label>
 							</Form.Floating>
 						</Form.Group>
-
-						<Button className='w-100'>Login</Button>
+						{errorsArray.length > 0 ? (
+							<div className='mb-3'>
+								<div className='alert alert-danger'>
+									{errorsArray.map((error, index) => (
+										<div key={index}>{error}</div>
+									))}
+								</div>
+							</div>
+						) : (
+							""
+						)}
+						<Button className='w-100' type='submit'>
+							Login
+						</Button>
 					</Form>
 
 					<div className='mt-4 d-flex justify-content-center'>

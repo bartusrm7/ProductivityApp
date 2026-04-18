@@ -52,6 +52,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // AUTH
     $r->addRoute('POST', '/sign-up', [AuthController::class, 'userRegistration']);
+    $r->addRoute('POST', '/sign-in', [AuthController::class, 'userLogin']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];

@@ -35,7 +35,7 @@ class AuthService
         }
         $userExists = $this->repository->userAlreadyExistsQuery($email);
         if ($userExists) {
-            $errors[] = 'User with this email is already exists.';
+            return ['errors' => ['User with this email is already exists.']];
         }
 
         if (!empty($errors)) {
@@ -61,7 +61,7 @@ class AuthService
         }
         $userExists = $this->repository->userAlreadyExistsQuery($email);
         if (!$userExists) {
-            $errors[] = 'User with this email is not exists.';
+            return ['errors' => ['User with this email is not exists.']];
         }
 
         if (!empty($errors)) {

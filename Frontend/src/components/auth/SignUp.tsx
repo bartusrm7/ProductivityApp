@@ -18,9 +18,6 @@ export default function SignUp() {
 				},
 				body: JSON.stringify(userData),
 			});
-			if (!response.ok) {
-				throw new Error("Error with response.");
-			}
 			const data = await response.json();
 			if (data.errors) {
 				setErrorsArray(data.errors);
@@ -31,6 +28,7 @@ export default function SignUp() {
 			setErrorsArray(["Server error. Try again."]);
 		}
 	}
+
 	useEffect(() => {
 		document.title = "ProductivityApp - Sign Up";
 	}, [isRegisterSuccessful]);
