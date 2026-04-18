@@ -31,4 +31,20 @@ class AuthRepository
         $stmt->execute([':email' => $email]);
         return $stmt->fetch();
     }
+
+    public function userLoginQuery($email)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = :email');
+        $stmt->execute([':email' => $email]);
+        $row = $stmt->fetch();
+
+        if (!$row) return null;
+
+        return new AuthModel(
+            $row['id'],
+            $row['name'],
+            $email,
+            $row['password']
+        );
+    }
 }

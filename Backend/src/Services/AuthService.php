@@ -39,10 +39,42 @@ class AuthService
         }
 
         if (!empty($errors)) {
-            return ['errors' => $errors];
+            return [
+                'success' => false,
+                'errors' => $errors
+            ];
         } else {
             $hashPassword = password_hash($password, PASSWORD_DEFAULT);
             $this->repository->userRegistrationQuery($name, $email, $hashPassword);
+            return ['success' => true];
+        }
+    }
+
+    public function userLogin($email, $password)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyPasswordField($password)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->passwordLengthValidation($password)) {
+            $errors[] = $error;
+        }
+        $userExists = $this->repository->userAlreadyExistsQuery($email);
+        if (!$userExists) {
+            $errors[] = 'User with this email is not exists.';
+        }
+
+        if (!empty($errors)) {
+            return [
+                'success' => false,
+                'errors' => $errors
+            ];
+        } else {
+            $user = $this->repository->userLoginQuery($email);
+
+            if (!password_verify($password, $user->getPassword())) {
+                return ['errors' => ['Password is incorrect.']];
+            }
             return ['success' => true];
         }
     }
