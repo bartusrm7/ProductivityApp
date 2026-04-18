@@ -6,7 +6,7 @@ import type { UserRegistrationData } from "../../types/auth";
 export default function SignUp() {
 	const [userData, setUserData] = useState<UserRegistrationData>({ name: "", email: "", password: "" });
 	const [isRegisterSuccessful, setIsRegisterSuccessful] = useState<boolean>(false);
-	const [errorsArray, setErrorsArray] = useState<[]>([]);
+	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function handleUserRegistartion(e: any) {
 		e.preventDefault();
@@ -22,14 +22,13 @@ export default function SignUp() {
 				throw new Error("Error with response.");
 			}
 			const data = await response.json();
-			console.log(data);
 			if (data.errors) {
-				setErrorsArray(data.errors.errors);
+				setErrorsArray(data.errors);
 			} else {
 				setIsRegisterSuccessful(true);
 			}
 		} catch (error) {
-			return "Registration is not successful!";
+			setErrorsArray(["Server error. Try again."]);
 		}
 	}
 	useEffect(() => {
@@ -74,14 +73,16 @@ export default function SignUp() {
 									<Form.Label>Password</Form.Label>
 								</Form.Floating>
 							</Form.Group>
-							{errorsArray && (
-								<div className="mb-3">
+							{errorsArray.length > 0 ? (
+								<div className='mb-3'>
 									<div className='alert alert-danger'>
 										{errorsArray.map((error, index) => (
 											<div key={index}>{error}</div>
 										))}
 									</div>
 								</div>
+							) : (
+								""
 							)}
 							<Button className='w-100' type='submit'>
 								Create account

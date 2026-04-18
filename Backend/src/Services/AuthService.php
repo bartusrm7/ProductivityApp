@@ -42,7 +42,8 @@ class AuthService
             return ['errors' => $errors];
         } else {
             $hashPassword = password_hash($password, PASSWORD_DEFAULT);
-            return $this->repository->userRegistrationQuery($name, $email, $hashPassword);
+            $this->repository->userRegistrationQuery($name, $email, $hashPassword);
+            return ['success' => true];
         }
     }
 }
