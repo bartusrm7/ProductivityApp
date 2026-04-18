@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Auth;
 
+use App\Models\AuthModel;
 use App\Repositories\AuthRepository;
 use App\Services\AuthService;
 use App\Validations\AuthValidation;
@@ -74,6 +75,31 @@ class AuthTest extends TestCase
 
         $this->service = new AuthService($repo, $this->validation);
         $result = $this->service->userRegistration('user123', 'email@example.com', 'pass123');
+        $this->assertEquals(['success' => true], $result);
+    }
+
+    public function testUserLogin()
+    {
+        $repo = $this->createMock(AuthRepository::class);
+
+        $this->validation->method('emptyPasswordField')->willReturn(null);
+        $this->validation->method('passwordLengthValidation')->willReturn(null);
+
+        $hashPass = password_hash('pass123', PASSWORD_DEFAULT);
+        $authModel = new AuthModel(1, 'user123', 'email@example.com', $hashPass);
+
+        $repo->expects($this->once())
+            ->method('userAlreadyExistsQuery')
+            ->with('email@example.com')
+            ->willReturn(['email' => 'email@example.com']);
+
+        $repo->expects($this->once())
+            ->method('userLoginQuery')
+            ->with('email@example.com')
+            ->willReturn($authModel);
+
+        $this->service = new AuthService($repo, $this->validation);
+        $result = $this->service->userLogin('email@example.com', 'pass123');
         $this->assertEquals(['success' => true], $result);
     }
 }

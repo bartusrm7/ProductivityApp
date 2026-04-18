@@ -39,10 +39,7 @@ class AuthService
         }
 
         if (!empty($errors)) {
-            return [
-                'success' => false,
-                'errors' => $errors
-            ];
+            return ['errors' => $errors];
         } else {
             $hashPassword = password_hash($password, PASSWORD_DEFAULT);
             $this->repository->userRegistrationQuery($name, $email, $hashPassword);
@@ -65,10 +62,7 @@ class AuthService
         }
 
         if (!empty($errors)) {
-            return [
-                'success' => false,
-                'errors' => $errors
-            ];
+            return ['errors' => $errors];
         } else {
             $user = $this->repository->userLoginQuery($email);
 
