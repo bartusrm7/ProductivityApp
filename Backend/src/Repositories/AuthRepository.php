@@ -24,4 +24,11 @@ class AuthRepository
 
         return new AuthModel($id, $name, $email, $password);
     }
+
+    public function userAlreadyExistsQuery($email)
+    {
+        $stmt = $this->pdo->prepare('SELECT email FROM users WHERE email = :email');
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetch();
+    }
 }

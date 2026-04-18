@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 use App\Controllers\AuthController;
 use App\Database\Database;
 use App\Repositories\AuthRepository;
@@ -13,17 +9,32 @@ use App\Services\AuthService;
 use App\Validations\AuthValidation;
 use Dotenv\Dotenv;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Credentials: true');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-$db = new Database;
+$db = new Database();
+$db->getConnection();
 
 // REPOSITORIES
 $authRepository = new AuthRepository($db);
 
-// VALIDATIONS
+// VALIDATIORS
 $authValidation = new AuthValidation();
 
 // SERVICES
@@ -69,5 +80,5 @@ switch ($routeInfo[0]) {
         }
         [$class, $method] = $handler;
         $controller = $controllers[$class];
-        return $controller->$method();
+        $controller->$method($vars);
 }

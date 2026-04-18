@@ -28,7 +28,7 @@ class AuthTest extends TestCase
         $this->repository->method('userRegistrationQuery')->willReturn(null);
 
         $result = $this->service->userRegistration('', 'email@example.com', 'pass123');
-        $this->assertEquals(['Name input field is empty'], $result);
+        $this->assertEquals(['errors' => ['Name input field is empty']], $result);
     }
 
     public function testEmptyPasswordField()
@@ -37,7 +37,7 @@ class AuthTest extends TestCase
         $this->repository->method('userRegistrationQuery')->willReturn(null);
 
         $result = $this->service->userRegistration('user123', 'email@example.com', '');
-        $this->assertEquals(['Password input field is empty'], $result);
+        $this->assertEquals(['errors' => ['Password input field is empty']], $result);
     }
 
     public function testNameLengthValidation()
@@ -46,7 +46,7 @@ class AuthTest extends TestCase
         $this->repository->method('userRegistrationQuery')->willReturn(null);
 
         $result = $this->service->userRegistration('user', 'email@example.com', 'pass123');
-        $this->assertEquals(['Name length must have at least 6 characters'], $result);
+        $this->assertEquals(['errors' => ['Name length must have at least 6 characters']], $result);
     }
 
     public function testPasswordLengthValidation()
@@ -54,8 +54,8 @@ class AuthTest extends TestCase
         $this->validation->method('passwordLengthValidation')->willReturn('Password length must have at least 6 characters');
         $this->repository->method('userRegistrationQuery')->willReturn(null);
 
-        $result = $this->service->userRegistration('user', 'email@example.com', 'pass123');
-        $this->assertEquals(['Password length must have at least 6 characters'], $result);
+        $result = $this->service->userRegistration('user123', 'email@example.com', 'pass');
+        $this->assertEquals(['errors' => ['Password length must have at least 6 characters']], $result);
     }
 
     public function testUserRegistration()
@@ -70,6 +70,7 @@ class AuthTest extends TestCase
             ->method('userRegistrationQuery')
             ->with('user123', 'email@example.com', $this->anything())
             ->willReturn(['success' => true]);
+
 
         $this->service = new AuthService($repo, $this->validation);
         $result = $this->service->userRegistration('user123', 'email@example.com', 'pass123');
