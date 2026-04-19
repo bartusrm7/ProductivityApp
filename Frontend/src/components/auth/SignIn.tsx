@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Form } from "react-bootstrap";
-import { Link, Navigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import type { UserLoginData } from "../../types/auth";
 
 export default function SignIn() {
 	const [userData, setUserData] = useState<UserLoginData>({ email: "", password: "" });
-	const [isLoginSuccessful, setIsLoginSuccessful] = useState<boolean>(false);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
+	const navigate = useNavigate();
 
 	async function handleUserLogin(e: any) {
 		e.preventDefault();
@@ -22,7 +22,7 @@ export default function SignIn() {
 			if (data.errors) {
 				setErrorsArray(data.errors);
 			} else {
-				setIsLoginSuccessful(true);
+				navigate("/dashboard");
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
@@ -31,11 +31,7 @@ export default function SignIn() {
 
 	useEffect(() => {
 		document.title = "ProductivityApp - Sign In";
-
-		if (isLoginSuccessful) {
-			<Navigate to='/dashboard' />;
-		}
-	}, [isLoginSuccessful]);
+	});
 
 	return (
 		<div className='d-flex justify-content-center align-items-center min-vh-100'>

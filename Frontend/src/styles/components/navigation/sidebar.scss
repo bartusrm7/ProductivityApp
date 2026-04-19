@@ -1,0 +1,20 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.sidebar {
+	width: 220px;
+	background: $dark-blue;
+	@include min-width(1200px) {
+	}
+	hr {
+		color: white;
+	}
+	a {
+		color: $white;
+		transition: 0.2s;
+		&:hover {
+			color: $white;
+			opacity: 0.75;
+		}
+	}
+}

@@ -1,0 +1,19 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+$dark-blue: linear-gradient(90deg, #000546, #002f61);
+$blue: linear-gradient(90deg, #0968e5, #091970);
+$light-blue: linear-gradient(90deg, #0061ff, #60efff);
+$pink: linear-gradient(90deg, #c471f2, #f76cc6);
+$purple: linear-gradient(90deg, #0e0725, #5c03bc, #c72591, #5a0042);
+$light-white: linear-gradient(90deg, #e0e0e4, #e4e2e2);
+$white: #ebedf7;
+
+body {
+	background: $light-white;
+}
