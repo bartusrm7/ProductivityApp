@@ -6,6 +6,7 @@ use App\Controllers\AuthController;
 use App\Database\Database;
 use App\Repositories\AuthRepository;
 use App\Services\AuthService;
+use App\Services\JWTService;
 use App\Validations\AuthValidation;
 use Dotenv\Dotenv;
 
@@ -39,9 +40,10 @@ $authValidation = new AuthValidation();
 
 // SERVICES
 $authService = new AuthService($authRepository, $authValidation);
+$jwtService = new JWTService();
 
 // CONTROLLERS
-$authController = new AuthController($authService);
+$authController = new AuthController($authService, $jwtService);
 
 $controllers = [
     AuthController::class => $authController

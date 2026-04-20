@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Services\AuthService;
+use App\Services\JWTService;
 
 class AuthController
 {
     private AuthService $service;
-    public function __construct(AuthService $service)
+    private JWTService $jwtService;
+    public function __construct(AuthService $service, JWTService $jwtService)
     {
         $this->service = $service;
+        $this->jwtService = $jwtService;
     }
 
     public function userRegistration()
@@ -44,6 +47,8 @@ class AuthController
             $result = $this->service->userLogin($email, $password);
             if (isset($result['success'])) {
                 http_response_code(200);
+                $token = $this->jwtService->generateToken();
+                echo json_encode(['token' => $token]);
                 echo json_encode($result);
             } else {
                 http_response_code(422);
