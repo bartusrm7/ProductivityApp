@@ -6,9 +6,10 @@ namespace App\Repositories;
 
 use App\Database\Database;
 use App\Models\AuthModel;
+use App\Repositories\Interfaces\AuthRepositoryInterface;
 use PDO;
 
-class AuthRepository
+class AuthRepository implements AuthRepositoryInterface
 {
     private PDO $pdo;
     public function __construct(Database $db)
@@ -16,7 +17,7 @@ class AuthRepository
         $this->pdo = $db->getConnection();
     }
 
-    public function userRegistrationQuery($name, $email, $password)
+    public function userRegistrationQuery($name, $email, $password): AuthModel
     {
         $stmt = $this->pdo->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
         $stmt->execute([':name' => $name, ':email' => $email, ':password' => $password]);
@@ -32,7 +33,7 @@ class AuthRepository
         return $stmt->fetch();
     }
 
-    public function userLoginQuery($email)
+    public function userLoginQuery($email): AuthModel
     {
         $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = :email');
         $stmt->execute([':email' => $email]);

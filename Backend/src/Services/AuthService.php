@@ -6,8 +6,9 @@ namespace App\Services;
 
 use App\Repositories\AuthRepository;
 use App\Validations\AuthValidation;
+use App\Services\Interfaces\AuthServiceInterface;
 
-class AuthService
+class AuthService implements AuthServiceInterface
 {
     private AuthRepository $repository;
     private AuthValidation $validation;
@@ -18,7 +19,7 @@ class AuthService
         $this->validation = $validation;
     }
 
-    public function userRegistration($name, $email, $password)
+    public function userRegistration($name, $email, $password): array
     {
         $errors = [];
         if ($error = $this->validation->emptyNameField($name)) {
@@ -47,7 +48,7 @@ class AuthService
         }
     }
 
-    public function userLogin($email, $password)
+    public function userLogin($email, $password): array
     {
         $errors = [];
         if ($error = $this->validation->emptyPasswordField($password)) {
