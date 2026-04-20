@@ -17,7 +17,7 @@ class AuthRepository implements AuthRepositoryInterface
         $this->pdo = $db->getConnection();
     }
 
-    public function userRegistrationQuery($name, $email, $password): AuthModel
+    public function userRegistrationQuery(string $name, string $email, string $password): AuthModel
     {
         $stmt = $this->pdo->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
         $stmt->execute([':name' => $name, ':email' => $email, ':password' => $password]);
@@ -26,14 +26,14 @@ class AuthRepository implements AuthRepositoryInterface
         return new AuthModel($id, $name, $email, $password);
     }
 
-    public function userAlreadyExistsQuery($email)
+    public function userAlreadyExistsQuery(string $email)
     {
         $stmt = $this->pdo->prepare('SELECT email FROM users WHERE email = :email');
         $stmt->execute([':email' => $email]);
         return $stmt->fetch();
     }
 
-    public function userLoginQuery($email): AuthModel
+    public function userLoginQuery(string $email): AuthModel
     {
         $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = :email');
         $stmt->execute([':email' => $email]);

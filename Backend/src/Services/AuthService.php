@@ -19,7 +19,7 @@ class AuthService implements AuthServiceInterface
         $this->validation = $validation;
     }
 
-    public function userRegistration($name, $email, $password): array
+    public function userRegistration(string $name, string $email, string $password): array
     {
         $errors = [];
         if ($error = $this->validation->emptyNameField($name)) {
@@ -48,7 +48,7 @@ class AuthService implements AuthServiceInterface
         }
     }
 
-    public function userLogin($email, $password): array
+    public function userLogin(string $email, string $password): array
     {
         $errors = [];
         if ($error = $this->validation->emptyPasswordField($password)) {
