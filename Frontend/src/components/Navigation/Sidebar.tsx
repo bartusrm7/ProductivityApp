@@ -1,8 +1,16 @@
 import { Nav, Navbar } from "react-bootstrap";
 import { sidebarData } from "./sidebarData";
 import { FiLogOut } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
+	const navigate = useNavigate();
+
+	const handleUserLogout = () => {
+		localStorage.removeItem("jwt");
+		navigate("/sign-in");
+	};
+
 	return (
 		<>
 			<Navbar className='sidebar p-0'>
@@ -21,10 +29,10 @@ export default function Sidebar() {
 					</Nav>
 					<Nav className='d-block w-100'>
 						<hr />
-						<Nav.Link className='sidebar__nav-link' href='/logout'>
+						<p className='sidebar__nav-link' onClick={handleUserLogout}>
 							<FiLogOut style={{ margin: "0 0.75rem 0 0" }} size={24} />
 							Logout
-						</Nav.Link>
+						</p>
 					</Nav>
 				</Navbar.Collapse>
 			</Navbar>

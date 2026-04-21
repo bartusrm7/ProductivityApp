@@ -9,9 +9,11 @@
 	hr {
 		color: white;
 	}
-	a {
+	a,
+	p {
 		color: $white;
 		transition: 0.2s;
+		cursor: pointer;
 		&:hover {
 			color: $white;
 			opacity: 0.5;
