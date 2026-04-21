@@ -47,9 +47,8 @@ class AuthController
             $result = $this->service->userLogin($email, $password);
             if (isset($result['success'])) {
                 http_response_code(200);
-                $token = $this->jwtService->generateToken();
-                echo json_encode(['token' => $token]);
-                echo json_encode($result);
+                $token = $this->jwtService->generateToken($email, $password);
+                echo json_encode(['data' => $result, 'token' => $token]);
             } else {
                 http_response_code(422);
                 echo json_encode($result);

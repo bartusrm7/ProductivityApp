@@ -22,6 +22,8 @@ export default function SignIn() {
 			if (data.errors) {
 				setErrorsArray(data.errors);
 			} else {
+				localStorage.setItem("jwt", data.token);
+				console.log(data.token);
 				navigate("/dashboard");
 			}
 		} catch (error) {
