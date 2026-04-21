@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Controllers\AuthController;
 use App\Database\Database;
+use App\Middlewares\AuthMiddleware;
 use App\Repositories\AuthRepository;
 use App\Services\AuthService;
 use App\Services\JWTService;
@@ -42,6 +43,9 @@ $authValidation = new AuthValidation();
 $authService = new AuthService($authRepository, $authValidation);
 $jwtService = new JWTService();
 
+// MIDDLEWARES
+$authMiddleware = new AuthMiddleware($jwtService);
+
 // CONTROLLERS
 $authController = new AuthController($authService, $jwtService);
 
@@ -78,9 +82,22 @@ switch ($routeInfo[0]) {
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
 
+        $protectedRoutes = [
+            '/dashboard',
+            '/tasks',
+            '/habits',
+            '/notes',
+            '/goals',
+            '/settings',
+        ];
+        if (in_array($uri, $protectedRoutes)) {
+            $authMiddleware->userAccess();
+        }
+
         if (is_callable($handler)) {
             return $handler($vars);
         }
+
         [$class, $method] = $handler;
         $controller = $controllers[$class];
         $controller->$method($vars);
