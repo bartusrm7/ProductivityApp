@@ -36,9 +36,9 @@ export default function SignIn() {
 	});
 
 	return (
-		<div className='d-flex justify-content-center align-items-center min-vh-100'>
+		<div className='auth d-flex justify-content-center align-items-center min-vh-100'>
 			<Container>
-				<Col sm='10' md='8' lg='6' xl='5' xxl='4'>
+				<Col sm='10' md='8' lg='6' xl='5' xxl='4' className='auth__main-container p-3 rounded-3 m-auto'>
 					<div className='mb-4 text-center'>
 						<h2>Sign In</h2>
 						<p>To visit on dashboard please sign in.</p>
@@ -68,12 +68,12 @@ export default function SignIn() {
 						) : (
 							""
 						)}
-						<Button className='w-100' type='submit'>
+						<Button className='custom-btn w-100' type='submit'>
 							Login
 						</Button>
 					</Form>
 
-					<div className='mt-4 d-flex justify-content-center'>
+					<div className='mt-4 d-flex flex-wrap justify-content-center'>
 						<p className='me-1'>If you have not an account, please</p>
 						<Link to='/sign-up'>sign up</Link>.
 					</div>

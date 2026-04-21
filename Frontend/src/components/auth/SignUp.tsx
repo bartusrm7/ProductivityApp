@@ -34,10 +34,10 @@ export default function SignUp() {
 	}, [isRegisterSuccessful]);
 
 	return (
-		<div className='d-flex justify-content-center align-items-center min-vh-100'>
+		<div className='auth d-flex justify-content-center align-items-center min-vh-100'>
 			<Container>
 				{isRegisterSuccessful ? (
-					<Col sm='10' md='8' lg='6'>
+					<Col sm='10' md='8' lg='6' className='auth__main-container p-3 rounded-3 m-auto'>
 						<div className='text-center'>
 							<h3>
 								You registered successfully! Now you can log in your account, <Link to='/sign-in'>sign in</Link>.
@@ -45,7 +45,7 @@ export default function SignUp() {
 						</div>
 					</Col>
 				) : (
-					<Col sm='10' md='8' lg='6' xl='5' xxl='4'>
+					<Col sm='10' md='8' lg='6' xl='5' xxl='4' className='auth__main-container p-3 rounded-3 m-auto'>
 						<div className='mb-4 text-center'>
 							<h2>Sign Up</h2>
 							<p>Register new account to improve your life.</p>
@@ -82,12 +82,12 @@ export default function SignUp() {
 							) : (
 								""
 							)}
-							<Button className='w-100' type='submit'>
+							<Button className='custom-btn w-100' type='submit'>
 								Create account
 							</Button>
 						</Form>
 
-						<div className='mt-4 d-flex justify-content-center'>
+						<div className='mt-4 d-flex flex-wrap justify-content-center'>
 							<p className='me-1'>Already have an account?</p>
 							<Link to='/sign-in'>Sign in</Link>.
 						</div>

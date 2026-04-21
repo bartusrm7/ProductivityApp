@@ -7,8 +7,10 @@
 }
 
 $dark-blue: linear-gradient(90deg, #000546, #002f61);
-$blue: linear-gradient(90deg, #0968e5, #091970);
-$light-blue: linear-gradient(90deg, #0061ff, #60efff);
+$blue: linear-gradient(90deg, #0b66dd, #091970);
+$light-blue: linear-gradient(240deg, #0061ff, #05bdd1);
+$just-blue: #0062ff5e;
+$extra-light-blue: linear-gradient(100deg, #aac8fa, #0036c93a, #e5efff);
 $pink: linear-gradient(90deg, #c471f2, #f76cc6);
 $purple: linear-gradient(90deg, #0e0725, #5c03bc, #c72591, #5a0042);
 $light-white: linear-gradient(90deg, #e0e0e4, #e4e2e2);
@@ -16,4 +18,12 @@ $white: #ebedf7;
 
 body {
 	background: $light-white;
+}
+
+.custom-btn {
+	background: $blue;
+	transition: 0.2s;
+	&:hover {
+		background: $light-blue;
+	}
 }

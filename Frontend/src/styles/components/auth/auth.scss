@@ -1,0 +1,9 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.auth {
+	&__main-container {
+		border: 2px solid $just-blue;
+		background: $extra-light-blue;
+	}
+}
