@@ -6,5 +6,5 @@ namespace App\Repositories\Interfaces;
 
 interface TasksRepositoryInterface
 {
-    public function createNewTask(string $name);
+    public function createNewTaskQuery(string $name);
 }

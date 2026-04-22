@@ -18,7 +18,7 @@ class TasksRepository implements TasksRepositoryInterface
         $this->pdo = $db->getConnection();
     }
 
-    public function createNewTask(string $name)
+    public function createNewTaskQuery(string $name)
     {
         $stmt = $this->pdo->prepare('INSERT INTO tasks (name) VALUES (:name)');
         $stmt->execute(['name' => $name]);
