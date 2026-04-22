@@ -9,4 +9,6 @@ $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 $db = new Database;
-$db->createUserDatabase();
+$db->createUserTable();
+$db->createTasksTable();
+$db->createTasksDataTable();
