@@ -3,12 +3,16 @@
 declare(strict_types=1);
 
 use App\Controllers\AuthController;
+use App\Controllers\TasksController;
 use App\Database\Database;
 use App\Middlewares\AuthMiddleware;
 use App\Repositories\AuthRepository;
+use App\Repositories\TasksRepository;
 use App\Services\AuthService;
 use App\Services\JWTService;
+use App\Services\TasksService;
 use App\Validations\AuthValidation;
+use App\Validations\TasksValidation;
 use Dotenv\Dotenv;
 
 header('Access-Control-Allow-Origin: *');
@@ -35,12 +39,15 @@ $db->getConnection();
 
 // REPOSITORIES
 $authRepository = new AuthRepository($db);
+$tasksRepository = new TasksRepository($db);
 
 // VALIDATIORS
 $authValidation = new AuthValidation();
+$tasksValidation = new TasksValidation();
 
 // SERVICES
 $authService = new AuthService($authRepository, $authValidation);
+$tasksService = new TasksService($tasksRepository, $tasksValidation);
 $jwtService = new JWTService();
 
 // MIDDLEWARES
@@ -48,9 +55,11 @@ $authMiddleware = new AuthMiddleware($jwtService);
 
 // CONTROLLERS
 $authController = new AuthController($authService, $jwtService);
+$tasksController = new TasksController($tasksService);
 
 $controllers = [
-    AuthController::class => $authController
+    AuthController::class => $authController,
+    TasksController::class => $tasksController
 ];
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
@@ -59,6 +68,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     // AUTH
     $r->addRoute('POST', '/sign-up', [AuthController::class, 'userRegistration']);
     $r->addRoute('POST', '/sign-in', [AuthController::class, 'userLogin']);
+
+    // TASKS
+    $r->addRoute('POST', '/create-task', [TasksController::class, 'createNewTask']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
