@@ -41,7 +41,7 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal }) 
 
 	return (
 		<div className='create-tasks'>
-			<Button className='custom-btn w-100' onClick={handleOpenModal}>
+			<Button className='create-tasks__create-btn custom-btn' onClick={handleOpenModal}>
 				Create new task
 			</Button>
 

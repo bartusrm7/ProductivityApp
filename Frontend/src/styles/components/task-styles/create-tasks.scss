@@ -2,7 +2,12 @@
 @use "../../mixins" as *;
 
 .create-tasks {
-	@include min-width(1200px) {
-		margin-left: 220px;
+	&__create-btn {
+		@include min-max-width(768px, 1200px) {
+			width: 300px;
+		}
+		@include min-width(1200px) {
+			width: 400px;
+		}
 	}
 }

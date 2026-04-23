@@ -2,4 +2,8 @@
 @use "../../mixins" as *;
 
 .tasks {
+	background-color: $white;
+	@include min-width(1200px) {
+		margin-left: 220px;
+	}
 }

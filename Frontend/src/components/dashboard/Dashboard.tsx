@@ -1,4 +1,3 @@
-import { Container } from "react-bootstrap";
 import Sidebar from "../navigation/Sidebar";
 import NavbarMenu from "../navigation/NavbarMenu";
 
@@ -7,7 +6,6 @@ export default function Dashboard() {
 		<>
 			<Sidebar />
 			<NavbarMenu pageName={"Dashboard"} />
-			<Container></Container>
 		</>
 	);
 }

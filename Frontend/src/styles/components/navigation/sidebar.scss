@@ -6,8 +6,6 @@
 	left: 0;
 	width: 220px;
 	background: $dark-blue;
-	@include min-width(1200px) {
-	}
 	hr {
 		color: white;
 	}
