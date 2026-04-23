@@ -1,0 +1,8 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.create-tasks {
+	@include min-width(1200px) {
+		margin-left: 220px;
+	}
+}

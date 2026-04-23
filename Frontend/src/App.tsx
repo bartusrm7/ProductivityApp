@@ -3,6 +3,7 @@ import SignUp from "./components/auth/SignUp";
 import SignIn from "./components/auth/SignIn";
 import Dashboard from "./components/dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Tasks from "./components/tasks/Tasks";
 
 export default function App() {
 	return (
@@ -15,6 +16,14 @@ export default function App() {
 					element={
 						<ProtectedRoute>
 							<Dashboard />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path='/tasks'
+					element={
+						<ProtectedRoute>
+							<Tasks />
 						</ProtectedRoute>
 					}
 				/>
