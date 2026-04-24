@@ -42,7 +42,7 @@ class TasksRepository implements TasksRepositoryInterface
 
     public function getInProgressTasksQuery(int $userId)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE status = 'in progress' AND user_id = :user_id");
+        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE status = 'in_progress' AND user_id = :user_id");
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
