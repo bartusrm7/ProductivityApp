@@ -52,4 +52,21 @@ class TasksService implements TasksServiceInterface
             ];
         }
     }
+
+    public function getInProgressTasks($userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->getInProgressTasksQuery($userId);
+            return [
+                'success' => true,
+                'data' => $result
+            ];
+        }
+    }
 }

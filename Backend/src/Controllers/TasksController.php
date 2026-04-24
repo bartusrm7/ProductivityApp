@@ -46,4 +46,20 @@ class TasksController
             }
         }
     }
+
+    public function getInProgressTasks()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userId = (int) $_GET['userId'];
+
+            $result = $this->service->getInProgressTasks($userId);
+            if (isset($result['success'])) {
+                http_response_code(200);
+                echo json_encode($result);
+            } else {
+                http_response_code(422);
+                echo json_encode($result);
+            }
+        }
+    }
 }
