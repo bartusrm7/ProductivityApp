@@ -36,19 +36,16 @@ class TasksService implements TasksServiceInterface
         }
     }
 
-    public function getToDoTasks($status, $userId)
+    public function getToDoTasks($userId)
     {
         $errors = [];
-        if ($error = $this->validation->statusAllowed($status)) {
-            $errors[] = $error;
-        }
         if ($error = $this->validation->emptyUserId($userId)) {
             $errors[] = $error;
         }
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $result = $this->repository->getToDoTasksQuery($status, $userId);
+            $result = $this->repository->getToDoTasksQuery($userId);
             return [
                 'success' => true,
                 'data' => $result

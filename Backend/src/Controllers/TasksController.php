@@ -34,10 +34,9 @@ class TasksController
     public function getToDoTasks()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $status = $_GET['status'];
-            $userId = $_GET['userId'];
+            $userId = (int)$_GET['userId'];
 
-            $result = $this->service->getToDoTasks($status, $userId);
+            $result = $this->service->getToDoTasks($userId);
             if (isset($result['success'])) {
                 http_response_code(200);
                 echo json_encode($result);
