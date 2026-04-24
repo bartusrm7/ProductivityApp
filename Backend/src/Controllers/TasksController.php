@@ -62,4 +62,20 @@ class TasksController
             }
         }
     }
+
+    public function getDoneTasks()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userId = (int) $_GET['userId'];
+
+            $result = $this->service->getDoneTasks($userId);
+            if (isset($result['success'])) {
+                http_response_code(200);
+                echo json_encode($result);
+            } else {
+                http_response_code(422);
+                echo json_encode($result);
+            }
+        }
+    }
 }

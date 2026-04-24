@@ -68,6 +68,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     // TASKS
     $r->addRoute('GET', '/todo-tasks', [TasksController::class, 'getToDoTasks']);
     $r->addRoute('GET', '/in-progress-tasks', [TasksController::class, 'getInProgressTasks']);
+    $r->addRoute('GET', '/done-tasks', [TasksController::class, 'getDoneTasks']);
 
     // POST
 
