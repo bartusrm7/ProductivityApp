@@ -22,8 +22,6 @@ export default function TasksToDo() {
 				setErrorsArray(data.errors);
 			} else {
 				setTaskData(data.data);
-				console.log(taskData);
-				console.log(data);
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
