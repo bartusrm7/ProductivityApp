@@ -32,4 +32,11 @@ class TasksRepository implements TasksRepositoryInterface
             ''
         );
     }
+
+    public function getToDoTasksQuery($status, $userId)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE status = 'todo' AND user_id = :user_id");
+        $stmt->execute([':status' => $status, ':user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
 }

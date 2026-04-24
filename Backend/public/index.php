@@ -63,6 +63,11 @@ $controllers = [
 ];
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
+    // GET
+
+    // TASKS
+    $r->addRoute('GET', '/todo-tasks', [TasksController::class, 'getToDoTasks']);
+
     // POST
 
     // AUTH
