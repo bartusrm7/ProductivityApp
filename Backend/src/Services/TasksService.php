@@ -36,7 +36,7 @@ class TasksService implements TasksServiceInterface
         }
     }
 
-    public function getToDoTasks($userId)
+    public function getToDoTasks(int $userId)
     {
         $errors = [];
         if ($error = $this->validation->emptyUserId($userId)) {

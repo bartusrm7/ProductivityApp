@@ -4,6 +4,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 
 export default function CreateTask({ show, handleOpenModal, handleCloseModal }) {
 	const [taskData, setTaskData] = useState<UserTaskData>({
+		id: null,
 		name: "",
 		createdAt: new Date(),
 		priority: "",
@@ -28,6 +29,7 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal }) 
 				setErrorsArray([]);
 				handleCloseModal();
 				setTaskData({
+					id: null,
 					name: "",
 					createdAt: new Date(),
 					priority: "",

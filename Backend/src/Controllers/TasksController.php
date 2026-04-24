@@ -34,7 +34,7 @@ class TasksController
     public function getToDoTasks()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userId = (int)$_GET['userId'];
+            $userId = (int) $_GET['userId'];
 
             $result = $this->service->getToDoTasks($userId);
             if (isset($result['success'])) {

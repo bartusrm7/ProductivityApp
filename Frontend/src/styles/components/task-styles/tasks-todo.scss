@@ -1,0 +1,12 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.tasks-todo {
+	&__th-table {
+		font-size: 1.2rem;
+		opacity: 0.75;
+	}
+	&__priority {
+		max-width: 200px !important;
+	}
+}
