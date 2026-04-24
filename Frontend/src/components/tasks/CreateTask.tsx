@@ -6,7 +6,7 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal }) 
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: null,
 		name: "",
-		createdAt: new Date(),
+		createdAt: new Date().toISOString(),
 		priority: "",
 		status: "",
 	});
@@ -31,10 +31,11 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal }) 
 				setTaskData({
 					id: null,
 					name: "",
-					createdAt: new Date(),
+					createdAt: "",
 					priority: "",
 					status: "",
 				});
+				console.log(taskData.createdAt);
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
@@ -59,6 +60,15 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal }) 
 								<Form.Label>Task</Form.Label>
 							</Form.Floating>
 						</Form.Group>
+						<Form.Group className='mb-3'>
+							<Form.Select value={taskData.priority} onChange={e => setTaskData(prevState => ({ ...prevState, priority: e.target.value }))}>
+								<option value=''>Select priority</option>
+								<option value='low'>Low</option>
+								<option value='medium'>Medium</option>
+								<option value='high'>High</option>
+							</Form.Select>
+						</Form.Group>
+
 						{errorsArray && (
 							<div>
 								{errorsArray.map((error, index) => (

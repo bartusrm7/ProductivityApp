@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Services\TasksService;
+use DateTime;
 
 class TasksController
 {
@@ -19,8 +20,10 @@ class TasksController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents('php://input'), true);
             $name = $data['name'];
+            $createdAt = $data['createdAt'];
+            $priority = $data['priority'];
 
-            $result = $this->service->createNewTask($name);
+            $result = $this->service->createNewTask($name, $createdAt, $priority);
             if (isset($result['success'])) {
                 http_response_code(201);
                 echo json_encode($result);

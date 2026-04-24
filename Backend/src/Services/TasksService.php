@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Repositories\TasksRepository;
 use App\Services\Interfaces\TasksServiceInterface;
 use App\Validations\TasksValidation;
+use DateTime;
 
 class TasksService implements TasksServiceInterface
 {
@@ -19,16 +20,23 @@ class TasksService implements TasksServiceInterface
         $this->validation = $validation;
     }
 
-    public function createNewTask(string $name)
+    public function createNewTask(string $name, string $createdAt, string $priority)
     {
         $errors = [];
         if ($error = $this->validation->emptyTaskName($name)) {
             $errors[] = $error;
         }
+        if ($error = $this->validation->emptyCreatedAt($createdAt)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyPriority($priority)) {
+            $errors[] = $error;
+        }
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $result = $this->repository->createNewTaskQuery($name);
+            $newCreatedAt = new DateTime($createdAt);
+            $result = $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority);
             return [
                 'success' => true,
                 'data' => $result

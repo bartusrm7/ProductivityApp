@@ -18,17 +18,17 @@ class TasksRepository implements TasksRepositoryInterface
         $this->pdo = $db->getConnection();
     }
 
-    public function createNewTaskQuery(string $name)
+    public function createNewTaskQuery(string $name, DateTime $createdAt, string $priority)
     {
-        $stmt = $this->pdo->prepare('INSERT INTO tasks (name) VALUES (:name)');
-        $stmt->execute(['name' => $name]);
-        $id = (int) $this->pdo->lastInsertId();
+        $stmt = $this->pdo->prepare('INSERT INTO tasks (name, created_at, priority) VALUES (:name, :created_at, :priority)');
+        $stmt->execute(['name' => $name, ':created_at' => $createdAt->format('Y:m:d H:i:s'), ':priority' => $priority]);
+        $id = (int) $this->pdo->lastInsertId();;
 
         return new TasksModel(
             $id,
             $name,
-            new DateTime(),
-            '',
+            $createdAt,
+            $priority,
             ''
         );
     }

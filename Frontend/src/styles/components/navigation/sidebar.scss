@@ -2,7 +2,7 @@
 @use "../../mixins" as *;
 
 .sidebar {
-	position: absolute;
+	position: fixed;
 	left: 0;
 	width: 220px;
 	background: $dark-blue;

@@ -57,7 +57,7 @@ export default function TasksInProgress() {
 								<div className='d-flex fw-bold border-bottom py-2'>
 									<div className='col-1'>#</div>
 									<div className='col-4'>Task</div>
-									<div className='col-3'>Date</div>
+									<div className='col-3'>Deadline</div>
 									<div className='col-2 text-center'>Priority</div>
 									<div className='col-2 text-center'>Actions</div>
 								</div>
