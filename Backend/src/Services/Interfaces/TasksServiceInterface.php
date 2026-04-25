@@ -7,5 +7,5 @@ namespace App\Services\Interfaces;
 
 interface TasksServiceInterface
 {
-    public function createNewTask(string $name, string $createdAt, string $priority);
+    public function createNewTask(string $name, string $createdAt, string $priority, int $userId);
 }

@@ -8,5 +8,5 @@ use DateTime;
 
 interface TasksRepositoryInterface
 {
-    public function createNewTaskQuery(string $name, DateTime $createdAt, string $priority);
+    public function createNewTaskQuery(string $name, DateTime $createdAt, string $priority, int $userId);
 }

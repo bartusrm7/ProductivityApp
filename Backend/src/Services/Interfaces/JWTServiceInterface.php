@@ -6,6 +6,6 @@ namespace App\Services\Interfaces;
 
 interface JWTServiceInterface
 {
-    public function generateToken(string $email, string $password);
+    public function generateToken(string $email, int $userId);
     public function decodeToken(string $jwt);
 }

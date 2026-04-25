@@ -4,26 +4,40 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Services\JWTService;
 use App\Services\TasksService;
-use DateTime;
 
 class TasksController
 {
     private TasksService $service;
-    public function __construct(TasksService $service,)
+    private JWTService $jwtservice;
+    public function __construct(TasksService $service, JWTService $jwtservice)
     {
         $this->service = $service;
+        $this->jwtservice = $jwtservice;
+    }
+
+    public function getJWToken()
+    {
+
+        $authorization = $_SERVER['HTTP_AUTHORIZATION'];
+        $jwt = str_replace('Bearer ', '', $authorization);
+        return $jwt;
     }
 
     public function createNewTask()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $jwt = $this->getJWToken();
+            $decoded = $this->jwtservice->decodeToken($jwt);
+            $userId = $decoded->user_id;
+
             $data = json_decode(file_get_contents('php://input'), true);
             $name = $data['name'];
             $createdAt = $data['createdAt'];
             $priority = $data['priority'];
 
-            $result = $this->service->createNewTask($name, $createdAt, $priority);
+            $result = $this->service->createNewTask($name, $createdAt, $priority, $userId);
             if (isset($result['success'])) {
                 http_response_code(201);
                 echo json_encode($result);

@@ -15,10 +15,12 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal }) 
 	async function handleCreateNewTask(e: any) {
 		e.preventDefault();
 		try {
+			const jwt = localStorage.getItem("jwt");
 			const response = await fetch("http://productivityapp.local/create-task", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${jwt}`,
 				},
 				body: JSON.stringify(taskData),
 			});
@@ -35,6 +37,7 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal }) 
 					priority: "",
 					status: "",
 				});
+				console.log(jwt);
 				console.log(taskData.createdAt);
 			}
 		} catch (error) {

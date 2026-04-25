@@ -70,7 +70,10 @@ class AuthService implements AuthServiceInterface
             if (!password_verify($password, $user->getPassword())) {
                 return ['errors' => ['Password is incorrect.']];
             }
-            return ['success' => true];
+            return [
+                'success' => true,
+                'id'      => $user->getId()
+            ];
         }
     }
 }

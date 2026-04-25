@@ -20,7 +20,7 @@ class TasksService implements TasksServiceInterface
         $this->validation = $validation;
     }
 
-    public function createNewTask(string $name, string $createdAt, string $priority)
+    public function createNewTask(string $name, string $createdAt, string $priority, int $userId)
     {
         $errors = [];
         if ($error = $this->validation->emptyTaskName($name)) {
@@ -32,11 +32,14 @@ class TasksService implements TasksServiceInterface
         if ($error = $this->validation->emptyPriority($priority)) {
             $errors[] = $error;
         }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
             $newCreatedAt = new DateTime($createdAt);
-            $result = $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority);
+            $result = $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
             return [
                 'success' => true,
                 'data' => $result
