@@ -53,4 +53,11 @@ class TasksRepository implements TasksRepositoryInterface
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
+
+    public function deleteTaskQuery(int $id, int $userId)
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM tasks WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':user_id' => $userId]);
+        return $stmt->rowCount();
+    }
 }
