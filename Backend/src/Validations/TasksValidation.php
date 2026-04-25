@@ -6,6 +6,12 @@ namespace App\Validations;
 
 class TasksValidation
 {
+    public function emptyTaskId(int $id)
+    {
+        if (empty($id)) {
+            return 'Task ID is not exists';
+        }
+    }
     public function emptyTaskName(string $name)
     {
         if (empty($name)) {

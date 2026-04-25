@@ -97,4 +97,23 @@ class TasksService implements TasksServiceInterface
             ];
         }
     }
+
+    public function deleteTask(int $id, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyTaskId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->deleteTaskQuery($id, $userId);
+            return [
+                'success' => true
+            ];
+        }
+    }
 }
