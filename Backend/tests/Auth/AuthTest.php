@@ -26,7 +26,9 @@ class AuthTest extends TestCase
     public function testEmptyNameField()
     {
         $this->validation->method('emptyNameField')->willReturn('Name input field is empty');
-        $this->repository->method('userRegistrationQuery')->willReturn(null);
+        $authModel = new AuthModel(1, '', '', '');
+
+        $this->repository->method('userRegistrationQuery')->willReturn($authModel);
 
         $result = $this->service->userRegistration('', 'email@example.com', 'pass123');
         $this->assertEquals(['errors' => ['Name input field is empty']], $result);
@@ -35,7 +37,9 @@ class AuthTest extends TestCase
     public function testEmptyPasswordField()
     {
         $this->validation->method('emptyPasswordField')->willReturn('Password input field is empty');
-        $this->repository->method('userRegistrationQuery')->willReturn(null);
+        $authModel = new AuthModel(1, '', '', '');
+
+        $this->repository->method('userRegistrationQuery')->willReturn($authModel);
 
         $result = $this->service->userRegistration('user123', 'email@example.com', '');
         $this->assertEquals(['errors' => ['Password input field is empty']], $result);
@@ -44,7 +48,9 @@ class AuthTest extends TestCase
     public function testNameLengthValidation()
     {
         $this->validation->method('nameLengthValidation')->willReturn('Name length must have at least 6 characters');
-        $this->repository->method('userRegistrationQuery')->willReturn(null);
+        $authModel = new AuthModel(1, '', '', '');
+
+        $this->repository->method('userRegistrationQuery')->willReturn($authModel);
 
         $result = $this->service->userRegistration('user', 'email@example.com', 'pass123');
         $this->assertEquals(['errors' => ['Name length must have at least 6 characters']], $result);
@@ -53,7 +59,9 @@ class AuthTest extends TestCase
     public function testPasswordLengthValidation()
     {
         $this->validation->method('passwordLengthValidation')->willReturn('Password length must have at least 6 characters');
-        $this->repository->method('userRegistrationQuery')->willReturn(null);
+        $authModel = new AuthModel(1, '', '', '');
+
+        $this->repository->method('userRegistrationQuery')->willReturn($authModel);
 
         $result = $this->service->userRegistration('user123', 'email@example.com', 'pass');
         $this->assertEquals(['errors' => ['Password length must have at least 6 characters']], $result);
@@ -67,10 +75,12 @@ class AuthTest extends TestCase
         $this->validation->method('emptyPasswordField')->willReturn(null);
         $this->validation->method('nameLengthValidation')->willReturn(null);
         $this->validation->method('passwordLengthValidation')->willReturn(null);
+
+        $authModel = new AuthModel(1, 'user123', 'email@example.com', 'pass123');
         $repo->expects($this->once())
             ->method('userRegistrationQuery')
             ->with('user123', 'email@example.com', $this->anything())
-            ->willReturn(['success' => true]);
+            ->willReturn($authModel);
 
 
         $this->service = new AuthService($repo, $this->validation);
@@ -100,6 +110,6 @@ class AuthTest extends TestCase
 
         $this->service = new AuthService($repo, $this->validation);
         $result = $this->service->userLogin('email@example.com', 'pass123');
-        $this->assertEquals(['success' => true], $result);
+        $this->assertEquals(['success' => true, 'id' => 1], $result);
     }
 }

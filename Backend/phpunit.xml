@@ -4,5 +4,8 @@
         <testsuite name="authTests">
             <directory>tests/Auth</directory>
         </testsuite>
+        <testsuite name="tasksTests">
+            <directory>tests/Tasks</directory>
+        </testsuite>
     </testsuites>
 </phpunit>
