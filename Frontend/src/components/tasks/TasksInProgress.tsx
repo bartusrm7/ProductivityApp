@@ -4,6 +4,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { CiEdit } from "react-icons/ci";
 import type { UserTaskData } from "../../types/tasks";
 import { Button } from "react-bootstrap";
+import TaskDelete from "./TaskDelete";
 
 export default function TasksInProgress() {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
@@ -72,9 +73,7 @@ export default function TasksInProgress() {
 												<Button className='bg-primary me-2'>
 													<CiEdit size={24} />
 												</Button>
-												<Button className='bg-danger'>
-													<RiDeleteBin6Line size={24} />
-												</Button>
+												<TaskDelete taskId={task.id} />
 											</div>
 										</div>
 									))}

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowUp } from "react-icons/io";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { CiEdit } from "react-icons/ci";
 import type { UserTaskData } from "../../types/tasks";
 import { Button } from "react-bootstrap";
+import TaskDelete from "./TaskDelete";
 
 export default function TasksDone() {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
@@ -72,9 +72,7 @@ export default function TasksDone() {
 												<Button className='bg-primary me-2'>
 													<CiEdit size={24} />
 												</Button>
-												<Button className='bg-danger'>
-													<RiDeleteBin6Line size={24} />
-												</Button>
+												<TaskDelete taskId={task.id} />
 											</div>
 										</div>
 									))}
