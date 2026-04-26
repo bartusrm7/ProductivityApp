@@ -39,8 +39,6 @@ class AuthRepository implements AuthRepositoryInterface
         $stmt->execute([':email' => $email]);
         $row = $stmt->fetch();
 
-        if (!$row) return null;
-
         return new AuthModel(
             $row['id'],
             $row['name'],

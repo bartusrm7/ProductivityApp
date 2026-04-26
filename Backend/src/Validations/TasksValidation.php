@@ -30,13 +30,6 @@ class TasksValidation
             return 'Priority input field is empty';
         }
     }
-    public function statusAllowed(string $status)
-    {
-        $allowed = ['todo', 'in progress', 'done'];
-        if (!in_array($status, $allowed)) {
-            return 'Status is not allowed';
-        }
-    }
     public function emptyUserId(int $userId)
     {
         if (empty($userId)) {
