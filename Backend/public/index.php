@@ -78,6 +78,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // TASKS
     $r->addRoute('POST', '/create-task', [TasksController::class, 'createNewTask']);
+    $r->addRoute('POST', '/edit-task', [TasksController::class, 'editTask']);
     $r->addRoute('POST', '/delete-task', [TasksController::class, 'deleteTask']);
 });
 

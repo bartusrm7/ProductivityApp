@@ -9,5 +9,6 @@ use DateTime;
 interface TasksRepositoryInterface
 {
     public function createNewTaskQuery(string $name, DateTime $createdAt, string $priority, int $userId);
+    public function editTaskQuery(int $id, string $name, string $priority, int $userId);
     public function deleteTaskQuery(int $id, int $userId);
 }

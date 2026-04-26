@@ -14,20 +14,40 @@ class TasksModel
     {
         return $this->id;
     }
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
     public function getName()
     {
         return $this->name;
+    }
+    public function setName(string $name)
+    {
+        $this->name = $name;
     }
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
+    public function setCreatedAt(DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
     public function getPriority()
     {
         return $this->priority;
     }
+    public function setPriority(string $priority)
+    {
+        $this->priority = $priority;
+    }
     public function getStatus()
     {
         return $this->status;
+    }
+    public function setStatus(string $status)
+    {
+        $this->status = $status;
     }
 }
