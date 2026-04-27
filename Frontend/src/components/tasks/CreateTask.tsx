@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { UserTaskData } from "../../types/tasks";
 import { Button, Form, Modal } from "react-bootstrap";
 
-export default function CreateTask({ show, handleOpenModal, handleCloseModal }) {
+export default function CreateTask({ show, handleOpenModal, handleCloseModal }: { show: boolean; handleOpenModal: any; handleCloseModal: any }) {
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: null,
 		name: "",
@@ -37,8 +37,6 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal }) 
 					priority: "",
 					status: "",
 				});
-				console.log(jwt);
-				console.log(taskData.createdAt);
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);

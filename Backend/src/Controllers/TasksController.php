@@ -103,7 +103,7 @@ class TasksController
             $decoded = $this->jwtservice->decodeToken($jwt);
             $userId = $decoded->user_id;
 
-            $data = json_decode('php://input', true);
+            $data = json_decode(file_get_contents('php://input'), true);
             $id = $data['id'];
             $name = $data['name'];
             $priority = $data['priority'];
