@@ -6,6 +6,11 @@
 	left: 0;
 	width: 220px;
 	background: $dark-blue;
+	z-index: 10;
+	@include max-width(1200px) {
+		transform: translateX(-100%);
+		transition: 0.3s ease;
+	}
 	hr {
 		color: white;
 	}
@@ -19,4 +24,7 @@
 			opacity: 0.5;
 		}
 	}
+}
+.sidebar.open-menu {
+	transform: translateX(0);
 }

@@ -7,20 +7,21 @@ import TasksInProgress from "./TasksInProgress";
 import TasksDone from "./TasksDone";
 
 export default function Tasks() {
-	const [showModal, setShowModal] = useState(false);
+	const [showMenu, setShowMenu] = useState<boolean>(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
 
 	const handleCloseModal = () => setShowModal(false);
 	const handleOpenModal = () => setShowModal(true);
 
 	return (
 		<>
-			<Sidebar />
-			<NavbarMenu pageName={"Tasks"} />
-			<div className='m-5'>
-				<div className='tasks rounded-3'>
-					<div className='p-4'>
-						<div className='d-flex justify-content-between'>
-							<h3>My Tasks</h3>
+			<Sidebar isMenuOpen={showMenu} />
+			<NavbarMenu pageName={"Tasks"} onToggleMenu={() => setShowMenu(prevState => !prevState)} />
+			<div className='tasks'>
+				<div className='tasks__main-container mx-3 rounded-3'>
+					<div className='p-3 p-md-4'>
+						<div className='d-flex justify-content-between align-items-center'>
+							<h3 className='mb-0'>My Tasks</h3>
 							<CreateTask show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
 						</div>
 						<TasksToDo />

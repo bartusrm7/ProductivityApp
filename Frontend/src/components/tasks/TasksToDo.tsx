@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowUp } from "react-icons/io";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { CiEdit } from "react-icons/ci";
 import type { UserTaskData } from "../../types/tasks";
-import { Button } from "react-bootstrap";
 import TaskDelete from "./TaskDelete";
 import TaskEdit from "./TaskEdit";
 
@@ -71,7 +68,7 @@ export default function TasksToDo() {
 											<div className='col-3'>{new Date(task.createdAt).toLocaleString()}</div>
 											<div className={task.priority === "low" ? "tasks-todo__priority bg-success text-center rounded-3 py-2 col-2" : task.priority === "medium" ? "tasks-todo__priority bg-warning text-center rounded-3 py-2 col-2" : task.priority === "high" ? "tasks-todo__priority bg-danger text-center rounded-3 py-2 col-2" : ""}>{task.priority}</div>
 											<div className='text-center col-2'>
-												<TaskEdit taskProp={task}/>
+												<TaskEdit taskProp={task} />
 												<TaskDelete taskId={task.id} />
 											</div>
 										</div>

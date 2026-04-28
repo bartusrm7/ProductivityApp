@@ -3,7 +3,7 @@ import { sidebarData } from "./sidebarData";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
-export default function Sidebar() {
+export default function Sidebar({ isMenuOpen }: { isMenuOpen: boolean }) {
 	const navigate = useNavigate();
 
 	const handleUserLogout = () => {
@@ -13,12 +13,14 @@ export default function Sidebar() {
 
 	return (
 		<>
-			<Navbar className='sidebar p-0'>
+			<Navbar className={`sidebar p-0 ${isMenuOpen ? "open-menu" : ""}`}>
 				<Navbar.Collapse className='d-flex flex-column justify-content-between align-items-start vh-100 p-3'>
 					<Nav className='d-block'>
-						<Navbar.Brand className='p-2 fw-bold' href='/dashboard'>
-							ProductivityApp
-						</Navbar.Brand>
+						<div className='d-flex align-items-center'>
+							<Navbar.Brand className='p-2 fw-bold' href='/dashboard'>
+								ProductivityApp
+							</Navbar.Brand>
+						</div>
 						<hr />
 						{sidebarData.map((data, index) => (
 							<Nav.Link key={index} className='sidebar__nav-link d-flex' href={data.href}>
@@ -29,7 +31,7 @@ export default function Sidebar() {
 					</Nav>
 					<Nav className='d-block w-100'>
 						<hr />
-						<p className='sidebar__nav-link' onClick={handleUserLogout}>
+						<p className='sidebar__nav-link px-2' onClick={handleUserLogout}>
 							<FiLogOut style={{ margin: "0 0.75rem 0 0" }} size={24} />
 							Logout
 						</p>
