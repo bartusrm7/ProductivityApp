@@ -1,7 +1,7 @@
 export interface UserTaskData {
 	id: number;
 	name: string;
-	createdAt: string;
+	created_at: string;
 	priority: string;
 	status: string;
 }

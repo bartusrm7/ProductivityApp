@@ -8,7 +8,7 @@ export default function TaskEdit({ taskProp }: { taskProp: UserTaskData }) {
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: 0,
 		name: "",
-		createdAt: new Date().toISOString(),
+		created_at: "",
 		priority: "",
 		status: "",
 	});
