@@ -39,7 +39,7 @@ export default function TasksToDo() {
 					<div>
 						<div className='d-flex align-items-center'>
 							<IoIosArrowUp size={24} />
-							<h3 className='ms-2 mb-0'>To Do</h3>
+							<h4 className='ms-2 mb-0'>To Do</h4>
 						</div>
 						<hr />
 					</div>

@@ -39,7 +39,7 @@ export default function TasksInProgress() {
 					<div>
 						<div className='d-flex align-items-center'>
 							<IoIosArrowUp size={24} />
-							<h3 className='ms-2 mb-0'>In Progress</h3>
+							<h4 className='ms-2 mb-0'>In Progress</h4>
 						</div>
 						<hr />
 					</div>
