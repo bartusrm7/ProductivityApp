@@ -72,4 +72,15 @@ class Database
             ON DELETE CASCADE
         )');
     }
+
+    public function createHabitsDataTable()
+    {
+        $this->pdo->exec('CREATE TABLE IF NOT EXISTS habits (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            CONSTRAINT fk_user_habits
+            FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE
+        )');
+    }
 }
