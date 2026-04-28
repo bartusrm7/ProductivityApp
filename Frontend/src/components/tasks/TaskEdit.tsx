@@ -6,7 +6,7 @@ import type { UserTaskData } from "../../types/tasks";
 
 export default function TaskEdit({ taskProp }: { taskProp: UserTaskData }) {
 	const [taskData, setTaskData] = useState<UserTaskData>({
-		id: null,
+		id: 0,
 		name: "",
 		createdAt: new Date().toISOString(),
 		priority: "",

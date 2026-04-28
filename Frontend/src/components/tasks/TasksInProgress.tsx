@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowUp } from "react-icons/io";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { CiEdit } from "react-icons/ci";
 import type { UserTaskData } from "../../types/tasks";
-import { Button } from "react-bootstrap";
 import TaskDelete from "./TaskDelete";
 import TaskEdit from "./TaskEdit";
 import TaskDoneAsTaskDone from "./TaskDoneAsTaskDone";

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function TaskDoneAsInProgress({ taskProp }: { taskProp: UserTaskData }) {
 	const [taskData, setTaskData] = useState<UserTaskData>({
-		id: null,
+		id: 0,
 		name: "",
 		createdAt: new Date().toISOString(),
 		priority: "",
