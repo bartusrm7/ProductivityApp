@@ -72,7 +72,8 @@ class AuthService implements AuthServiceInterface
             }
             return [
                 'success' => true,
-                'id'      => $user->getId()
+                'id'      => $user->getId(),
+                'name'    => $user->getName()
             ];
         }
     }

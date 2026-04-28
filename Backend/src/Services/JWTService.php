@@ -10,7 +10,7 @@ use Firebase\JWT\Key;
 
 class JWTService implements JWTServiceInterface
 {
-    public function generateToken(string $email, int $userId)
+    public function generateToken(string $name, int $userId)
     {
         $key = $_ENV['JWTKEY'];
         $payload = array(
@@ -20,7 +20,7 @@ class JWTService implements JWTServiceInterface
             "nbf"       => time(),
             "exp"       => time() + (24 * 60 * 60),
             "user_id"   => $userId,
-            "email"     => $email,
+            "name"      => $name,
         );
         $jwt = JWT::encode($payload, $key, 'HS256');
         return $jwt;
