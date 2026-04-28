@@ -98,6 +98,28 @@ class TasksService implements TasksServiceInterface
         }
     }
 
+    public function doneTask(int $id, string $status, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyTaskId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyTaskStatus($status)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->doneTaskQuery($id, $status, $userId);
+            return [
+                'success' => true
+            ];
+        }
+    }
+
     public function editTask(int $id, string $name, string $priority, int $userId)
     {
         $errors = [];

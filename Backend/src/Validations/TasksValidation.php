@@ -30,6 +30,12 @@ class TasksValidation
             return 'Priority input field is empty';
         }
     }
+    public function emptyTaskStatus(string $status)
+    {
+        if (empty($status)) {
+            return 'Status input field is empty';
+        }
+    }
     public function emptyUserId(int $userId)
     {
         if (empty($userId)) {

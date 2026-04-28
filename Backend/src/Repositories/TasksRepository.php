@@ -54,6 +54,20 @@ class TasksRepository implements TasksRepositoryInterface
         return $stmt->fetchAll();
     }
 
+    public function doneTaskQuery(int $id, string $status, int $userId)
+    {
+        $stmt = $this->pdo->prepare("UPDATE tasks SET status = :status WHERE id = :id AND user_id = :user_id");
+        $stmt->execute([':id' => $id, ':status' => $status, ':user_id' => $userId]);
+
+        return new TasksModel(
+            $id,
+            '',
+            new DateTime,
+            '',
+            $status
+        );
+    }
+
     public function editTaskQuery(int $id, string $name, string $priority, int $userId)
     {
         $stmt = $this->pdo->prepare('UPDATE tasks SET name = :name, priority = :priority WHERE id = :id AND user_id = :user_id');

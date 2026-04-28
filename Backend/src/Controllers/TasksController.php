@@ -96,6 +96,28 @@ class TasksController
         }
     }
 
+    public function doneTask()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $jwt = $this->getJWToken();
+            $decoded = $this->jwtservice->decodeToken($jwt);
+            $userId = $decoded->user_id;
+
+            $data = json_decode(file_get_contents('php://input'), true);
+            $id = $data['id'];
+            $status = $data['status'];
+
+            $result = $this->service->doneTask($id, $status, $userId);
+            if (isset($result['success'])) {
+                http_response_code(200);
+                echo json_encode($result);
+            } else {
+                http_response_code(422);
+                echo json_encode($result);
+            }
+        }
+    }
+
     public function editTask()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
