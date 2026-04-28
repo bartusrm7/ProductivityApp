@@ -3,7 +3,7 @@ import { MdDownloadDone } from "react-icons/md";
 import type { UserTaskData } from "../../types/tasks";
 import { useEffect, useState } from "react";
 
-export default function TaskDone({ taskProp }: { taskProp: UserTaskData }) {
+export default function TaskDoneAsInProgress({ taskProp }: { taskProp: UserTaskData }) {
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: null,
 		name: "",
@@ -16,7 +16,7 @@ export default function TaskDone({ taskProp }: { taskProp: UserTaskData }) {
 		setTaskData(prevState => ({ ...prevState, status: "in_progress" }));
 	};
 
-	async function handleTaskDone(e: any) {
+	async function handleTaskDoneAsInProgress(e: any) {
 		e.preventDefault();
 		try {
 			const jwt = localStorage.getItem("jwt");
@@ -41,7 +41,7 @@ export default function TaskDone({ taskProp }: { taskProp: UserTaskData }) {
 
 	return (
 		<>
-			<Button className='bg-success me-2' onClick={handleTaskDone}>
+			<Button className='bg-success me-2' onClick={handleTaskDoneAsInProgress}>
 				<MdDownloadDone size={24} />
 			</Button>
 		</>

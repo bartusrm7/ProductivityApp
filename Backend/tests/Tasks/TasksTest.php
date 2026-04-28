@@ -53,6 +53,16 @@ class TasksTest extends TestCase
         $this->assertEquals(['errors' => ['Priority input field is empty']], $result);
     }
 
+    public function testEmptyTaskStatus()
+    {
+        $this->validation->method('emptyTaskStatus')->willReturn('Status input field is empty');
+        $this->repository->method('doneTaskQuery')->willReturn(null);
+
+
+        $result = $this->service->doneTask(1, '', 1);
+        $this->assertEquals(['errors' => ['Status input field is empty']], $result);
+    }
+
     public function testEmptyUserId()
     {
         $this->validation->method('emptyUserId')->willReturn('UserID is not exists');
@@ -71,7 +81,7 @@ class TasksTest extends TestCase
         $this->validation->method('emptyPriority')->willReturn(null);
         $this->validation->method('emptyUserId')->willReturn(null);
 
-        $createdAt = new DateTime();
+        $createdAt = new DateTime;
         $tasksModel = new TasksModel(1, 'reading', $createdAt, 'low', 'todo');
         $repo->expects($this->once())
             ->method('createNewTaskQuery')
@@ -80,5 +90,61 @@ class TasksTest extends TestCase
         $this->service = new TasksService($repo, $this->validation);
         $result = $this->service->createNewTask('reading', '2026-04-24 19:40:00', 'low', 1);
         $this->assertEquals(['success' => true, 'data' => $tasksModel], $result);
+    }
+
+    public function testDoneTask()
+    {
+        $repo = $this->createMock(TasksRepository::class);
+
+        $this->validation->method('emptyTaskId')->willReturn(null);
+        $this->validation->method('emptyTaskStatus')->willReturn(null);
+        $this->validation->method('emptyUserId')->willReturn(null);
+
+        $createdAt = new DateTime;
+        $tasksModel = new TasksModel(1, 'reading', $createdAt, 'low', 'todo');
+        $repo->expects($this->once())
+            ->method('doneTaskQuery')
+            ->willReturn($tasksModel);
+
+        $this->service = new TasksService($repo, $this->validation);
+        $result = $this->service->doneTask(1, 'todo', 1);
+        $this->assertEquals(['success' => true], $result);
+    }
+
+    public function testEditTask()
+    {
+        $repo = $this->createMock(TasksRepository::class);
+
+        $this->validation->method('emptyTaskId')->willReturn(null);
+        $this->validation->method('emptyTaskStatus')->willReturn(null);
+        $this->validation->method('emptyUserId')->willReturn(null);
+
+        $createdAt = new DateTime;
+        $tasksModel = new TasksModel(1, 'reading', $createdAt, 'low', 'todo');
+        $repo->expects($this->once())
+            ->method('editTaskQuery')
+            ->willReturn($tasksModel);
+
+        $this->service = new TasksService($repo, $this->validation);
+        $result = $this->service->editTask(1, 'reading', 'low', 1);
+        $this->assertEquals(['success' => true], $result);
+    }
+
+    public function testDeleteTask()
+    {
+        $repo = $this->createMock(TasksRepository::class);
+
+        $this->validation->method('emptyTaskId')->willReturn(null);
+        $this->validation->method('emptyUserId')->willReturn(null);
+
+        $createdAt = new DateTime;
+        $tasksModel = new TasksModel(1, 'reading', $createdAt, 'low', 'todo');
+        $repo->expects($this->once())
+            ->method('deleteTaskQuery')
+            ->willReturn($tasksModel);
+
+        $this->service = new TasksService($repo, $this->validation);
+        $result = $this->service->deleteTask(1, 1);
+        $this->assertEquals(['success' => true], $result);
     }
 }

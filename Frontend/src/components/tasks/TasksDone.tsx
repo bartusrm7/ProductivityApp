@@ -70,7 +70,7 @@ export default function TasksDone() {
 											<div className='col-3'>{new Date(task.createdAt).toLocaleString()}</div>
 											<div className={task.priority === "low" ? "tasks-todo__priority bg-success text-center rounded-3 py-2 col-2" : task.priority === "medium" ? "tasks-todo__priority bg-warning text-center rounded-3 py-2 col-2" : task.priority === "high" ? "tasks-todo__priority bg-danger text-center rounded-3 py-2 col-2" : ""}>{task.priority}</div>
 											<div className='text-center col-2'>
-												<TaskEdit />
+												<TaskEdit taskProp={task} />
 												<TaskDelete taskId={task.id} />
 											</div>
 										</div>

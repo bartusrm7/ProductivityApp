@@ -59,7 +59,7 @@ export default function TaskEdit({ taskProp }: { taskProp: UserTaskData }) {
 			{showModal && (
 				<Modal show={showModal} onHide={handleCloseModal}>
 					<Modal.Header closeButton>
-						<Modal.Title> Create new task</Modal.Title>
+						<Modal.Title>Edit current task</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
 						<Form onSubmit={handleEditTask}>
