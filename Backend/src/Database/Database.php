@@ -77,6 +77,10 @@ class Database
     {
         $this->pdo->exec('CREATE TABLE IF NOT EXISTS habits (
             id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            description VARCHAR(255),
+            created_at DATETIME,
+            user_id INT,
             CONSTRAINT fk_user_habits
             FOREIGN KEY (user_id)
             REFERENCES users(id)
