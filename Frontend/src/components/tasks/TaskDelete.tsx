@@ -1,4 +1,5 @@
-import { Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";			console.error("Server error. Try again.", error);
+
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 export default function TaskDelete({ taskId }: { taskId: number }) {
