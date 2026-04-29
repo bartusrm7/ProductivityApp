@@ -8,4 +8,6 @@ interface JWTServiceInterface
 {
     public function generateToken(string $name, int $userId);
     public function decodeToken(string $jwt);
+    public function getToken();
+    public function getUserIdFromJWT();
 }

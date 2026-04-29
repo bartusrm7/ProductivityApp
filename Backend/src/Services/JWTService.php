@@ -31,4 +31,19 @@ class JWTService implements JWTServiceInterface
         $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
         return $decoded;
     }
+
+    public function getToken()
+    {
+        $authorization = $_SERVER['HTTP_AUTHORIZATION'];
+        $jwt = str_replace('Bearer ', '', $authorization);
+        return $jwt;
+    }
+
+    public function getUserIdFromJWT()
+    {
+        $jwt = $this->getToken();
+        $decoded = $this->decodeToken($jwt);
+        $userId = $decoded->user_id;
+        return $userId;
+    }
 }
