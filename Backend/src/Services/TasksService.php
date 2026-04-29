@@ -41,8 +41,7 @@ class TasksService implements TasksServiceInterface
             $newCreatedAt = new DateTime($createdAt);
             $result = $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
             return [
-                'success' => true,
-                'data' => $result
+                'success' => true
             ];
         }
     }

@@ -7,7 +7,7 @@ export default function TaskDoneAsInProgress({ taskProp }: { taskProp: UserTaskD
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: 0,
 		name: "",
-		createdAt: new Date().toISOString(),
+		created_at: "",
 		priority: "",
 		status: "in progress",
 	});

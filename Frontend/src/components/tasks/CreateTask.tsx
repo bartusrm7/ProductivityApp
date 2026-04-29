@@ -6,7 +6,7 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal }: 
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: 0,
 		name: "",
-		createdAt: new Date().toISOString(),
+		created_at: new Date().toISOString(),
 		priority: "",
 		status: "",
 	});
@@ -33,7 +33,7 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal }: 
 				setTaskData({
 					id: 0,
 					name: "",
-					createdAt: "",
+					created_at: "",
 					priority: "",
 					status: "",
 				});

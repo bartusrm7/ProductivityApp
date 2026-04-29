@@ -28,8 +28,20 @@ export default function Tasks() {
 							<h2 className='mb-0'>My Tasks</h2>
 							<CreateTask show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
 						</div>
+					</div>
+				</div>
+				<div className='tasks__main-container mx-3 rounded-3'>
+					<div className='p-3 p-md-4'>
 						<TasksToDo />
+					</div>
+				</div>
+				<div className='tasks__main-container mx-3 rounded-3'>
+					<div className='p-3 p-md-4'>
 						<TasksInProgress />
+					</div>
+				</div>
+				<div className='tasks__main-container mx-3 rounded-3'>
+					<div className='p-3 p-md-4'>
 						<TasksDone />
 					</div>
 				</div>

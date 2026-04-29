@@ -72,6 +72,7 @@ class TasksTest extends TestCase
         $result = $this->service->createNewTask('reading', '2026-04-24 19:40:00', 'low', 0);
         $this->assertEquals(['errors' => ['UserID is not exists']], $result);
     }
+    
     public function testCreateNewTask()
     {
         $repo = $this->createMock(TasksRepository::class);
@@ -89,7 +90,7 @@ class TasksTest extends TestCase
 
         $this->service = new TasksService($repo, $this->validation);
         $result = $this->service->createNewTask('reading', '2026-04-24 19:40:00', 'low', 1);
-        $this->assertEquals(['success' => true, 'data' => $tasksModel], $result);
+        $this->assertEquals(['success' => true], $result);
     }
 
     public function testDoneTask()

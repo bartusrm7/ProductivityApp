@@ -22,6 +22,7 @@ export default function TasksInProgress() {
 				setErrorsArray(data.errors);
 			} else {
 				setTaskData(data.data);
+				console.log(data.data);
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
@@ -66,7 +67,7 @@ export default function TasksInProgress() {
 										<div className='d-flex align-items-center border-bottom py-2' key={index}>
 											<div className='col-1 fw-bold'>{task.id}.</div>
 											<div className='col-4'>{task.name}</div>
-											<div className='col-3'>{new Date(task.createdAt).toLocaleString()}</div>
+											<div className='col-3'>{task.created_at}</div>
 											<div className={task.priority === "low" ? "tasks-todo__priority bg-success text-center rounded-3 py-2 col-2" : task.priority === "medium" ? "tasks-todo__priority bg-warning text-center rounded-3 py-2 col-2" : task.priority === "high" ? "tasks-todo__priority bg-danger text-center rounded-3 py-2 col-2" : ""}>{task.priority}</div>
 											<div className='text-center col-2'>
 												<TaskDoneAsTaskDone taskProp={task} />

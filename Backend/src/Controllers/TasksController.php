@@ -19,7 +19,6 @@ class TasksController
 
     public function getJWToken()
     {
-
         $authorization = $_SERVER['HTTP_AUTHORIZATION'];
         $jwt = str_replace('Bearer ', '', $authorization);
         return $jwt;
@@ -34,7 +33,7 @@ class TasksController
 
             $data = json_decode(file_get_contents('php://input'), true);
             $name = $data['name'];
-            $createdAt = $data['createdAt'];
+            $createdAt = $data['created_at'];
             $priority = $data['priority'];
 
             $result = $this->service->createNewTask($name, $createdAt, $priority, $userId);

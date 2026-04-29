@@ -4,6 +4,7 @@ import SignIn from "./components/auth/SignIn";
 import Dashboard from "./components/dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Tasks from "./components/tasks/Tasks";
+import Habits from "./components/habits/Habits";
 
 export default function App() {
 	return (
@@ -24,6 +25,14 @@ export default function App() {
 					element={
 						<ProtectedRoute>
 							<Tasks />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path='/habits'
+					element={
+						<ProtectedRoute>
+							<Habits />
 						</ProtectedRoute>
 					}
 				/>

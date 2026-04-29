@@ -7,7 +7,7 @@ export default function TaskDoneAsTaskDone({ taskProp }: { taskProp: UserTaskDat
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: 0,
 		name: "",
-		createdAt: new Date().toISOString(),
+		created_at: "",
 		priority: "",
 		status: "done",
 	});
@@ -28,7 +28,6 @@ export default function TaskDoneAsTaskDone({ taskProp }: { taskProp: UserTaskDat
 				},
 				body: JSON.stringify(taskData),
 			});
-			const data = await response.json();
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}
