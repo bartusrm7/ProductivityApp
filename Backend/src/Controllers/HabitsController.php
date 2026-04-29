@@ -18,19 +18,10 @@ class HabitsController
         $this->jwtservice = $jwtservice;
     }
 
-    public function getToken()
-    {
-        $authorization = $_SERVER['HTTP_AUTHORIZATION'];
-        $jwt = str_replace('Bearer ', '', $authorization);
-        return $jwt;
-    }
-
     public function newHabit()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $jwt = $this->getToken();
-            $decoded = $this->jwtservice->decodeToken($jwt);
-            $userId = $decoded->user_id;
+            $userId = $this->jwtservice->getUserIdFromJWT();
 
             $data = json_decode(file_get_contents('php://input'), true);
             $name = $data['name'];
@@ -50,9 +41,7 @@ class HabitsController
     public function getHabits()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $jwt = $this->getToken();
-            $decoded = $this->jwtservice->decodeToken($jwt);
-            $userId = $decoded->user_id;
+            $userId = $this->jwtservice->getUserIdFromJWT();
 
             $result = $this->service->getHabits($userId);
             if (isset($result['success'])) {
