@@ -46,4 +46,22 @@ class HabitsController
             }
         }
     }
+
+    public function getHabits()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $jwt = $this->getToken();
+            $decoded = $this->jwtservice->decodeToken($jwt);
+            $userId = $decoded->user_id;
+
+            $result = $this->service->getHabits($userId);
+            if (isset($result['success'])) {
+                http_response_code(200);
+                echo json_encode($result);
+            } else {
+                http_response_code(422);
+                echo json_encode($result);
+            }
+        }
+    }
 }
