@@ -72,6 +72,7 @@ class TasksTest extends TestCase
         $result = $this->service->createNewTask('reading', '2026-04-24 19:40:00', 'low', 0);
         $this->assertEquals(['errors' => ['UserID is not exists']], $result);
     }
+    
     public function testCreateNewTask()
     {
         $repo = $this->createMock(TasksRepository::class);
