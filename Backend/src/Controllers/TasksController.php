@@ -17,19 +17,10 @@ class TasksController
         $this->jwtservice = $jwtservice;
     }
 
-    public function getJWToken()
-    {
-        $authorization = $_SERVER['HTTP_AUTHORIZATION'];
-        $jwt = str_replace('Bearer ', '', $authorization);
-        return $jwt;
-    }
-
     public function createNewTask()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $jwt = $this->getJWToken();
-            $decoded = $this->jwtservice->decodeToken($jwt);
-            $userId = $decoded->user_id;
+            $userId = $this->jwtservice->getUserIdFromJWT();
 
             $data = json_decode(file_get_contents('php://input'), true);
             $name = $data['name'];
@@ -98,9 +89,7 @@ class TasksController
     public function doneTask()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $jwt = $this->getJWToken();
-            $decoded = $this->jwtservice->decodeToken($jwt);
-            $userId = $decoded->user_id;
+            $userId = $this->jwtservice->getUserIdFromJWT();
 
             $data = json_decode(file_get_contents('php://input'), true);
             $id = $data['id'];
@@ -120,9 +109,7 @@ class TasksController
     public function editTask()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $jwt = $this->getJWToken();
-            $decoded = $this->jwtservice->decodeToken($jwt);
-            $userId = $decoded->user_id;
+            $userId = $this->jwtservice->getUserIdFromJWT();
 
             $data = json_decode(file_get_contents('php://input'), true);
             $id = $data['id'];
@@ -143,9 +130,7 @@ class TasksController
     public function deleteTask()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $jwt = $this->getJWToken();
-            $decoded = $this->jwtservice->decodeToken($jwt);
-            $userId = $decoded->user_id;
+            $userId = $this->jwtservice->getUserIdFromJWT();
 
             $data = json_decode(file_get_contents('php://input'), true);
             $id = $data['id'];
