@@ -36,7 +36,23 @@ class HabitsService implements HabitsServiceInterface
             return ['errors' => $errors];
         } else {
             $newCreatedAt = new DateTime($createdAt);
-            $result = $this->repository->newHabitQuery($name, $newCreatedAt, $userId);
+            $this->repository->newHabitQuery($name, $newCreatedAt, $userId);
+            return [
+                'success' => true
+            ];
+        }
+    }
+
+    public function getHabits(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $this->repository->getHabitsQuery($userId);
             return [
                 'success' => true
             ];
