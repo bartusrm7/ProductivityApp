@@ -9,4 +9,5 @@ use DateTime;
 interface HabitsRepositoryInterface
 {
     public function newHabitQuery(string $name, DateTime $createdAt, int $userId);
+    public function getHabitsQuery(int $userId);
 }
