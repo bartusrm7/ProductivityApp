@@ -3,15 +3,19 @@
 declare(strict_types=1);
 
 use App\Controllers\AuthController;
+use App\Controllers\HabitsController;
 use App\Controllers\TasksController;
 use App\Database\Database;
 use App\Middlewares\AuthMiddleware;
 use App\Repositories\AuthRepository;
+use App\Repositories\HabitsRepository;
 use App\Repositories\TasksRepository;
 use App\Services\AuthService;
+use App\Services\HabitsService;
 use App\Services\JWTService;
 use App\Services\TasksService;
 use App\Validations\AuthValidation;
+use App\Validations\HabitsValidation;
 use App\Validations\TasksValidation;
 use Dotenv\Dotenv;
 
@@ -40,15 +44,18 @@ $db->getConnection();
 // REPOSITORIES
 $authRepository = new AuthRepository($db);
 $tasksRepository = new TasksRepository($db);
+$habitsRepository = new HabitsRepository($db);
 
 // VALIDATIORS
 $authValidation = new AuthValidation();
 $tasksValidation = new TasksValidation();
+$habitsValidation = new HabitsValidation();
 
 // SERVICES
+$jwtService = new JWTService();
 $authService = new AuthService($authRepository, $authValidation);
 $tasksService = new TasksService($tasksRepository, $tasksValidation);
-$jwtService = new JWTService();
+$habitsService = new HabitsService($habitsRepository, $habitsValidation);
 
 // MIDDLEWARES
 $authMiddleware = new AuthMiddleware($jwtService);
@@ -56,10 +63,12 @@ $authMiddleware = new AuthMiddleware($jwtService);
 // CONTROLLERS
 $authController = new AuthController($authService, $jwtService);
 $tasksController = new TasksController($tasksService, $jwtService);
+$habitsController = new HabitsController($habitsService, $jwtService);
 
 $controllers = [
     AuthController::class => $authController,
-    TasksController::class => $tasksController
+    TasksController::class => $tasksController,
+    HabitsController::class => $habitsController,
 ];
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
@@ -81,6 +90,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/done-task', [TasksController::class, 'doneTask']);
     $r->addRoute('POST', '/edit-task', [TasksController::class, 'editTask']);
     $r->addRoute('POST', '/delete-task', [TasksController::class, 'deleteTask']);
+
+    // HABITS
+    $r->addRoute('POST', '/create-habit', [HabitsController::class, 'newHabit']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];

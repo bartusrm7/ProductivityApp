@@ -37,6 +37,9 @@ class HabitsService implements HabitsServiceInterface
         } else {
             $newCreatedAt = new DateTime($createdAt);
             $result = $this->repository->newHabitQuery($name, $newCreatedAt, $userId);
+            return [
+                'success' => true
+            ];
         }
     }
 }

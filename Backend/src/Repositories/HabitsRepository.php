@@ -21,7 +21,7 @@ class HabitsRepository implements HabitsRepositoryInterface
     public function newHabitQuery(string $name, DateTime $createdAt, int $userId)
     {
         $stmt = $this->pdo->prepare('INSERT INTO habits (name, created_at, user_id) VALUES (:name, :created_at, :user_id)');
-        $stmt->execute([':name' => $name, ':created_at' => $createdAt, ':user_id' => $userId]);
+        $stmt->execute([':name' => $name, ':created_at' => $createdAt->format('Y:m:d H:i:s'), ':user_id' => $userId]);
         $id = (int) $this->pdo->lastInsertId();
 
         return new HabitsModel(
