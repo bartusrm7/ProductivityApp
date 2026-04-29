@@ -52,9 +52,10 @@ class HabitsService implements HabitsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $this->repository->getHabitsQuery($userId);
+            $result = $this->repository->getHabitsQuery($userId);
             return [
-                'success' => true
+                'success' => true,
+                'data'    => $result
             ];
         }
     }
