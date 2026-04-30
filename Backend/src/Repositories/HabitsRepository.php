@@ -38,4 +38,17 @@ class HabitsRepository implements HabitsRepositoryInterface
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
+
+    public function editHabitQuery(int $id, string $name, string $description, int $userId)
+    {
+        $stmt = $this->pdo->prepare('UPDATE habits SET name = :name, description = :description WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':name' => $name, ':description' => $description, ':user_id' => $userId]);
+
+        return new HabitsModel(
+            $id,
+            $name,
+            $description,
+            new DateTime
+        );
+    }
 }

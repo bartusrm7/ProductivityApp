@@ -31,7 +31,6 @@ class HabitsService implements HabitsServiceInterface
         if ($error = $this->validation->emptyUserId($userId)) {
             $errors[] = $error;
         }
-
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
@@ -53,6 +52,32 @@ class HabitsService implements HabitsServiceInterface
             return ['errors' => $errors];
         } else {
             $result = $this->repository->getHabitsQuery($userId);
+            return [
+                'success' => true,
+                'data'    => $result
+            ];
+        }
+    }
+
+    public function editHabit(int $id, string $name, string $description, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyHabitId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyHabitName($name)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyHabitDescription($description)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->editHabitQuery($id, $name, $description, $userId);
             return [
                 'success' => true,
                 'data'    => $result
