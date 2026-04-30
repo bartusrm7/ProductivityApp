@@ -80,6 +80,7 @@ class Database
             name VARCHAR(255) NOT NULL,
             description VARCHAR(255),
             created_at DATETIME,
+            status VARCHAR(255),
             user_id INT,
             CONSTRAINT fk_user_habits
             FOREIGN KEY (user_id)
