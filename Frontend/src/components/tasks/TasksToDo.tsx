@@ -11,7 +11,7 @@ export default function TasksToDo() {
 
 	async function getToDoTasks() {
 		try {
-			const response = await fetch(`http://productivityapp.local/todo-tasks?status=todo&userId=21`, {
+			const response = await fetch(`http://productivityapp.local/todo-tasks?status=todo`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",

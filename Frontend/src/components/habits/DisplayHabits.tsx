@@ -6,7 +6,7 @@ export default function DisplayHabits() {
 
 	async function getAllHabits() {
 		const jwt = localStorage.getItem("jwt");
-		const response = await fetch("http://productivityapp.local/get-habits?userId=21", {
+		const response = await fetch("http://productivityapp.local/get-habits", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

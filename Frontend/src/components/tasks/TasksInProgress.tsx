@@ -11,7 +11,7 @@ export default function TasksInProgress() {
 
 	async function getInProgressTasks() {
 		try {
-			const response = await fetch(`http://productivityapp.local/in-progress-tasks?status=in_progress&userId=21`, {
+			const response = await fetch(`http://productivityapp.local/in-progress-tasks?status=in_progress`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",

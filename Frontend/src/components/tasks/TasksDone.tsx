@@ -10,7 +10,7 @@ export default function TasksDone() {
 
 	async function getDoneTasks() {
 		try {
-			const response = await fetch(`http://productivityapp.local/done-tasks?status=done&userId=21`, {
+			const response = await fetch(`http://productivityapp.local/done-tasks?status=done`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
