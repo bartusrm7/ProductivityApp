@@ -3,7 +3,7 @@ import { Button, Modal, Form } from "react-bootstrap";
 import type { UserHabitData } from "../../types/habits";
 
 export default function CreateHabit({ show, handleOpenModal, handleCloseModal }: { show: boolean; handleOpenModal: any; handleCloseModal: any }) {
-	const [habitsData, setHabitsData] = useState<UserHabitData>({ id: 0, name: "", describe: "", created_at: new Date().toISOString() });
+	const [habitsData, setHabitsData] = useState<UserHabitData>({ id: 0, name: "", description: "", created_at: new Date().toISOString() });
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function handleCreateNewHabit(e: any) {
@@ -23,7 +23,7 @@ export default function CreateHabit({ show, handleOpenModal, handleCloseModal }:
 				setErrorsArray(data.errors);
 			} else {
 				handleCloseModal();
-				setHabitsData({ id: 0, name: "", describe: "", created_at: "" });
+				setHabitsData({ id: 0, name: "", description: "", created_at: "" });
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);

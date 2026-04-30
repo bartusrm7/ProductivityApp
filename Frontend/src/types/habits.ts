@@ -1,6 +1,6 @@
 export interface UserHabitData {
 	id: number;
 	name: string;
-	describe: string;
+	description: string;
 	created_at: string;
 }

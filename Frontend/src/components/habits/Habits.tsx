@@ -6,9 +6,10 @@ import DisplayHabits from "./DisplayHabits";
 
 export default function Habits() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
 
-	const handleOpenModal = () => setShowMenu(true);
-	const handleCloseModal = () => setShowMenu(false);
+	const handleCloseModal = () => setShowModal(false);
+	const handleOpenModal = () => setShowModal(true);
 
 	useEffect(() => {
 		document.title = "ProductivityApp - Habits";
@@ -23,7 +24,7 @@ export default function Habits() {
 					<div className='p-3 p-md-4'>
 						<div className='d-flex justify-content-between align-items-center'>
 							<h2 className='mb-0'>My Habits</h2>
-							<CreateHabit show={showMenu} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
+							<CreateHabit show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
 						</div>
 					</div>
 				</div>

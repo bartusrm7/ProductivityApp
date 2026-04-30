@@ -16,7 +16,6 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 			},
 		});
 		const data = await response.json();
-		console.log(data);
 		setUserName(data.name);
 	}
 

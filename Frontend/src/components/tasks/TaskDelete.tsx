@@ -13,9 +13,6 @@ export default function TaskDelete({ taskId }: { taskId: number }) {
 				},
 				body: JSON.stringify({ id: taskId }),
 			});
-			const data = await response.json();
-			if (data.success) {
-			}
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}

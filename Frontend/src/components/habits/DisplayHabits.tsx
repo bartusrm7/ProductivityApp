@@ -25,8 +25,21 @@ export default function DisplayHabits() {
 
 	return (
 		<div>
+			<div className='d-flex fw-bold border-bottom py-2'>
+				<div className='col-1'>#</div>
+				<div className='col-3'>Habit</div>
+				<div className='col-3'>Description</div>
+				<div className='col-2'>Date</div>
+				<div className='col-2 text-center'>Actions</div>
+			</div>
 			{habitsData.map((habit, index) => (
-				<div key={index}>{habit.name}</div>
+				<div className='d-flex align-items-center border-bottom py-2' key={index}>
+					<div className='col-1'>{habit.id}</div>
+					<div className='col-3'>{habit.name}</div>
+					<div className='col-3'>{habit.description}</div>
+					<div className='col-2'>{habit.created_at}</div>
+					<div className='col-2 text-center'></div>
+				</div>
 			))}
 		</div>
 	);
