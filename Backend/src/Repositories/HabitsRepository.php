@@ -51,4 +51,11 @@ class HabitsRepository implements HabitsRepositoryInterface
             new DateTime
         );
     }
+
+    public function deleteHabitQuery(int $id, int $userId)
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM habits WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':user_id' => $userId]);
+        return $stmt->rowCount();
+    }
 }

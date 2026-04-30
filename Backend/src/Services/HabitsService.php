@@ -77,10 +77,28 @@ class HabitsService implements HabitsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $result = $this->repository->editHabitQuery($id, $name, $description, $userId);
+            $this->repository->editHabitQuery($id, $name, $description, $userId);
             return [
-                'success' => true,
-                'data'    => $result
+                'success' => true
+            ];
+        }
+    }
+
+    public function deleteHabit(int $id, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyHabitId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $this->repository->deleteHabitQuery($id, $userId);
+            return [
+                'success' => true
             ];
         }
     }

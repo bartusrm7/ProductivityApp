@@ -137,7 +137,7 @@ class TasksService implements TasksServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $result = $this->repository->editTaskQuery($id, $name, $priority, $userId);
+            $this->repository->editTaskQuery($id, $name, $priority, $userId);
             return [
                 'success' => true
             ];
@@ -156,7 +156,7 @@ class TasksService implements TasksServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $result = $this->repository->deleteTaskQuery($id, $userId);
+            $this->repository->deleteTaskQuery($id, $userId);
             return [
                 'success' => true
             ];
