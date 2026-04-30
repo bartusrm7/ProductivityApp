@@ -43,7 +43,17 @@ class JWTService implements JWTServiceInterface
     {
         $jwt = $this->getToken();
         $decoded = $this->decodeToken($jwt);
-        $userId = $decoded->user_id;
-        return $userId;
+        return $decoded->user_id;
+    }
+
+    public function getUserNameFromJWT()
+    {
+        $jwt = $this->getToken();
+        $decoded = $this->decodeToken($jwt);
+        $name = $decoded->name;
+        return [
+            'success' => true,
+            'name'    => $name
+        ];
     }
 }

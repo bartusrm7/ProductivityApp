@@ -75,7 +75,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     // GET
 
     // AUTH
-    $r->addRoute('GET', '/user-name', [TasksController::class, 'getLoggedUserName']);
+    $r->addRoute('GET', '/user-name', [AuthController::class, 'getLoggedUserName']);
 
     // TASKS
     $r->addRoute('GET', '/todo-tasks', [TasksController::class, 'getToDoTasks']);

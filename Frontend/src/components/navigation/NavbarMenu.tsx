@@ -11,17 +11,17 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 		const response = await fetch("http://productivityapp.local/user-name", {
 			method: "GET",
 			headers: {
+				"Content-Type": "application/json",
 				Authorization: `Bearer ${jwt}`,
 			},
 		});
 		const data = await response.json();
+		console.log(data);
 		setUserName(data.name);
 	}
 
 	useEffect(() => {
 		getUserName();
-		// const name = localStorage.getItem("userName");
-		// setUserName(name);
 	}, []);
 
 	return (
