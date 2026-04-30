@@ -100,6 +100,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     // HABITS
     $r->addRoute('POST', '/create-habit', [HabitsController::class, 'newHabit']);
     $r->addRoute('POST', '/edit-habit', [HabitsController::class, 'editHabit']);
+    $r->addRoute('POST', '/delete-habit', [HabitsController::class, 'deleteHabit']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
