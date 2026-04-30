@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import type { UserHabitData } from "../../types/habits";
 import EditHabit from "./EditHabit";
 import DeleteHabit from "./DeleteHabit";
+import { IoIosArrowUp } from "react-icons/io";
 
 export default function DisplayHabits() {
 	const [habitsData, setHabitsData] = useState<UserHabitData[]>([]);
+	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function getAllHabits() {
 		const jwt = localStorage.getItem("jwt");
@@ -27,6 +29,10 @@ export default function DisplayHabits() {
 
 	return (
 		<div>
+			<div className='d-flex align-items-center'>
+				<IoIosArrowUp size={24} />
+				<h4 className='ms-2 mb-0'>Done</h4>
+			</div>
 			<div className='d-flex fw-bold border-bottom py-2'>
 				<div className='col-1'>#</div>
 				<div className='col-3'>Habit</div>

@@ -73,7 +73,7 @@ class Database
         )');
     }
 
-    public function createHabitsDataTable()
+    public function createHabitsTable()
     {
         $this->pdo->exec('CREATE TABLE IF NOT EXISTS habits (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -84,6 +84,21 @@ class Database
             CONSTRAINT fk_user_habits
             FOREIGN KEY (user_id)
             REFERENCES users(id)
+            ON DELETE CASCADE
+        )');
+    }
+
+    public function createHabitsDataTable()
+    {
+        $this->pdo->exec('CREATE TABLE IF NOT EXISTS habits_data (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            streak_days INT,
+            check_current_day DATETIME,
+            amount_days_done INT,
+            habit_id INT,
+            CONSTRAINT fk_habits_data
+            FOREIGN KEY (habit_id)
+            REFERENCES habits(id)
             ON DELETE CASCADE
         )');
     }

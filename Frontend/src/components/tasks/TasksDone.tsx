@@ -9,23 +9,19 @@ export default function TasksDone() {
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function getDoneTasks() {
-		try {
-			const jwt = localStorage.getItem("jwt");
-			const response = await fetch(`http://productivityapp.local/done-tasks?status=done`, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${jwt}`,
-				},
-			});
-			const data = await response.json();
-			if (data.errors) {
-				setErrorsArray(data.errors);
-			} else {
-				setTaskData(data.data);
-			}
-		} catch (error) {
-			setErrorsArray(["Server error. Try again."]);
+		const jwt = localStorage.getItem("jwt");
+		const response = await fetch(`http://productivityapp.local/done-tasks?status=done`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		const data = await response.json();
+		if (data.errors) {
+			setErrorsArray(data.errors);
+		} else {
+			setTaskData(data.data);
 		}
 	}
 
