@@ -8,7 +8,7 @@ use DateTime;
 
 class HabitsModel
 {
-    public function __construct(private int $id, private string $name, private string $description, private DateTime $createdAt) {}
+    public function __construct(private int $id, private string $name, private string $description, private DateTime $createdAt, private string $status,) {}
     public function getId()
     {
         return $this->id;
@@ -24,5 +24,9 @@ class HabitsModel
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

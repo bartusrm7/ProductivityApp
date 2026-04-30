@@ -30,6 +30,12 @@ class HabitsValidation
             return 'Created at time is not exists';
         }
     }
+    public function emptyStatus(string $status)
+    {
+        if (empty($status)) {
+            return 'Status is not exists';
+        }
+    }
     public function emptyUserId(int $userId)
     {
         if (empty($userId)) {

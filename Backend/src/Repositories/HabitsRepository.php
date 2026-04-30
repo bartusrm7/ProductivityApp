@@ -28,7 +28,8 @@ class HabitsRepository implements HabitsRepositoryInterface
             $id,
             $name,
             '',
-            $createdAt
+            $createdAt,
+            ''
         );
     }
 
@@ -48,7 +49,8 @@ class HabitsRepository implements HabitsRepositoryInterface
             $id,
             $name,
             $description,
-            new DateTime
+            new DateTime,
+            ''
         );
     }
 
@@ -57,5 +59,19 @@ class HabitsRepository implements HabitsRepositoryInterface
         $stmt = $this->pdo->prepare('DELETE FROM habits WHERE id = :id AND user_id = :user_id');
         $stmt->execute([':id' => $id, ':user_id' => $userId]);
         return $stmt->rowCount();
+    }
+
+    public function habitStatusStartedQuery(int $id, string $status, int $userId)
+    {
+        $stmt = $this->pdo->prepare('UPDATE habits SET status = :status WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':status' => $status, ':user_id' => $userId]);
+
+        return new HabitsModel(
+            $id,
+            '',
+            '',
+            new DateTime,
+            $status
+        );
     }
 }
