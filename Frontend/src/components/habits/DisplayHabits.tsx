@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { UserHabitData } from "../../types/habits";
+import EditHabit from "./EditHabit";
 
 export default function DisplayHabits() {
 	const [habitsData, setHabitsData] = useState<UserHabitData[]>([]);
@@ -38,7 +39,9 @@ export default function DisplayHabits() {
 					<div className='col-3'>{habit.name}</div>
 					<div className='col-3'>{habit.description}</div>
 					<div className='col-2'>{habit.created_at}</div>
-					<div className='col-2 text-center'></div>
+					<div className='col-2 text-center'>
+						<EditHabit habitProp={habit} />
+					</div>
 				</div>
 			))}
 		</div>

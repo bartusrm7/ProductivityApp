@@ -38,14 +38,14 @@ export default function CreateHabit({ show, handleOpenModal, handleCloseModal }:
 
 			<Modal show={show} onHide={handleCloseModal}>
 				<Modal.Header closeButton>
-					<Modal.Title> Create new task</Modal.Title>
+					<Modal.Title>Create new habit</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<Form onSubmit={handleCreateNewHabit}>
 						<Form.Group className=' mb-3'>
 							<Form.Floating>
 								<Form.Control value={habitsData.name} onChange={e => setHabitsData(prevState => ({ ...prevState, name: e.target.value }))} type='text' placeholder='Create new task...' />
-								<Form.Label>Task</Form.Label>
+								<Form.Label>Habit</Form.Label>
 							</Form.Floating>
 						</Form.Group>
 
