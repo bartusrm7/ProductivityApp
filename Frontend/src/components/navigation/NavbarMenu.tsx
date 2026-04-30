@@ -6,9 +6,22 @@ import { IoMdMenu } from "react-icons/io";
 export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: string; onToggleMenu: void }) {
 	const [userName, setUserName] = useState<string | null>("");
 
+	async function getUserName() {
+		const jwt = localStorage.getItem("jwt");
+		const response = await fetch("http://productivityapp.local/user-name", {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		const data = await response.json();
+		setUserName(data.name);
+	}
+
 	useEffect(() => {
-		const name = localStorage.getItem("userName");
-		setUserName(name);
+		getUserName();
+		// const name = localStorage.getItem("userName");
+		// setUserName(name);
 	}, []);
 
 	return (

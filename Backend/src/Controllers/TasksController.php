@@ -41,7 +41,7 @@ class TasksController
     public function getToDoTasks()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userId = (int) $_GET['userId'];
+            $userId = $this->jwtservice->getUserIdFromJWT();
 
             $result = $this->service->getToDoTasks($userId);
             if (isset($result['success'])) {
@@ -57,7 +57,7 @@ class TasksController
     public function getInProgressTasks()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userId = (int) $_GET['userId'];
+            $userId = $this->jwtservice->getUserIdFromJWT();
 
             $result = $this->service->getInProgressTasks($userId);
             if (isset($result['success'])) {
@@ -73,7 +73,7 @@ class TasksController
     public function getDoneTasks()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userId = (int) $_GET['userId'];
+            $userId = $this->jwtservice->getUserIdFromJWT();
 
             $result = $this->service->getDoneTasks($userId);
             if (isset($result['success'])) {

@@ -58,4 +58,11 @@ class AuthController
             }
         }
     }
+
+    public function getLoggedUserName()
+    {
+        $jwt = $this->jwtService->getToken();
+        $decoded = $this->jwtService->decodeToken($jwt);
+        return $decoded->name;
+    }
 }

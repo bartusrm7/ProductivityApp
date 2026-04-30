@@ -74,6 +74,9 @@ $controllers = [
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     // GET
 
+    // AUTH
+    $r->addRoute('GET', '/user-name', [TasksController::class, 'getLoggedUserName']);
+
     // TASKS
     $r->addRoute('GET', '/todo-tasks', [TasksController::class, 'getToDoTasks']);
     $r->addRoute('GET', '/in-progress-tasks', [TasksController::class, 'getInProgressTasks']);

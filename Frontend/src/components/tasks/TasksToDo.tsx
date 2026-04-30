@@ -11,10 +11,12 @@ export default function TasksToDo() {
 
 	async function getToDoTasks() {
 		try {
+			const jwt = localStorage.getItem("jwt");
 			const response = await fetch(`http://productivityapp.local/todo-tasks?status=todo`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${jwt}`,
 				},
 			});
 			const data = await response.json();

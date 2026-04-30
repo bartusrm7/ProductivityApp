@@ -11,10 +11,12 @@ export default function TasksInProgress() {
 
 	async function getInProgressTasks() {
 		try {
+			const jwt = localStorage.getItem("jwt");
 			const response = await fetch(`http://productivityapp.local/in-progress-tasks?status=in_progress`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${jwt}`,
 				},
 			});
 			const data = await response.json();
