@@ -6,7 +6,6 @@ import { IoIosArrowUp } from "react-icons/io";
 
 export default function DisplayHabits() {
 	const [habitsData, setHabitsData] = useState<UserHabitData[]>([]);
-	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function getAllHabits() {
 		const jwt = localStorage.getItem("jwt");

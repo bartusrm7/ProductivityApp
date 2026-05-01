@@ -65,8 +65,8 @@ export default function EditHabit({ habitProp }: { habitProp: UserHabitData }) {
 									<Form.Label>Habit description</Form.Label>
 								</Form.Floating>
 							</Form.Group>
-
-							{errorsArray && (
+							
+							{errorsArray.length > 0 && (
 								<div>
 									{errorsArray.map((error, index) => (
 										<div key={index} className='alert alert-danger'>

@@ -78,7 +78,7 @@ export default function TaskEdit({ taskProp }: { taskProp: UserTaskData }) {
 								</Form.Select>
 							</Form.Group>
 
-							{errorsArray && (
+							{errorsArray.length > 0 && (
 								<div>
 									{errorsArray.map((error, index) => (
 										<div key={index} className='alert alert-danger'>
