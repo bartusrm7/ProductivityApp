@@ -51,7 +51,7 @@ class HabitsService implements HabitsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $result = $this->repository->getHabitsQuery($userId);
+            $result = $this->repository->getAllHabitsQuery($userId);
             return [
                 'success' => true,
                 'data'    => $result
@@ -121,6 +121,22 @@ class HabitsService implements HabitsServiceInterface
             $this->repository->habitStatusStartedQuery($id, $status, $userId);
             return [
                 'success' => true
+            ];
+        }
+    }
+    public function getStartedHabits(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->getHabitsWithStartedStatusQuery($userId);
+            return [
+                'success' => true,
+                'data'    => $result
             ];
         }
     }

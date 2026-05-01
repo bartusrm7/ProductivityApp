@@ -84,6 +84,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // HABITS
     $r->addRoute('GET', '/get-habits', [HabitsController::class, 'getHabits']);
+    $r->addRoute('GET', '/get-started-habits', [HabitsController::class, 'getStartedHabits']);
 
     // POST
 

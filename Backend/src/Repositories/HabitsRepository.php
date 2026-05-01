@@ -33,7 +33,7 @@ class HabitsRepository implements HabitsRepositoryInterface
         );
     }
 
-    public function getHabitsQuery(int $userId)
+    public function getAllHabitsQuery(int $userId)
     {
         $stmt = $this->pdo->prepare('SELECT * FROM habits WHERE user_id = :user_id');
         $stmt->execute([':user_id' => $userId]);
@@ -73,5 +73,12 @@ class HabitsRepository implements HabitsRepositoryInterface
             new DateTime,
             $status
         );
+    }
+
+    public function getHabitsWithStartedStatusQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM habits WHERE id = :id AND status = :status AND user_id = :user_id');
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll();
     }
 }
