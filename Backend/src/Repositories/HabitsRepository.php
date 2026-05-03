@@ -61,24 +61,24 @@ class HabitsRepository implements HabitsRepositoryInterface
         return $stmt->rowCount();
     }
 
-    public function habitStatusStartedQuery(int $id, string $status, int $userId)
+    public function habitStatusStartedQuery(int $id, int $userId)
     {
-        $stmt = $this->pdo->prepare('UPDATE habits SET status = :status WHERE id = :id AND user_id = :user_id');
-        $stmt->execute([':id' => $id, ':status' => $status, ':user_id' => $userId]);
+        $stmt = $this->pdo->prepare("UPDATE habits SET status = 'started' WHERE id = :id AND user_id = :user_id");
+        $stmt->execute([':id' => $id, ':user_id' => $userId]);
 
-        return new HabitsModel(
-            $id,
-            '',
-            '',
-            new DateTime,
-            $status
-        );
+        $stmt = $this->pdo->prepare('INSERT INTO habits_data (habit_id, streak_days, check_current_day, amount_days_done) VALUES (:habit_id, 0, CURDATE(), 0)');
+        $stmt->execute([':habit_id' => $id]);
     }
 
-    public function getHabitsWithStartedStatusQuery(int $userId)
+    public function getHabitsWithStartedStatusQuery(string $status, int $userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM habits WHERE id = :id AND status = :status AND user_id = :user_id');
-        $stmt->execute([':user_id' => $userId]);
+        $stmt = $this->pdo->prepare(
+            'SELECT * FROM habits AS h
+            INNER JOIN habits_data AS hd ON h.id = hd.habit_id
+            WHERE h.user_id = :user_id
+            AND h.status = :status'
+        );
+        $stmt->execute([':status' => $status, ':user_id' => $userId]);
         return $stmt->fetchAll();
     }
 }

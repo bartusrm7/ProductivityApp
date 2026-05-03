@@ -3,6 +3,7 @@ import NavbarMenu from "../navigation/NavbarMenu";
 import { useEffect, useState } from "react";
 import CreateHabit from "./CreateHabit";
 import DisplayHabits from "./DisplayHabits";
+import DisplayStartedHabit from "./DisplayStartedHabit";
 
 export default function Habits() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -31,6 +32,11 @@ export default function Habits() {
 				<div className='habits__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
 						<DisplayHabits />
+					</div>
+				</div>
+				<div className='habits__main-container mx-3 rounded-3'>
+					<div className='p-3 p-md-4'>
+						<DisplayStartedHabit />
 					</div>
 				</div>
 			</div>

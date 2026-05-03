@@ -101,9 +101,8 @@ class HabitsController
 
             $data = json_decode(file_get_contents('php://input'), true);
             $id = $data['id'];
-            $status = $data['status'];
 
-            $result = $this->service->habitStatusStarted($id, $status, $userId);
+            $result = $this->service->habitStatusStarted($id, $userId);
             if (isset($result['success'])) {
                 http_response_code(200);
                 echo json_encode($result);
@@ -118,8 +117,9 @@ class HabitsController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $userId = $this->jwtservice->getUserIdFromJWT();
+            $status = $_GET['status'];
 
-            $result = $this->service->getStartedHabits($userId);
+            $result = $this->service->getStartedHabits($status, $userId);
             if (isset($result['success'])) {
                 http_response_code(200);
                 echo json_encode($result);

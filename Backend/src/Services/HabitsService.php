@@ -103,12 +103,27 @@ class HabitsService implements HabitsServiceInterface
         }
     }
 
-    public function habitStatusStarted(int $id, string $status, int $userId)
+    public function habitStatusStarted(int $id, int $userId)
     {
         $errors = [];
         if ($error = $this->validation->emptyHabitId($id)) {
             $errors[] = $error;
         }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $this->repository->habitStatusStartedQuery($id, $userId);
+            return [
+                'success' => true
+            ];
+        }
+    }
+    public function getStartedHabits(string $status, int $userId)
+    {
+        $errors = [];
         if ($error = $this->validation->emptyStatus($status)) {
             $errors[] = $error;
         }
@@ -118,22 +133,7 @@ class HabitsService implements HabitsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $this->repository->habitStatusStartedQuery($id, $status, $userId);
-            return [
-                'success' => true
-            ];
-        }
-    }
-    public function getStartedHabits(int $userId)
-    {
-        $errors = [];
-        if ($error = $this->validation->emptyUserId($userId)) {
-            $errors[] = $error;
-        }
-        if (!empty($errors)) {
-            return ['errors' => $errors];
-        } else {
-            $result = $this->repository->getHabitsWithStartedStatusQuery($userId);
+            $result = $this->repository->getHabitsWithStartedStatusQuery($status, $userId);
             return [
                 'success' => true,
                 'data'    => $result
