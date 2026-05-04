@@ -58,14 +58,14 @@ export default function DisplayHabits() {
 					<div className='d-md-none justify-content-center col-3'>
 						{isOpenMenuActionButtons === habit.id && (
 							<div>
-								<StartHabit />
+								<StartHabit habitId={habit.id} />
 								<EditHabit habitProp={habit} />
 								<DeleteHabit habitId={habit.id} />
 							</div>
 						)}
 					</div>
 					<div className='d-none d-md-flex justify-content-center col-3'>
-						<StartHabit />
+						<StartHabit habitId={habit.id} />
 						<EditHabit habitProp={habit} />
 						<DeleteHabit habitId={habit.id} />
 					</div>
