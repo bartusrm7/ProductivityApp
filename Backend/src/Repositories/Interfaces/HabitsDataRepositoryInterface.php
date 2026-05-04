@@ -8,5 +8,5 @@ use DateTime;
 
 interface HabitsDataRepositoryInterface
 {
-    public function setHabitThisDayDoneQuery(int $id, DateTime $checkCurrentDay, int $userId);
+    public function setHabitThisDayDoneQuery(int $id, DateTime $checkCurrentDay);
 }

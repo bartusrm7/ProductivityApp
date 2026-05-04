@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Repositories\HabitsDataRepository;
 use App\Services\Interfaces\HabitsDataServiceInterface;
 use App\Validations\HabitsValidation;
+use DateTime;
 
 class HabitsDataService implements HabitsDataServiceInterface
 {
@@ -19,7 +20,7 @@ class HabitsDataService implements HabitsDataServiceInterface
         $this->habitsValidation = $habitsValidation;
     }
 
-    public function setHabitThisDayDone(int $id, string $checkCurrentDay, int $userId)
+    public function setHabitThisDayDone(int $id, string $checkCurrentDay)
     {
         $errors = [];
         if ($error = $this->habitsValidation->emptyHabitId($id)) {
@@ -28,13 +29,11 @@ class HabitsDataService implements HabitsDataServiceInterface
         if ($error = $this->habitsValidation->emptyStatus($checkCurrentDay)) {
             $errors[] = $error;
         }
-        if ($error = $this->habitsValidation->emptyUserId($userId)) {
-            $errors[] = $error;
-        }
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $this->repository->setHabitThisDayDoneQuery($id, $checkCurrentDay, $userId);
+            $newCheckCurrentDay = new DateTime($checkCurrentDay);
+            $this->repository->setHabitThisDayDoneQuery($id, $newCheckCurrentDay);
             return [
                 'success' => true
             ];

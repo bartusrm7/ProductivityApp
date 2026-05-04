@@ -18,16 +18,14 @@ class HabitsDataController
         $this->jwtservice = $jwtservice;
     }
 
-    public function setHabitThisDayDone(int $id, string $checkCurrentDay, int $userId)
+    public function setHabitThisDayDone()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
             $data = json_decode(file_get_contents('php://input'), true);
             $id = $data['id'];
             $checkCurrentDay = $data['checkCurrentDay'];
 
-            $result = $this->service->setHabitThisDayDone($id, $checkCurrentDay, $userId);
+            $result = $this->service->setHabitThisDayDone($id, $checkCurrentDay);
             if (isset($result['success'])) {
                 http_response_code(200);
                 echo json_encode($result);

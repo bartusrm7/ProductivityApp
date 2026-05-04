@@ -19,10 +19,10 @@ class HabitsDataRepository implements HabitsDataRepositoryInterface
         $this->pdo = $db->getConnection();
     }
 
-    public function setHabitThisDayDoneQuery(int $id, DateTime $checkCurrentDay, int $userId)
+    public function setHabitThisDayDoneQuery(int $id, DateTime $checkCurrentDay)
     {
-        $stmt = $this->pdo->prepare('UPDATE habits SET check_current_day = :check_current_day WHERE habit_id = :habit_id AND user_id = :user_id');
-        $stmt->execute([':habit_id' => $id, ':check_current_day' => $checkCurrentDay->format('Y:m:d H:i:s'),, ':user_id' => $userId]);
+        $stmt = $this->pdo->prepare('UPDATE habits_data SET check_current_day = :check_current_day WHERE habit_id = :habit_id');
+        $stmt->execute([':habit_id' => $id, ':check_current_day' => $checkCurrentDay->format('Y:m:d H:i:s')]);
 
         return new HabitsDataModel(
             $id,

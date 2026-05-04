@@ -3,6 +3,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import type { UserHabitDetailsDataJoined } from "../../types/habits";
 import EditHabit from "./EditHabit";
 import DeleteHabit from "./DeleteHabit";
+import SetHabitAsDone from "./SetHabitAsDone";
 
 export default function DisplayStartedHabit() {
 	const [habitsDetails, setHabitsDetails] = useState<UserHabitDetailsDataJoined[]>([]);
@@ -30,7 +31,7 @@ export default function DisplayStartedHabit() {
 		<div>
 			<div className='d-flex align-items-center'>
 				<IoIosArrowUp size={24} />
-				<h4 className='ms-2 mb-0'>Done</h4>
+				<h4 className='ms-2 mb-0'>Started</h4>
 			</div>
 			<div className='d-flex fw-bold border-bottom py-2'>
 				<div className='col-1'>#</div>
@@ -50,6 +51,7 @@ export default function DisplayStartedHabit() {
 					<div className='col-1'>{habit.amount_days_done}</div>
 					<div className='col-2'>{habit.created_at}</div>
 					<div className='col-2 text-center'>
+						<SetHabitAsDone habitId={habit.id} checkCurrentDay={habit.check_current_day} />
 						<EditHabit habitProp={habit} />
 						<DeleteHabit habitId={habit.id} />
 					</div>

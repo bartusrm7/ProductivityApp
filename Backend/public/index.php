@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 use App\Controllers\AuthController;
 use App\Controllers\HabitsController;
+use App\Controllers\HabitsDataController;
 use App\Controllers\TasksController;
 use App\Database\Database;
 use App\Middlewares\AuthMiddleware;
 use App\Repositories\AuthRepository;
+use App\Repositories\HabitsDataRepository;
 use App\Repositories\HabitsRepository;
 use App\Repositories\TasksRepository;
 use App\Services\AuthService;
+use App\Services\HabitsDataService;
 use App\Services\HabitsService;
 use App\Services\JWTService;
 use App\Services\TasksService;
@@ -45,10 +48,12 @@ $db->getConnection();
 $authRepository = new AuthRepository($db);
 $tasksRepository = new TasksRepository($db);
 $habitsRepository = new HabitsRepository($db);
+$habitsDataRepository = new HabitsDataRepository($db);
 
 // VALIDATIORS
 $authValidation = new AuthValidation();
 $tasksValidation = new TasksValidation();
+$habitsValidation = new HabitsValidation();
 $habitsValidation = new HabitsValidation();
 
 // SERVICES
@@ -56,6 +61,7 @@ $jwtService = new JWTService();
 $authService = new AuthService($authRepository, $authValidation);
 $tasksService = new TasksService($tasksRepository, $tasksValidation);
 $habitsService = new HabitsService($habitsRepository, $habitsValidation);
+$habitsDataService = new HabitsDataService($habitsDataRepository, $habitsValidation);
 
 // MIDDLEWARES
 $authMiddleware = new AuthMiddleware($jwtService);
@@ -64,11 +70,13 @@ $authMiddleware = new AuthMiddleware($jwtService);
 $authController = new AuthController($authService, $jwtService);
 $tasksController = new TasksController($tasksService, $jwtService);
 $habitsController = new HabitsController($habitsService, $jwtService);
+$habitsDataController = new HabitsDataController($habitsDataService, $jwtService);
 
 $controllers = [
     AuthController::class => $authController,
     TasksController::class => $tasksController,
     HabitsController::class => $habitsController,
+    HabitsDataController::class => $habitsDataController,
 ];
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
@@ -103,7 +111,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/edit-habit', [HabitsController::class, 'editHabit']);
     $r->addRoute('POST', '/delete-habit', [HabitsController::class, 'deleteHabit']);
     $r->addRoute('POST', '/habit-status-started', [HabitsController::class, 'habitStatusStarted']);
-    $r->addRoute('POST', '/set-habit-done', [HabitsController::class, 'setHabitThisDayDone']);
+
+    // HABITS DATA 
+    $r->addRoute('POST', '/set-habit-done', [HabitsDataController::class, 'setHabitThisDayDone']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];

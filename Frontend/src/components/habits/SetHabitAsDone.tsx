@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 
-export default function SetHabitAsDone({ habitId, checkCurrentDay }: { habitId: number; checkCurrentDay: Date }) {
+export default function SetHabitAsDone({ habitId, checkCurrentDay }: { habitId: number; checkCurrentDay: string }) {
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function handleSetHabitAsDone() {
+		console.log(habitId, checkCurrentDay);
 		try {
 			const jwt = localStorage.getItem("jwt");
 			const response = await fetch("http://productivityapp.local/set-habit-done", {
