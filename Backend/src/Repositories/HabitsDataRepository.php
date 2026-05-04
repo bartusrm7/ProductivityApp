@@ -31,4 +31,8 @@ class HabitsDataRepository implements HabitsDataRepositoryInterface
             0
         );
     }
+
+    public function countCurrentStreakDaysQuery(int $id, int $streakDays) {}
+
+    public function countAmountDaysDoneQuery(int $id, int $amountDaysDone) {}
 }

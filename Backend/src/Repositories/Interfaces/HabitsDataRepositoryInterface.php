@@ -9,4 +9,6 @@ use DateTime;
 interface HabitsDataRepositoryInterface
 {
     public function setHabitThisDayDoneQuery(int $id, DateTime $checkCurrentDay);
+    public function countCurrentStreakDaysQuery(int $id, int $streakDays);
+    public function countAmountDaysDoneQuery(int $id, int $amountDaysDone);
 }

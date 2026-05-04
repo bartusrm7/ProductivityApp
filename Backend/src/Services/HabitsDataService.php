@@ -33,7 +33,7 @@ class HabitsDataService implements HabitsDataServiceInterface
             return ['errors' => $errors];
         } else {
             $newCheckCurrentDay = new DateTime($checkCurrentDay);
-            $this->repository->setHabitThisDayDoneQuery($id, $newCheckCurrentDay);
+            $result = $this->repository->setHabitThisDayDoneQuery($id, $newCheckCurrentDay);
             return [
                 'success' => true
             ];
