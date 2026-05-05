@@ -9,7 +9,7 @@ class HabitsValidation
     public function emptyHabitId(int $id)
     {
         if (empty($id)) {
-            return 'Habit ID is not exists';
+            return 'Habit ID does not exist';
         }
     }
     public function emptyHabitName(string $name)
@@ -27,19 +27,19 @@ class HabitsValidation
     public function emptyCreatedAt(string $createdAt)
     {
         if (empty($createdAt)) {
-            return 'Created at time is not exists';
+            return 'Created at time does not exist';
         }
     }
     public function emptyStatus(string $status)
     {
         if (empty($status)) {
-            return 'Status is not exists';
+            return 'Status does not exist';
         }
     }
     public function emptyUserId(int $userId)
     {
         if (empty($userId)) {
-            return 'UserID is not exists';
+            return 'UserID does not exist';
         }
     }
 }

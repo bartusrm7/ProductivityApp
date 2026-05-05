@@ -32,7 +32,29 @@ class HabitsDataRepository implements HabitsDataRepositoryInterface
         );
     }
 
-    public function countCurrentStreakDaysQuery(int $id, int $streakDays) {}
+    public function countCurrentStreakDaysQuery(int $id, int $streakDays)
+    {
+        $stmt = $this->pdo->prepare('UPDATE habits_data SET streak_days = :streak_days WHERE habit_id = :habit_id');
+        $stmt->execute([':habit_id' => $id, ':streak_days' => $streakDays]);
 
-    public function countAmountDaysDoneQuery(int $id, int $amountDaysDone) {}
+        return new HabitsDataModel(
+            $id,
+            $streakDays,
+            new DateTime,
+            0
+        );
+    }
+
+    public function countAmountDaysDoneQuery(int $id, int $amountDaysDone)
+    {
+        $stmt = $this->pdo->prepare('UPDATE habits_data SET amount_days_done = :amount_days_done WHERE habit_id = :habit_id');
+        $stmt->execute([':habit_id' => $id, ':amount_days_done' => $amountDaysDone]);
+
+        return new HabitsDataModel(
+            $id,
+            0,
+            new DateTime,
+            $amountDaysDone
+        );
+    }
 }
