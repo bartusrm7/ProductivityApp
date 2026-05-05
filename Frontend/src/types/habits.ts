@@ -20,4 +20,5 @@ export interface UserHabitDetailsDataJoined {
 	streak_days: number;
 	check_current_day: string;
 	amount_days_done: number;
+	habit_id: number;
 }
