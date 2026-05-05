@@ -37,7 +37,8 @@ class HabitsDataService implements HabitsDataServiceInterface
             if (!$isTodayDateExists) {
                 $this->repository->setHabitThisDayDoneQuery($id, $newCheckCurrentDay);
                 return [
-                    'success' => true
+                    'success' => true,
+                    'data' => $newCheckCurrentDay
                 ];
             } else {
                 return [
