@@ -110,6 +110,6 @@ class AuthTest extends TestCase
 
         $this->service = new AuthService($repo, $this->validation);
         $result = $this->service->userLogin('email@example.com', 'pass123');
-        $this->assertEquals(['success' => true, 'id' => 1], $result);
+        $this->assertEquals(['success' => true, 'id' => 1, 'name' => 'user123'], $result);
     }
 }

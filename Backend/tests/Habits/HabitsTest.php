@@ -70,13 +70,32 @@ class HabitsTest extends TestCase
         $this->validation->method('emptyUserId')->willReturn(null);
 
         $createdAt = new DateTime();
-        $habitsModel = new HabitsModel(1, 'reading book everyday', '', $createdAt);
+        $habitsModel = new HabitsModel(1, 'reading book everyday', '', $createdAt, '');
         $repo->expects($this->once())
             ->method('newHabitQuery')
             ->willReturn($habitsModel);
 
         $this->service = new HabitsService($repo, $this->validation);
         $result = $this->service->newHabit('reading book everyday', '2022-10-09 18:39:16', 1);
+        $this->assertEquals(['success' => true], $result);
+    }
+
+    public function testEditHabit()
+    {
+        $repo = $this->createMock(HabitsRepository::class);
+
+        $this->validation->method('emptyHabitId')->willReturn(null);
+        $this->validation->method('emptyHabitName')->willReturn(null);
+        $this->validation->method('emptyHabitDescription')->willReturn(null);
+        $this->validation->method('emptyUserId')->willReturn(null);
+
+        $habitsModel = new HabitsModel(1, 'reading book everyday', '', new DateTime, '');
+        $repo->expects($this->once())
+            ->method('editHabitQuery')
+            ->willReturn($habitsModel);
+
+        $this->service = new HabitsService($repo, $this->validation);
+        $result = $this->service->editHabit(1, 'reading book everyday', '', 1);
         $this->assertEquals(['success' => true], $result);
     }
 }

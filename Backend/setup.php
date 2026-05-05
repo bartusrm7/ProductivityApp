@@ -12,3 +12,5 @@ $db = new Database;
 $db->createUserTable();
 $db->createTasksTable();
 $db->createTasksDataTable();
+$db->createHabitsTable();
+$db->createHabitsDataTable();
