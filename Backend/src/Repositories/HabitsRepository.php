@@ -35,7 +35,7 @@ class HabitsRepository implements HabitsRepositoryInterface
 
     public function getAllHabitsQuery(int $userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM habits WHERE user_id = :user_id');
+        $stmt = $this->pdo->prepare("SELECT * FROM habits WHERE status != 'started' AND user_id = :user_id");
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
