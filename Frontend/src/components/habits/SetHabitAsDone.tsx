@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 
-export default function SetHabitAsDone({ habitId }: { habitId: number }) {
+export default function SetHabitAsDone({ habitId, amountDaysDone }: { habitId: number; amountDaysDone: number }) {
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function handleSetHabitAsDone() {
@@ -30,9 +30,34 @@ export default function SetHabitAsDone({ habitId }: { habitId: number }) {
 		}
 	}
 
+	async function handleCountAmountDaysDone() {
+		try {
+			const jwt = localStorage.getItem("jwt");
+			const response = await fetch("http://productivityapp.local/count-amount-days-done", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${jwt}`,
+				},
+				body: JSON.stringify({ id: habitId, amountDaysDone: amountDaysDone }),
+			});
+			const data = await response.json();
+			if (data.errors) {
+				setErrorsArray(data.errors);
+			}
+		} catch (error) {
+			setErrorsArray(["Server error. Try again."]);
+		}
+	}
+
+	async function handleServeAllMethods() {
+		handleSetHabitAsDone();
+		handleCountAmountDaysDone();
+	}
+
 	return (
 		<>
-			<Button onClick={handleSetHabitAsDone}>X</Button>
+			<Button onClick={handleServeAllMethods}>X</Button>
 
 			{errorsArray.length > 0 && (
 				<div>

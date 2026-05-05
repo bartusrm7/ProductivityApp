@@ -18,6 +18,7 @@ use App\Services\HabitsService;
 use App\Services\JWTService;
 use App\Services\TasksService;
 use App\Validations\AuthValidation;
+use App\Validations\HabitsDataValidation;
 use App\Validations\HabitsValidation;
 use App\Validations\TasksValidation;
 use Dotenv\Dotenv;
@@ -54,14 +55,14 @@ $habitsDataRepository = new HabitsDataRepository($db);
 $authValidation = new AuthValidation();
 $tasksValidation = new TasksValidation();
 $habitsValidation = new HabitsValidation();
-$habitsValidation = new HabitsValidation();
+$habitsDataValidation = new HabitsDataValidation();
 
 // SERVICES
 $jwtService = new JWTService();
 $authService = new AuthService($authRepository, $authValidation);
 $tasksService = new TasksService($tasksRepository, $tasksValidation);
 $habitsService = new HabitsService($habitsRepository, $habitsValidation);
-$habitsDataService = new HabitsDataService($habitsDataRepository, $habitsValidation);
+$habitsDataService = new HabitsDataService($habitsDataRepository, $habitsDataValidation);
 
 // MIDDLEWARES
 $authMiddleware = new AuthMiddleware($jwtService);
@@ -114,6 +115,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // HABITS DATA 
     $r->addRoute('POST', '/set-habit-done', [HabitsDataController::class, 'setHabitThisDayDone']);
+    $r->addRoute('POST', '/count-amount-days-done', [HabitsDataController::class, 'countAmountDaysDone']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];

@@ -6,27 +6,27 @@ namespace App\Services;
 
 use App\Repositories\HabitsDataRepository;
 use App\Services\Interfaces\HabitsDataServiceInterface;
-use App\Validations\HabitsValidation;
+use App\Validations\HabitsDataValidation;
 use DateTime;
 
 class HabitsDataService implements HabitsDataServiceInterface
 {
     private HabitsDataRepository $repository;
-    private HabitsValidation $habitsValidation;
+    private HabitsDataValidation $validation;
 
-    public function __construct(HabitsDataRepository $repository, HabitsValidation $habitsValidation)
+    public function __construct(HabitsDataRepository $repository, HabitsDataValidation $validation)
     {
         $this->repository = $repository;
-        $this->habitsValidation = $habitsValidation;
+        $this->validation = $validation;
     }
 
     public function setHabitThisDayDone(int $id, string $checkCurrentDay)
     {
         $errors = [];
-        if ($error = $this->habitsValidation->emptyHabitId($id)) {
+        if ($error = $this->validation->emptyHabitDataId($id)) {
             $errors[] = $error;
         }
-        if ($error = $this->habitsValidation->emptyStatus($checkCurrentDay)) {
+        if ($error = $this->validation->emptyCheckCurrentDay($checkCurrentDay)) {
             $errors[] = $error;
         }
         if (!empty($errors)) {
@@ -37,8 +37,7 @@ class HabitsDataService implements HabitsDataServiceInterface
             if (!$isTodayDateExists) {
                 $this->repository->setHabitThisDayDoneQuery($id, $newCheckCurrentDay);
                 return [
-                    'success' => true,
-                    'data' => $newCheckCurrentDay
+                    'success' => true
                 ];
             } else {
                 return [
@@ -46,6 +45,43 @@ class HabitsDataService implements HabitsDataServiceInterface
                     'message' => 'Habit already checked today'
                 ];
             }
+        }
+    }
+
+    public function countCurrentStreakDays(int $id, int $streakDays)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyHabitDataId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyStreakDays($streakDays)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            return [
+                'success' => true
+            ];
+        }
+    }
+
+    public function countAmountDaysDone(int $id, int $amountDaysDone)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyHabitDataId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyAmountDaysDone($amountDaysDone)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $this->repository->countAmountDaysDoneQuery($id, $amountDaysDone + 1);
+            return [
+                'success' => true
+            ];
         }
     }
 }
