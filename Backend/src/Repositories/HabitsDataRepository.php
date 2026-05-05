@@ -19,6 +19,13 @@ class HabitsDataRepository implements HabitsDataRepositoryInterface
         $this->pdo = $db->getConnection();
     }
 
+    public function isHabitCurrentDateExistsTodayQuery(int $id, DateTime $checkCurrentDay)
+    {
+        $stmt = $this->pdo->prepare('SELECT check_current_day FROM habits_data WHERE habit_id = :habit_id AND check_current_day = :check_current_day');
+        $stmt->execute([':habit_id' => $id, ':check_current_day' => $checkCurrentDay->format('Y:m:d H:i:s')]);
+        return $stmt->fetch();
+    }
+
     public function setHabitThisDayDoneQuery(int $id, DateTime $checkCurrentDay)
     {
         $stmt = $this->pdo->prepare('UPDATE habits_data SET check_current_day = :check_current_day WHERE habit_id = :habit_id');
