@@ -115,6 +115,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // HABITS DATA 
     $r->addRoute('POST', '/set-habit-done', [HabitsDataController::class, 'setHabitThisDayDone']);
+    $r->addRoute('POST', '/count-current-streak-days', [HabitsDataController::class, 'countCurrentStreakDays']);
     $r->addRoute('POST', '/count-amount-days-done', [HabitsDataController::class, 'countAmountDaysDone']);
 });
 

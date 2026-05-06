@@ -48,7 +48,7 @@ class HabitsDataService implements HabitsDataServiceInterface
         }
     }
 
-    public function countCurrentStreakDays(int $id, int $streakDays)
+    public function countCurrentStreakDays(int $id, string $checkCurrentDay, int $streakDays)
     {
         $errors = [];
         if ($error = $this->validation->emptyHabitDataId($id)) {
@@ -60,6 +60,16 @@ class HabitsDataService implements HabitsDataServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
+            $yesterday = new DateTime('yesterday');
+            $lastCheckDay = new DateTime($checkCurrentDay);
+
+            if ($yesterday->format('Y-m-d') === $lastCheckDay->format('Y-m-d')) {
+                $newStreakDays = $streakDays + 1;
+            } else {
+                $newStreakDays = 1;
+            }
+
+            $this->repository->countCurrentStreakDaysQuery($id, $newStreakDays);
             return [
                 'success' => true
             ];
