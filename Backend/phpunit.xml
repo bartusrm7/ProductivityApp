@@ -10,5 +10,8 @@
         <testsuite name="habitsTests">
             <directory>tests/Habits</directory>
         </testsuite>
+        <testsuite name="habitsDataTests">
+            <directory>tests/HabitsData</directory>
+        </testsuite>
     </testsuites>
 </phpunit>
