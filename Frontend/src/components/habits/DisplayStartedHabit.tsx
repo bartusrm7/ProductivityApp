@@ -51,9 +51,9 @@ export default function DisplayStartedHabit() {
 					<div className='col-1'>{habit.amount_days_done}</div>
 					<div className='col-2'>{habit.created_at}</div>
 					<div className='col-2 text-center'>
-						<SetHabitAsDone habitId={habit.habit_id} amountDaysDone={habit.amount_days_done} />
+						<SetHabitAsDone habitId={habit.id} streakDays={habit.streak_days} amountDaysDone={habit.amount_days_done} />
 						<EditHabit habitProp={habit} />
-						<DeleteHabit habitId={habit.habit_id} />
+						<DeleteHabit habitId={habit.id} />
 					</div>
 				</div>
 			))}

@@ -33,15 +33,6 @@ class HabitsDataTest extends TestCase
         $this->assertEquals(['errors' => ['Habit data ID does not exist']], $result);
     }
 
-    public function testEmptyStreakDays()
-    {
-        $this->validation->method('emptyStreakDays')->willReturn('Streak days value is empty');
-        $this->repository->method('countCurrentStreakDaysQuery')->willReturn(null);
-
-        $result = $this->service->countCurrentStreakDays(1, 0);
-        $this->assertEquals(['errors' => ['Streak days value is empty']], $result);
-    }
-
     public function testEmptyCheckCurrentDay()
     {
         $this->validation->method('emptyCheckCurrentDay')->willReturn('Check current day is empty');
@@ -49,15 +40,6 @@ class HabitsDataTest extends TestCase
 
         $result = $this->service->setHabitThisDayDone(1, '');
         $this->assertEquals(['errors' => ['Check current day is empty']], $result);
-    }
-
-    public function testEmptyAmountDaysDone()
-    {
-        $this->validation->method('emptyAmountDaysDone')->willReturn('Amount days done is empty');
-        $this->repository->method('countAmountDaysDoneQuery')->willReturn(null);
-
-        $result = $this->service->countAmountDaysDone(1, 0);
-        $this->assertEquals(['errors' => ['Amount days done is empty']], $result);
     }
 
     public function testSetHabitThisDayDone()
@@ -100,7 +82,6 @@ class HabitsDataTest extends TestCase
         $repo = $this->createMock(HabitsDataRepository::class);
 
         $this->validation->method('emptyHabitDataId')->willReturn(null);
-        $this->validation->method('emptyAmountDaysDone')->willReturn(null);
 
         $repo->expects($this->once())
             ->method('countAmountDaysDoneQuery')
