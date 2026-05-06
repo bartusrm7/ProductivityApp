@@ -44,7 +44,7 @@ export default function DisplayStartedHabit() {
 			</div>
 			{habitsDetails.map((habit, index) => (
 				<div className='d-flex border-bottom py-2' key={index}>
-					<div className='col-1'>{habit.id}</div>
+					<div className='col-1 fw-bold'>{index + 1}.</div>
 					<div className='col-3'>{habit.name}</div>
 					<div className='col-2'>{habit.description}</div>
 					<div className='col-1'>{habit.streak_days}</div>

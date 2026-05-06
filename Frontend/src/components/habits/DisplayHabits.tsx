@@ -48,7 +48,7 @@ export default function DisplayHabits() {
 			</div>
 			{habitsData.map((habit, index) => (
 				<div className='d-flex flex-wrap align-items-center border-bottom py-2' key={index}>
-					<div className='col-1 d-none d-md-block'>{habit.id}</div>
+					<div className='col-1 d-none d-md-block fw-bold'>{index + 1}.</div>
 					<div className='display-habit__name-row col-11 col-md-3'>{habit.name}</div>
 					<div className='col-1 d-md-none text-end'>
 						<CiMenuKebab size={24} onClick={() => handleOpenMenuWithActionButtons(habit.id)} />
