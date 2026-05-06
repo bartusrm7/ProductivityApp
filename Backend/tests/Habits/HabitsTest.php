@@ -98,4 +98,34 @@ class HabitsTest extends TestCase
         $result = $this->service->editHabit(1, 'reading book everyday', '', 1);
         $this->assertEquals(['success' => true], $result);
     }
+
+    public function testDeleteHabit()
+    {
+        $repo = $this->createMock(HabitsRepository::class);
+
+        $this->validation->method('emptyHabitId')->willReturn(null);
+
+        $repo->expects($this->once())
+            ->method('deleteHabitQuery')
+            ->with(1, 1);
+
+        $this->service = new HabitsService($repo, $this->validation);
+        $result = $this->service->deleteHabit(1,  1);
+        $this->assertEquals(['success' => true], $result);
+    }
+
+    public function testHabitStatusStarted()
+    {
+        $repo = $this->createMock(HabitsRepository::class);
+
+        $this->validation->method('emptyHabitId')->willReturn(null);
+
+        $repo->expects($this->once())
+            ->method('habitStatusStartedQuery')
+            ->with(1, 1);
+
+        $this->service = new HabitsService($repo, $this->validation);
+        $result = $this->service->habitStatusStarted(1, 1);
+        $this->assertEquals(['success' => true], $result);
+    }
 }
