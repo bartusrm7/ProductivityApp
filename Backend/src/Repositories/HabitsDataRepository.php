@@ -65,7 +65,7 @@ class HabitsDataRepository implements HabitsDataRepositoryInterface
         );
     }
 
-    public function getCurrectStreakDays(int $id)
+    public function getCurrectStreakDaysQuery(int $id)
     {
         $stmt = $this->pdo->prepare('SELECT streak_days FROM habits_data WHERE id = :id');
         $stmt->execute([':id' => $id]);

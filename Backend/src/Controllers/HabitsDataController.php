@@ -41,9 +41,8 @@ class HabitsDataController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = json_decode(file_get_contents('php://input'), true);
             $id = $data['id'];
-            $streakDays = $data['streakDays'];
 
-            $result = $this->service->countCurrentStreakDays($id, $streakDays);
+            $result = $this->service->countCurrentStreakDays($id);
             if (isset($result['success'])) {
                 http_response_code(200);
                 echo json_encode($result);

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 
-export default function SetHabitAsDone({ habitId, streakDays, amountDaysDone }: { habitId: number; streakDays: number; amountDaysDone: number }) {
+export default function SetHabitAsDone({ habitId, amountDaysDone }: { habitId: number; amountDaysDone: number }) {
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function handleSetHabitAsDone() {
@@ -39,7 +39,7 @@ export default function SetHabitAsDone({ habitId, streakDays, amountDaysDone }: 
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${jwt}`,
 				},
-				body: JSON.stringify({ id: habitId, streakDays: streakDays }),
+				body: JSON.stringify({ id: habitId }),
 			});
 			const data = await response.json();
 			if (data.errors) {
