@@ -88,4 +88,19 @@ class TasksRepository implements TasksRepositoryInterface
         $stmt->execute([':id' => $id, ':user_id' => $userId]);
         return $stmt->rowCount();
     }
+
+    public function sortDataByStatusAndTitleQuery(array $params)
+    {
+        $sql = 'SELECT * FROM tasks WHERE user_id = :user_id';
+        $bindings = [':user_id' => $params['user_id']];
+
+        if (!empty($params['sort'])) {
+            $direction = strtoupper($params['direction'] ?? 'ASC');
+            $sql .= " ORDER BY {$params['sort']} $direction";
+        }
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($bindings);
+        return $stmt->fetchAll();
+    }
 }
