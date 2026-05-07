@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import type { UserTaskData } from "../../types/tasks";
 import TaskDelete from "./TaskDelete";
 import TaskEdit from "./TaskEdit";
@@ -7,32 +7,58 @@ import TaskDoneAsInProgress from "./TaskDoneAsInProgress";
 
 export default function TasksToDo() {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
+	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
+	const [sortDataKey, setSortDataKey] = useState<string>();
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function getToDoTasks() {
-		try {
-			const jwt = localStorage.getItem("jwt");
-			const response = await fetch(`http://productivityapp.local/todo-tasks?status=todo`, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${jwt}`,
-				},
-			});
-			const data = await response.json();
-			if (data.errors) {
-				setErrorsArray(data.errors);
-			} else {
-				setTaskData(data.data);
-			}
-		} catch (error) {
-			setErrorsArray(["Server error. Try again."]);
+		const jwt = localStorage.getItem("jwt");
+		const response = await fetch("http://productivityapp.local/todo-tasks?status=todo", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		const data = await response.json();
+		if (data.errors) {
+			setErrorsArray(data.errors);
+		} else {
+			setTaskData(data.data);
 		}
 	}
+
+	async function sortTasksFunction() {
+		const jwt = localStorage.getItem("jwt");
+		const response = await fetch(`http://productivityapp.local/sort-tasks?status=todo&direction=${directionSort}&sort=${sortDataKey}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		const data = await response.json();
+		if (data.errors) {
+			setErrorsArray(data.errors);
+		} else {
+			setTaskData(data.data);
+		}
+	}
+
+	const handleSortFunction = (e: any) => {
+		setDirectionSort(prevState => (prevState === "asc" ? "desc" : "asc"));
+		setSortDataKey(e.target.value);
+	};
 
 	useEffect(() => {
 		getToDoTasks();
 	}, []);
+
+	useEffect(() => {
+		if (sortDataKey) {
+			sortTasksFunction();
+		}
+	}, [directionSort, sortDataKey]);
 
 	return (
 		<div className='tasks-todo'>
@@ -57,10 +83,30 @@ export default function TasksToDo() {
 						) : (
 							<div className='col-12'>
 								<div className='d-flex fw-bold border-bottom py-2'>
-									<div className='col-1'>#</div>
-									<div className='col-4'>Task</div>
-									<div className='col-3'>Date</div>
-									<div className='col-2 text-center'>Priority</div>
+									<div className='d-flex align-items-center col-1'>
+										<div>#</div>
+										<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='id'>
+											{directionSort === "asc" && sortDataKey === "id" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+										</button>
+									</div>
+									<div className='d-flex align-items-center col-4'>
+										<div>Task</div>
+										<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='name'>
+											{directionSort === "asc" && sortDataKey === "name" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+										</button>
+									</div>
+									<div className='d-flex align-items-center col-3'>
+										<div>Date</div>
+										<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='created_at'>
+											{directionSort === "asc" && sortDataKey === "created_at" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+										</button>
+									</div>
+									<div className='d-flex align-items-center justify-content-center col-2'>
+										<div>Priority</div>
+										<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='priority'>
+											{directionSort === "asc" && sortDataKey === "priority" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+										</button>
+									</div>
 									<div className='col-2 text-center'>Actions</div>
 								</div>
 								<div>
@@ -69,8 +115,8 @@ export default function TasksToDo() {
 											<div className='col-1 fw-bold'>{task.id}.</div>
 											<div className='col-4'>{task.name}</div>
 											<div className='col-3'>{new Date(task.created_at).toLocaleString()}</div>
-											<div className={task.priority === "low" ? "tasks-todo__priority bg-success text-center rounded-3 py-2 col-2" : task.priority === "medium" ? "tasks-todo__priority bg-warning text-center rounded-3 py-2 col-2" : task.priority === "high" ? "tasks-todo__priority bg-danger text-center rounded-3 py-2 col-2" : ""}>{task.priority}</div>
-											<div className='text-center col-2'>
+											<div className={task.priority === "low" ? "tasks-todo__priority bg-success d-flex justify-content-center rounded-3 py-2 col-2" : task.priority === "medium" ? "tasks-todo__priority bg-warning d-flex justify-content-center rounded-3 py-2 col-2" : task.priority === "high" ? "tasks-todo__priority bg-danger d-flex justify-content-center rounded-3 py-2 col-2" : ""}>{task.priority}</div>
+											<div className='d-flex justify-content-center col-2'>
 												<TaskDoneAsInProgress taskProp={task} />
 												<TaskEdit taskProp={task} />
 												<TaskDelete taskId={task.id} />

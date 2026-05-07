@@ -91,8 +91,8 @@ class TasksRepository implements TasksRepositoryInterface
 
     public function sortDataByStatusAndTitleQuery(array $params)
     {
-        $sql = 'SELECT * FROM tasks WHERE user_id = :user_id';
-        $bindings = [':user_id' => $params['user_id']];
+        $sql = 'SELECT * FROM tasks WHERE status = :status AND user_id = :user_id';
+        $bindings = [':status' => $params['status'], ':user_id' => $params['user_id']];
 
         if (!empty($params['sort'])) {
             $direction = strtoupper($params['direction'] ?? 'ASC');
