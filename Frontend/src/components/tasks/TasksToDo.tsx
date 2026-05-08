@@ -12,6 +12,7 @@ export default function TasksToDo() {
 	const [sortDataKey, setSortDataKey] = useState<string>();
 	const [isOpenMenuActionButtons, setIsOpenMenuActionButtons] = useState<number | null>(null);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
+	const [refresh, setRefresh] = useState<number>(0);
 
 	async function getToDoTasks() {
 		const jwt = localStorage.getItem("jwt");
@@ -58,7 +59,7 @@ export default function TasksToDo() {
 
 	useEffect(() => {
 		getToDoTasks();
-	}, []);
+	}, [refresh]);
 
 	useEffect(() => {
 		if (sortDataKey) {
@@ -127,15 +128,15 @@ export default function TasksToDo() {
 											</div>
 											{isOpenMenuActionButtons === task.id && (
 												<div className='d-flex d-md-none justify-content-center col-6 col-md-2'>
-													<TaskDoneAsInProgress taskProp={task} />
-													<TaskEdit taskProp={task} />
-													<TaskDelete taskId={task.id} />
+													<TaskDoneAsInProgress refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
+													<TaskEdit refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
+													<TaskDelete refreshData={() => setRefresh(prevState => prevState + 1)} taskId={task.id} />
 												</div>
 											)}
 											<div className='d-none d-md-flex justify-content-end col-6 col-md-2'>
-												<TaskDoneAsInProgress taskProp={task} />
-												<TaskEdit taskProp={task} />
-												<TaskDelete taskId={task.id} />
+												<TaskDoneAsInProgress refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
+												<TaskEdit refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
+												<TaskDelete refreshData={() => setRefresh(prevState => prevState + 1)} taskId={task.id} />
 											</div>
 										</div>
 									))}

@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 
-export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: string; onToggleMenu: void }) {
+export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: string; onToggleMenu: () => void }) {
 	const [userName, setUserName] = useState<string | null>("");
 
 	async function getUserName() {

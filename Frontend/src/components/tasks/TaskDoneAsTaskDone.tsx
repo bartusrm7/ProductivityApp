@@ -3,7 +3,7 @@ import { MdDownloadDone } from "react-icons/md";
 import type { UserTaskData } from "../../types/tasks";
 import { useEffect, useState } from "react";
 
-export default function TaskDoneAsTaskDone({ taskProp }: { taskProp: UserTaskData }) {
+export default function TaskDoneAsTaskDone({ taskProp, refreshData }: { taskProp: UserTaskData; refreshData: () => void }) {
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: 0,
 		name: "",
@@ -28,6 +28,7 @@ export default function TaskDoneAsTaskDone({ taskProp }: { taskProp: UserTaskDat
 				},
 				body: JSON.stringify(taskData),
 			});
+			refreshData();
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}

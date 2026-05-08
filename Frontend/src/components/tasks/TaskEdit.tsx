@@ -4,7 +4,7 @@ import { CiEdit } from "react-icons/ci";
 import { Form } from "react-bootstrap";
 import type { UserTaskData } from "../../types/tasks";
 
-export default function TaskEdit({ taskProp }: { taskProp: UserTaskData }) {
+export default function TaskEdit({ taskProp, refreshData }: { taskProp: UserTaskData; refreshData: () => void }) {
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: 0,
 		name: "",
@@ -42,6 +42,7 @@ export default function TaskEdit({ taskProp }: { taskProp: UserTaskData }) {
 				setErrorsArray(data.errors);
 			} else {
 				setShowModal(false);
+				refreshData();
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);

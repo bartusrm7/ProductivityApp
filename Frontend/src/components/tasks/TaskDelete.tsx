@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-export default function TaskDelete({ taskId }: { taskId: number }) {
+export default function TaskDelete({ taskId, refreshData }: { taskId: number; refreshData: () => void }) {
 	async function handleDeleteTask() {
 		try {
 			const jwt = localStorage.getItem("jwt");
@@ -13,6 +13,7 @@ export default function TaskDelete({ taskId }: { taskId: number }) {
 				},
 				body: JSON.stringify({ id: taskId }),
 			});
+			refreshData();
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}
