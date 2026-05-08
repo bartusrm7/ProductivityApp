@@ -2,6 +2,21 @@
 @use "../../mixins" as *;
 
 .tasks-todo {
+	&__display-tasks-btn {
+		transition: 0.3s;
+	}
+	.open {
+		transform: rotate(180deg);
+	}
+	&__main-container {
+		transition: 0.3s ease;
+	}
+	&__main-container .open {
+		transform: translateY(100%);
+		&:hover {
+			transform: translateY(-100%);
+		}
+	}
 	&__th-table {
 		font-size: 1.2rem;
 		opacity: 0.75;
@@ -9,7 +24,8 @@
 	&__priority {
 		max-width: 200px !important;
 	}
-	&__sort-btn {
+	&__sort-btn,
+	.display-btn {
 		background: none;
 		border: none;
 		padding: 0;
@@ -17,7 +33,8 @@
 		z-index: 10;
 		cursor: pointer;
 	}
-	.sort-icon {
+	.sort-icon,
+	.display-icon {
 		font-size: 16px;
 		color: #a5a5a5;
 		transition: 0.3s ease;
@@ -26,5 +43,9 @@
 	&__sort-btn:hover .sort-icon {
 		color: black;
 		transform: translateY(-1px);
+	}
+	.display-btn:hover .display-icon {
+		color: black;
+		transform: translateY(1px);
 	}
 }
