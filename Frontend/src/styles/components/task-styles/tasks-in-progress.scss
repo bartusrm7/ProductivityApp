@@ -1,0 +1,30 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.tasks-in-progress {
+	&__th-table {
+		font-size: 1.2rem;
+		opacity: 0.75;
+	}
+	&__priority {
+		max-width: 200px !important;
+	}
+	&__sort-btn {
+		background: none;
+		border: none;
+		padding: 0;
+		margin: 0;
+		z-index: 10;
+		cursor: pointer;
+	}
+	.sort-icon {
+		font-size: 16px;
+		color: #a5a5a5;
+		transition: 0.3s ease;
+		pointer-events: none;
+	}
+	&__sort-btn:hover .sort-icon {
+		color: black;
+		transform: translateY(-1px);
+	}
+}

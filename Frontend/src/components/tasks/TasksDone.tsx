@@ -3,11 +3,13 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import type { UserTaskData } from "../../types/tasks";
 import TaskDelete from "./TaskDelete";
 import TaskEdit from "./TaskEdit";
+import { CiMenuKebab } from "react-icons/ci";
 
 export default function TasksDone() {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
+	const [isOpenMenuActionButtons, setIsOpenMenuActionButtons] = useState<number | null>(null);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function getDoneTasks() {
@@ -49,6 +51,10 @@ export default function TasksDone() {
 		setSortDataKey(e.target.value);
 	};
 
+	const handleOpenMenuWithActionButtons = (taskId: number) => {
+		setIsOpenMenuActionButtons(prevState => (prevState === taskId ? null : taskId));
+	};
+
 	useEffect(() => {
 		getDoneTasks();
 	}, []);
@@ -60,7 +66,7 @@ export default function TasksDone() {
 	}, [directionSort, sortDataKey]);
 
 	return (
-		<div className='tasks-todo'>
+		<div className='tasks-done'>
 			<div className='my-3'>
 				<div>
 					<div>
@@ -81,28 +87,28 @@ export default function TasksDone() {
 							</div>
 						) : (
 							<div className='col-12'>
-								<div className='d-flex fw-bold border-bottom py-2'>
+								<div className='d-none d-md-flex fw-bold border-bottom py-2'>
 									<div className='d-flex align-items-center col-1'>
 										<div>#</div>
-										<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='id'>
+										<button className='tasks-done__sort-btn ms-2' onClick={handleSortFunction} value='id'>
 											{directionSort === "asc" && sortDataKey === "id" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 										</button>
 									</div>
 									<div className='d-flex align-items-center col-4'>
 										<div>Task</div>
-										<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='name'>
+										<button className='tasks-done__sort-btn ms-2' onClick={handleSortFunction} value='name'>
 											{directionSort === "asc" && sortDataKey === "name" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 										</button>
 									</div>
 									<div className='d-flex align-items-center col-3'>
 										<div>Date</div>
-										<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='created_at'>
+										<button className='tasks-done__sort-btn ms-2' onClick={handleSortFunction} value='created_at'>
 											{directionSort === "asc" && sortDataKey === "created_at" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 										</button>
 									</div>
 									<div className='d-flex align-items-center justify-content-center col-2'>
 										<div>Priority</div>
-										<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='priority'>
+										<button className='tasks-done__sort-btn ms-2' onClick={handleSortFunction} value='priority'>
 											{directionSort === "asc" && sortDataKey === "priority" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 										</button>
 									</div>
@@ -110,12 +116,21 @@ export default function TasksDone() {
 								</div>
 								<div>
 									{taskData.map((task, index) => (
-										<div className='d-flex align-items-center border-bottom py-2' key={index}>
-											<div className='col-1 fw-bold'>{task.id}.</div>
-											<div className='col-4'>{task.name}</div>
-											<div className='col-3'>{new Date(task.created_at).toLocaleString()}</div>
-											<div className={task.priority === "low" ? "tasks-todo__priority bg-success text-center rounded-3 py-2 col-2" : task.priority === "medium" ? "tasks-todo__priority bg-warning text-center rounded-3 py-2 col-2" : task.priority === "high" ? "tasks-todo__priority bg-danger text-center rounded-3 py-2 col-2" : ""}>{task.priority}</div>
-											<div className='text-center col-2'>
+										<div className='d-flex flex-wrap align-items-center border-bottom py-2' key={index}>
+											<div className='col-1 fw-bold'>{index + 1}.</div>
+											<div className='col-6 col-md-4'>{task.name}</div>
+											<div className='col-5 col-md-3'>{new Date(task.created_at).toLocaleString()}</div>
+											<div className={task.priority === "low" ? "tasks-todo__priority bg-success d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : task.priority === "medium" ? "tasks-todo__priority bg-warning d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : task.priority === "high" ? "tasks-todo__priority bg-danger d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : ""}>{task.priority}</div>
+											<div className='col-6 d-md-none text-end'>
+												<CiMenuKebab size={24} onClick={() => handleOpenMenuWithActionButtons(task.id)} />
+											</div>
+											{isOpenMenuActionButtons === task.id && (
+												<div className='d-flex d-md-none justify-content-center col-6 col-md-2'>
+													<TaskEdit taskProp={task} />
+													<TaskDelete taskId={task.id} />
+												</div>
+											)}
+											<div className='d-none d-md-flex justify-content-end col-6 col-md-2'>
 												<TaskEdit taskProp={task} />
 												<TaskDelete taskId={task.id} />
 											</div>
