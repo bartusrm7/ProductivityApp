@@ -1,0 +1,10 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services\Interfaces;
+
+interface NotesServiceInterface
+{
+    public function createNote(string $name, int $userId);
+}

@@ -5,21 +5,25 @@ declare(strict_types=1);
 use App\Controllers\AuthController;
 use App\Controllers\HabitsController;
 use App\Controllers\HabitsDataController;
+use App\Controllers\NotesController;
 use App\Controllers\TasksController;
 use App\Database\Database;
 use App\Middlewares\AuthMiddleware;
 use App\Repositories\AuthRepository;
 use App\Repositories\HabitsDataRepository;
 use App\Repositories\HabitsRepository;
+use App\Repositories\NotesRepository;
 use App\Repositories\TasksRepository;
 use App\Services\AuthService;
 use App\Services\HabitsDataService;
 use App\Services\HabitsService;
 use App\Services\JWTService;
+use App\Services\NotesService;
 use App\Services\TasksService;
 use App\Validations\AuthValidation;
 use App\Validations\HabitsDataValidation;
 use App\Validations\HabitsValidation;
+use App\Validations\NotesValidation;
 use App\Validations\TasksValidation;
 use Dotenv\Dotenv;
 
@@ -50,12 +54,14 @@ $authRepository = new AuthRepository($db);
 $tasksRepository = new TasksRepository($db);
 $habitsRepository = new HabitsRepository($db);
 $habitsDataRepository = new HabitsDataRepository($db);
+$NotesRepository = new NotesRepository($db);
 
 // VALIDATIORS
 $authValidation = new AuthValidation();
 $tasksValidation = new TasksValidation();
 $habitsValidation = new HabitsValidation();
 $habitsDataValidation = new HabitsDataValidation();
+$notesValidation = new NotesValidation();
 
 // SERVICES
 $jwtService = new JWTService();
@@ -63,6 +69,7 @@ $authService = new AuthService($authRepository, $authValidation);
 $tasksService = new TasksService($tasksRepository, $tasksValidation);
 $habitsService = new HabitsService($habitsRepository, $habitsValidation);
 $habitsDataService = new HabitsDataService($habitsDataRepository, $habitsDataValidation);
+$notesService = new NotesService($NotesRepository, $notesValidation);
 
 // MIDDLEWARES
 $authMiddleware = new AuthMiddleware($jwtService);
@@ -72,12 +79,14 @@ $authController = new AuthController($authService, $jwtService);
 $tasksController = new TasksController($tasksService, $jwtService);
 $habitsController = new HabitsController($habitsService, $jwtService);
 $habitsDataController = new HabitsDataController($habitsDataService, $jwtService);
+$notesController = new NotesController($notesService, $jwtService);
 
 $controllers = [
     AuthController::class => $authController,
     TasksController::class => $tasksController,
     HabitsController::class => $habitsController,
     HabitsDataController::class => $habitsDataController,
+    NotesController::class => $notesController,
 ];
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
@@ -118,6 +127,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/set-habit-done', [HabitsDataController::class, 'setHabitThisDayDone']);
     $r->addRoute('POST', '/count-current-streak-days', [HabitsDataController::class, 'countCurrentStreakDays']);
     $r->addRoute('POST', '/count-amount-days-done', [HabitsDataController::class, 'countAmountDaysDone']);
+
+    // NOTES
+    $r->addRoute('POST', '/create-note', [HabitsDataController::class, 'createNote']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
