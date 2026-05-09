@@ -30,12 +30,6 @@ class NotesValidation
             return 'Created at time is not exists';
         }
     }
-    public function emptyPriority(string $priority)
-    {
-        if (empty($priority)) {
-            return 'Priority input field is empty';
-        }
-    }
     public function emptyUserId(int $userId)
     {
         if (empty($userId)) {
