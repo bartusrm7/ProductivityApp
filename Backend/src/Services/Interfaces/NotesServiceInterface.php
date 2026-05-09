@@ -6,5 +6,5 @@ namespace App\Services\Interfaces;
 
 interface NotesServiceInterface
 {
-    public function createNote(string $name, int $userId);
+    public function createNote(string $name, string $tag, string $createdAt,  int $userId);
 }

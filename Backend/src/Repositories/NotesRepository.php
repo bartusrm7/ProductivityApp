@@ -19,17 +19,17 @@ class NotesRepository implements NotesRepositoryInterface
         $this->pdo = $db->getConnection();
     }
 
-    public function createNewNoteQuery(string $name, int $userId)
+    public function createNewNoteQuery(string $name, string $tag,  DateTime $createdAt, int $userId)
     {
-        $stmt = $this->pdo->prepare('INSERT INTO notes (name, user_id) VALUES (:name, :user_id)');
-        $stmt->execute([':name' => $name, ':user_id' => $userId]);
+        $stmt = $this->pdo->prepare('INSERT INTO notes (name, tag, created_at, user_id) VALUES (:name, :tag, :created_at, :user_id)');
+        $stmt->execute([':name' => $name, ':tag' => $tag, ':created_at' => $createdAt->format('Y-m-d 00:00:00'), ':user_id' => $userId]);
         $id = (int) $this->pdo->lastInsertId();
 
         return new NotesModel(
             $id,
             $name,
-            '',
-            new DateTime
+            $tag,
+            $createdAt
         );
     }
 }

@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Repositories\NotesRepository;
 use App\Services\Interfaces\NotesServiceInterface;
 use App\Validations\NotesValidation;
+use DateTime;
 
 class NotesService implements NotesServiceInterface
 {
@@ -19,10 +20,16 @@ class NotesService implements NotesServiceInterface
         $this->validation = $validation;
     }
 
-    public function createNote(string $name, int $userId)
+    public function createNote(string $name, string $tag,  string $createdAt, int $userId)
     {
         $errors = [];
         if ($error = $this->validation->emptyNoteName($name)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyNoteTag($tag)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyCreatedAt($createdAt)) {
             $errors[] = $error;
         }
         if ($error = $this->validation->emptyUserId($userId)) {
@@ -31,7 +38,8 @@ class NotesService implements NotesServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $this->repository->createNewNoteQuery($name, $userId);
+            $newCreatedAt = new DateTime($createdAt);
+            $this->repository->createNewNoteQuery($name, $tag, $newCreatedAt, $userId);
             return [
                 'success' => true
             ];

@@ -54,7 +54,7 @@ $authRepository = new AuthRepository($db);
 $tasksRepository = new TasksRepository($db);
 $habitsRepository = new HabitsRepository($db);
 $habitsDataRepository = new HabitsDataRepository($db);
-$NotesRepository = new NotesRepository($db);
+$notesRepository = new NotesRepository($db);
 
 // VALIDATIORS
 $authValidation = new AuthValidation();
@@ -69,7 +69,7 @@ $authService = new AuthService($authRepository, $authValidation);
 $tasksService = new TasksService($tasksRepository, $tasksValidation);
 $habitsService = new HabitsService($habitsRepository, $habitsValidation);
 $habitsDataService = new HabitsDataService($habitsDataRepository, $habitsDataValidation);
-$notesService = new NotesService($NotesRepository, $notesValidation);
+$notesService = new NotesService($notesRepository, $notesValidation);
 
 // MIDDLEWARES
 $authMiddleware = new AuthMiddleware($jwtService);
@@ -129,7 +129,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/count-amount-days-done', [HabitsDataController::class, 'countAmountDaysDone']);
 
     // NOTES
-    $r->addRoute('POST', '/create-note', [HabitsDataController::class, 'createNote']);
+    $r->addRoute('POST', '/create-note', [NotesController::class, 'createNote']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];

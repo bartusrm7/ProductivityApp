@@ -24,8 +24,10 @@ class NotesController
 
             $data = json_decode(file_get_contents('php://input'), true);
             $name = $data['name'];
+            $tag = $data['tag'];
+            $createdAt = $data['created_at'];
 
-            $result = $this->service->createNote($name, $userId);
+            $result = $this->service->createNote($name, $tag, $createdAt, $userId);
             if (isset($result['success'])) {
                 http_response_code(201);
                 echo json_encode($result);

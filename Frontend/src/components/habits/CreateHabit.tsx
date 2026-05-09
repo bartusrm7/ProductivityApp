@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import type { UserHabitData } from "../../types/habits";
 
-export default function CreateHabit({ show, handleOpenModal, handleCloseModal }: { show: boolean; handleOpenModal: any; handleCloseModal: any }) {
+export default function CreateHabit({ show, handleOpenModal, handleCloseModal }: { show: boolean; handleOpenModal: () => void; handleCloseModal: () => void }) {
 	const [habitsData, setHabitsData] = useState<UserHabitData>({ id: 0, name: "", description: "", created_at: new Date().toISOString() });
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 

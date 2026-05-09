@@ -5,6 +5,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Tasks from "./components/tasks/Tasks";
 import Habits from "./components/habits/Habits";
+import Notes from "./components/notes/Notes";
 
 export default function App() {
 	return (
@@ -33,6 +34,14 @@ export default function App() {
 					element={
 						<ProtectedRoute>
 							<Habits />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path='/notes'
+					element={
+						<ProtectedRoute>
+							<Notes />
 						</ProtectedRoute>
 					}
 				/>

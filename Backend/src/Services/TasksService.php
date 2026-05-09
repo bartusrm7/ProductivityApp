@@ -39,7 +39,7 @@ class TasksService implements TasksServiceInterface
             return ['errors' => $errors];
         } else {
             $newCreatedAt = new DateTime($createdAt);
-            $result = $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
+            $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
             return [
                 'success' => true
             ];
@@ -112,7 +112,7 @@ class TasksService implements TasksServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $result = $this->repository->doneTaskQuery($id, $status, $userId);
+            $this->repository->doneTaskQuery($id, $status, $userId);
             return [
                 'success' => true
             ];
