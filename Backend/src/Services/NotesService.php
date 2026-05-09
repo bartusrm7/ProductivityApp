@@ -37,13 +37,12 @@ class NotesService implements NotesServiceInterface
         }
         if (!empty($errors)) {
             return ['errors' => $errors];
-        } else {
-            $newCreatedAt = new DateTime($createdAt);
-            $this->repository->createNewNoteQuery($name, $tag, $newCreatedAt, $userId);
-            return [
-                'success' => true
-            ];
         }
+        $newCreatedAt = new DateTime($createdAt);
+        $this->repository->createNewNoteQuery($name, $tag, $newCreatedAt, $userId);
+        return [
+            'success' => true
+        ];
     }
 
     public function getNotes(int $userId)
@@ -54,12 +53,11 @@ class NotesService implements NotesServiceInterface
         }
         if (!empty($errors)) {
             return ['errors' => $errors];
-        } else {
-            $result = $this->repository->getAllNotesQuery($userId);
-            return [
-                'success' => true,
-                'data'    => $result
-            ];
         }
+        $result = $this->repository->getAllNotesQuery($userId);
+        return [
+            'success' => true,
+            'data'    => $result
+        ];
     }
 }

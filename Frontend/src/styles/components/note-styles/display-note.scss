@@ -1,0 +1,22 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.display-note {
+	&__important-btn {
+	}
+	&__important-btn {
+		background: none;
+		color: gray;
+		border: none;
+		padding: 0;
+		margin: 0;
+		z-index: 10;
+		&:hover {
+			background: none;
+			color: rgb(207, 169, 0);
+		}
+		&:focus {
+			background: none !important;
+		}
+	}
+}
