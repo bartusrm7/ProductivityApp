@@ -45,4 +45,21 @@ class NotesService implements NotesServiceInterface
             ];
         }
     }
+
+    public function getNotes(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->getAllNotesQuery($userId);
+            return [
+                'success' => true,
+                'data'    => $result
+            ];
+        }
+    }
 }

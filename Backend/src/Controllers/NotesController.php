@@ -37,4 +37,20 @@ class NotesController
             }
         }
     }
+
+    public function getNotes()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userId = $this->jwtservice->getUserIdFromJWT();
+
+            $result = $this->service->getNotes($userId);
+            if (isset($result['success'])) {
+                http_response_code(200);
+                echo json_encode($result);
+            } else {
+                http_response_code(422);
+                echo json_encode($result);
+            }
+        }
+    }
 }

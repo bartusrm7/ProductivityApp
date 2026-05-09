@@ -32,4 +32,11 @@ class NotesRepository implements NotesRepositoryInterface
             $createdAt
         );
     }
+
+    public function getAllNotesQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM notes WHERE user_id = :user_id');
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
 }
