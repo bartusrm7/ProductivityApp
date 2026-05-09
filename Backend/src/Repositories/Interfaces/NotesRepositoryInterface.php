@@ -9,4 +9,5 @@ use DateTime;
 interface NotesRepositoryInterface
 {
     public function createNewNoteQuery(string $name, string $tag, DateTime $createdAt, int $userId);
+    public function setImportantNoteQuery(int $id, bool $important, int $userId);
 }

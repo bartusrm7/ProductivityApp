@@ -8,7 +8,7 @@ use DateTime;
 
 class NotesModel
 {
-    public function __construct(private int $id, private string $name, private string $tag, private DateTime $createdAt) {}
+    public function __construct(private int $id, private string $name, private string $tag, private DateTime $createdAt, private bool $important) {}
     public function getId()
     {
         return $this->id;
@@ -24,5 +24,9 @@ class NotesModel
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+    public function getImportant()
+    {
+        return $this->important;
     }
 }

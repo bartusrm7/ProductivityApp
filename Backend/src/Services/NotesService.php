@@ -60,4 +60,25 @@ class NotesService implements NotesServiceInterface
             'data'    => $result
         ];
     }
+
+    public function setImportantNote(int $id, bool $important, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyNoteId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyImportantNote($important)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $this->repository->setImportantNoteQuery($id, $important, $userId);
+        return [
+            'success' => true
+        ];
+    }
 }

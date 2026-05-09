@@ -30,6 +30,12 @@ class NotesValidation
             return 'Created at time is not exists';
         }
     }
+    public function emptyImportantNote(bool $important)
+    {
+        if (empty($important)) {
+            return 'Created at time is not exists';
+        }
+    }
     public function emptyUserId(int $userId)
     {
         if (empty($userId)) {

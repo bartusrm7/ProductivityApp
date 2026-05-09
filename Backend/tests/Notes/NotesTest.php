@@ -72,7 +72,7 @@ class NotesTest extends TestCase
         $this->validation->method('emptyUserId')->willReturn(null);
 
         $createdAt = new DateTime();
-        $notesModel = new NotesModel(1, 'note', 'sport', $createdAt);
+        $notesModel = new NotesModel(1, 'note', 'sport', $createdAt, false);
         $repo->expects($this->once())
             ->method('createNewNoteQuery')
             ->willReturn($notesModel);

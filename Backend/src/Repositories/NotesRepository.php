@@ -29,7 +29,8 @@ class NotesRepository implements NotesRepositoryInterface
             $id,
             $name,
             $tag,
-            $createdAt
+            $createdAt,
+            false
         );
     }
 
@@ -38,5 +39,19 @@ class NotesRepository implements NotesRepositoryInterface
         $stmt = $this->pdo->prepare('SELECT * FROM notes WHERE user_id = :user_id');
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
+    }
+
+    public function setImportantNoteQuery(int $id, bool $important, int $userId)
+    {
+        $stmt = $this->pdo->prepare('UPDATE notes SET important = :important WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':important' => $important, ':user_id' => $userId]);
+
+        return new NotesModel(
+            $id,
+            '',
+            '',
+            new DateTime,
+            $important
+        );
     }
 }

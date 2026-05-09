@@ -53,4 +53,24 @@ class NotesController
             }
         }
     }
+
+    public function setImportantNote()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userId = $this->jwtservice->getUserIdFromJWT();
+
+            $data = json_decode(file_get_contents('php://input'), true);
+            $id = $data['id'];
+            $important = $data['important'];
+
+            $result = $this->service->setImportantNote($id, $important, $userId);
+            if (isset($result['success'])) {
+                http_response_code(200);
+                echo json_encode($result);
+            } else {
+                http_response_code(422);
+                echo json_encode($result);
+            }
+        }
+    }
 }
