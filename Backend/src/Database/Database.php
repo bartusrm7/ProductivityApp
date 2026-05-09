@@ -111,6 +111,7 @@ class Database
             name VARCHAR(255) NOT NULL,
             tag VARCHAR(255) NOT NULL,
             created_at DATETIME,
+            important TINYINT(1) DEFAULT 0,
             user_id INT,
             CONSTRAINT fk_user_notes
             FOREIGN KEY (user_id)
