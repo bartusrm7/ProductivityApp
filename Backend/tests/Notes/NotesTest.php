@@ -81,4 +81,23 @@ class NotesTest extends TestCase
         $result = $this->service->createNote('note', 'sport', '2022-10-09 18:39:16', 1);
         $this->assertEquals(['success' => true], $result);
     }
+
+    public function testSetImportantNote()
+    {
+        $repo = $this->createMock(NotesRepository::class);
+
+        $this->validation->method('emptyNoteId')->willReturn(null);
+        $this->validation->method('emptyImportantNote')->willReturn(null);
+        $this->validation->method('emptyUserId')->willReturn(null);
+
+        $createdAt = new DateTime();
+        $notesModel = new NotesModel(1, 'note', 'sport', $createdAt, true);
+        $repo->expects($this->once())
+            ->method('setImportantNoteQuery')
+            ->willReturn($notesModel);
+
+        $this->service = new NotesService($repo, $this->validation);
+        $result = $this->service->setImportantNote(1, true, 1);
+        $this->assertEquals(['success' => true], $result);
+    }
 }
