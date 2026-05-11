@@ -43,6 +43,7 @@ class NotesRepository implements NotesRepositoryInterface
 
     public function setImportantNoteQuery(int $id, bool $important, int $userId)
     {
+        $important = $important ? 1 : 0;
         $stmt = $this->pdo->prepare('UPDATE notes SET important = :important WHERE id = :id AND user_id = :user_id');
         $stmt->execute([':id' => $id, ':important' => $important, ':user_id' => $userId]);
 
@@ -51,7 +52,7 @@ class NotesRepository implements NotesRepositoryInterface
             '',
             '',
             new DateTime,
-            $important
+            (bool) $important
         );
     }
 }

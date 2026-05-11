@@ -76,9 +76,12 @@ class NotesService implements NotesServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
-        $this->repository->setImportantNoteQuery($id, $important, $userId);
+        $important = (bool) $important;
+        $result = $this->repository->setImportantNoteQuery($id, $important, $userId);
         return [
-            'success' => true
+            'success' => true,
+            'data' => $result,
+            'important' => $important
         ];
     }
 }

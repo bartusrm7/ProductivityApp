@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import type { UserNotesData } from "../../types/notes";
 import { CiMenuKebab } from "react-icons/ci";
-import { IoIosStar } from "react-icons/io";
-import { Button } from "react-bootstrap";
+import SetNoteImportant from "./SetNoteImportant";
 
 export default function DisplayAllNotes() {
 	const [notesData, setNotesData] = useState<UserNotesData[]>([]);
@@ -20,6 +19,23 @@ export default function DisplayAllNotes() {
 		const data = await response.json();
 		if (data.success) {
 			setNotesData(data.data);
+		}
+	}
+
+	async function handleUpdateNoteImportant(noteId: number, importantNote: boolean) {
+		try {
+			const jwt = localStorage.getItem("jwt");
+			await fetch("http://productivityapp.local/set-important-note", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${jwt}`,
+				},
+				body: JSON.stringify({ id: noteId, important: importantNote }),
+			});
+			setNotesData(prevState => prevState.map(note => (note.id === noteId ? { ...note, important: !importantNote } : note)));
+		} catch (error) {
+			console.error("Server error. Try again.", error);
 		}
 	}
 
@@ -48,9 +64,7 @@ export default function DisplayAllNotes() {
 				<div className='d-flex flex-wrap align-items-center border-bottom py-2' key={index}>
 					<div className='col-1 d-none d-md-block fw-bold'>{index + 1}.</div>
 					<div className='col-1 d-md-block'>
-						<Button className='display-note__important-btn'>
-							<IoIosStar size={24} />
-						</Button>
+						<SetNoteImportant noteId={note.id} importantNote={note.important} handleImportantNote={handleUpdateNoteImportant} />
 					</div>
 					<div className='display-note__name-row col-10 col-md-3'>{note.name}</div>
 					<div className='col-1 d-md-none text-end'>

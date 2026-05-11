@@ -3,4 +3,5 @@ export interface UserNotesData {
 	name: string;
 	tag: string;
 	created_at: string;
+	important: boolean;
 }

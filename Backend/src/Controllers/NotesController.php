@@ -56,14 +56,14 @@ class NotesController
 
     public function setImportantNote()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $this->jwtservice->getUserIdFromJWT();
 
             $data = json_decode(file_get_contents('php://input'), true);
             $id = $data['id'];
             $important = $data['important'];
 
-            $result = $this->service->setImportantNote($id, $important, $userId);
+            $result = $this->service->setImportantNote($id, (bool) $important, $userId);
             if (isset($result['success'])) {
                 http_response_code(200);
                 echo json_encode($result);

@@ -12,8 +12,6 @@ class HabitsDataValidation
             return 'Habit data ID does not exist';
         }
     }
-
-
     public function emptyCheckCurrentDay(string $checkCurrentDay)
     {
         if (empty($checkCurrentDay)) {

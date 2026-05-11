@@ -3,7 +3,7 @@ import type { UserNotesData } from "../../types/notes";
 import { Button, Modal, Form } from "react-bootstrap";
 
 export default function CreateNote({ show, handleOpenModal, handleCloseModal }: { show: boolean; handleOpenModal: () => void; handleCloseModal: () => void }) {
-	const [notesData, setNotesData] = useState<UserNotesData>({ id: 0, name: "", tag: "", created_at: new Date().toISOString() });
+	const [notesData, setNotesData] = useState<UserNotesData>({ id: 0, name: "", tag: "", created_at: new Date().toISOString(), important: false });
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function handleCreateNewNote(e: any) {

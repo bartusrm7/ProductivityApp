@@ -32,8 +32,8 @@ class NotesValidation
     }
     public function emptyImportantNote(bool $important)
     {
-        if (empty($important)) {
-            return 'Created at time is not exists';
+        if (!isset($important)) {
+            return 'Important mark note is not exists';
         }
     }
     public function emptyUserId(int $userId)
