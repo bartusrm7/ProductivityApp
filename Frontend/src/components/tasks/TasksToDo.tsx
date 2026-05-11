@@ -50,8 +50,14 @@ export default function TasksToDo() {
 	}
 
 	const handleSortFunction = (e: any) => {
-		setDirectionSort(prevState => (prevState === "asc" ? "desc" : "asc"));
-		setSortDataKey(e.target.value);
+		const key = e.target.value;
+
+		if (sortDataKey === key) {
+			setDirectionSort(direction => (direction === "asc" ? "desc" : "asc"));
+		} else {
+			setDirectionSort("asc");
+		}
+		setSortDataKey(key);
 	};
 
 	const handleOpenMenuWithActionButtons = (taskId: number) => {
