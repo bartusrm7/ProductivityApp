@@ -55,4 +55,11 @@ class NotesRepository implements NotesRepositoryInterface
             (bool) $important
         );
     }
+
+    public function deleteNoteQuery(int $id, int $userId)
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM notes WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':user_id' => $userId]);
+        return $stmt->rowCount();
+    }
 }

@@ -84,4 +84,22 @@ class NotesService implements NotesServiceInterface
             'important' => $important
         ];
     }
+
+    public function deleteNote(int $id, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyNoteId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $this->repository->deleteNoteQuery($id, $userId);
+        return [
+            'success' => true
+        ];
+    }
 }

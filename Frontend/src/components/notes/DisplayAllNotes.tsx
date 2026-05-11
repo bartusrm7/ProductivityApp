@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { UserNotesData } from "../../types/notes";
 import { CiMenuKebab } from "react-icons/ci";
 import SetNoteImportant from "./SetNoteImportant";
+import DeleteNote from "./DeleteNote";
 
 export default function DisplayAllNotes() {
 	const [notesData, setNotesData] = useState<UserNotesData[]>([]);
@@ -72,8 +73,16 @@ export default function DisplayAllNotes() {
 					</div>
 					<div className='col-9 col-md-2'>{note.tag}</div>
 					<div className='col-2 d-none d-md-flex'>{note.created_at}</div>
-					<div className='d-md-none justify-content-center col-3'>{isOpenMenuActionButtons === note.id && <div></div>}</div>
-					<div className='d-none d-md-flex justify-content-center col-3'></div>
+					<div className='d-md-none justify-content-center col-3'>
+						{isOpenMenuActionButtons === note.id && (
+							<div>
+								<DeleteNote noteId={note.id} />
+							</div>
+						)}
+					</div>
+					<div className='d-none d-md-flex justify-content-center col-3'>
+						<DeleteNote noteId={note.id} />
+					</div>
 				</div>
 			))}
 		</div>
