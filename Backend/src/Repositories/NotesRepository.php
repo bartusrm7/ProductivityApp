@@ -56,6 +56,20 @@ class NotesRepository implements NotesRepositoryInterface
         );
     }
 
+    public function editNoteQuery(int $id, string $name, string $tag, int $userId)
+    {
+        $stmt = $this->pdo->prepare('UPDATE notes SET name = :name, tag = :tag WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':name' => $name, ':tag' => $tag, ':user_id' => $userId]);
+
+        return new NotesModel(
+            $id,
+            $name,
+            $tag,
+            new DateTime,
+            false
+        );
+    }
+
     public function deleteNoteQuery(int $id, int $userId)
     {
         $stmt = $this->pdo->prepare('DELETE FROM notes WHERE id = :id AND user_id = :user_id');

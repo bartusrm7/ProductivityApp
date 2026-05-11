@@ -1,33 +1,33 @@
+import { Button, Modal, Form } from "react-bootstrap";
+import type { UserNotesData } from "../../types/notes";
 import { useState } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
 import { CiEdit } from "react-icons/ci";
-import type { UserHabitData } from "../../types/habits";
 
-export default function EditHabit({ habitProp }: { habitProp: UserHabitData }) {
-	const [habitData, setHabitData] = useState<UserHabitData>({ id: 0, name: "", description: "", created_at: "" });
+export default function EditNote({ noteProp }: { noteProp: UserNotesData }) {
+	const [noteData, setNoteData] = useState<UserNotesData>({ id: 0, name: "", tag: "", created_at: "", important: false });
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	const handleOpenModal = () => {
 		setShowModal(true);
-		setHabitData(habitProp);
+		setNoteData(noteProp);
 	};
 
 	const handleCloseModal = () => {
 		setShowModal(false);
 	};
 
-	async function handleEditHabit(e: any) {
+	async function handleEditNote(e: any) {
 		e.preventDefault();
 		try {
 			const jwt = localStorage.getItem("jwt");
-			const response = await fetch("http://productivityapp.local/edit-habit", {
+			const response = await fetch("http://productivityapp.local/edit-note", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${jwt}`,
 				},
-				body: JSON.stringify(habitData),
+				body: JSON.stringify(noteData),
 			});
 			const data = await response.json();
 			if (data.errors) {
@@ -49,20 +49,20 @@ export default function EditHabit({ habitProp }: { habitProp: UserHabitData }) {
 			{showModal && (
 				<Modal show={showModal} onHide={handleCloseModal}>
 					<Modal.Header closeButton>
-						<Modal.Title>Edit current habit</Modal.Title>
+						<Modal.Title>Edit current Note</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
-						<Form onSubmit={handleEditHabit}>
+						<Form onSubmit={handleEditNote}>
 							<Form.Group className='mb-3'>
 								<Form.Floating>
-									<Form.Control value={habitData.name} onChange={e => setHabitData(prevState => ({ ...prevState, name: e.target.value }))} type='text' placeholder='' />
-									<Form.Label>Habit name</Form.Label>
+									<Form.Control value={noteData.name} onChange={e => setNoteData(prevState => ({ ...prevState, name: e.target.value }))} type='text' placeholder='' />
+									<Form.Label>Note name</Form.Label>
 								</Form.Floating>
 							</Form.Group>
 							<Form.Group className='mb-3'>
 								<Form.Floating>
-									<Form.Control value={habitData.description} onChange={e => setHabitData(prevState => ({ ...prevState, description: e.target.value }))} type='text' placeholder='' />
-									<Form.Label>Habit description</Form.Label>
+									<Form.Control value={noteData.tag} onChange={e => setNoteData(prevState => ({ ...prevState, tag: e.target.value }))} type='text' placeholder='' />
+									<Form.Label>Note tag</Form.Label>
 								</Form.Floating>
 							</Form.Group>
 

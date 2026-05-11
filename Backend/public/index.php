@@ -134,6 +134,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     // NOTES
     $r->addRoute('POST', '/create-note', [NotesController::class, 'createNote']);
     $r->addRoute('POST', '/set-important-note', [NotesController::class, 'setImportantNote']);
+    $r->addRoute('POST', '/edit-note', [NotesController::class, 'editNote']);
     $r->addRoute('POST', '/delete-note', [NotesController::class, 'deleteNote']);
 });
 

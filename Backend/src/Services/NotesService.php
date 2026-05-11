@@ -85,6 +85,30 @@ class NotesService implements NotesServiceInterface
         ];
     }
 
+    public function editNote(int $id, string $name, string $tag, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyNoteId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyNoteName($name)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyNoteTag($tag)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $this->repository->editNoteQuery($id, $name, $tag, $userId);
+        return [
+            'success' => true
+        ];
+    }
+
     public function deleteNote(int $id, int $userId)
     {
         $errors = [];
