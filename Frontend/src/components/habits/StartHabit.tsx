@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import { MdDownloadDone } from "react-icons/md";
 
 export default function StartHabit({ habitId }: { habitId: number }) {
@@ -27,9 +26,9 @@ export default function StartHabit({ habitId }: { habitId: number }) {
 
 	return (
 		<>
-			<Button className='bg-success me-2' onClick={handleStartHabit}>
+			<button className='me-2' onClick={handleStartHabit}>
 				<MdDownloadDone size={24} />
-			</Button>
+			</button>
 		</>
 	);
 }

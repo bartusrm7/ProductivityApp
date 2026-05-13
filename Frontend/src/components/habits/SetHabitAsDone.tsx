@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { MdDownloadDone } from "react-icons/md";
 
 export default function SetHabitAsDone({ habitId, amountDaysDone }: { habitId: number; amountDaysDone: number }) {
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
@@ -78,7 +78,9 @@ export default function SetHabitAsDone({ habitId, amountDaysDone }: { habitId: n
 
 	return (
 		<>
-			<Button onClick={handleServeAllMethods}>X</Button>
+			<button className="me-2" onClick={handleServeAllMethods}>
+				<MdDownloadDone size={24} />
+			</button>
 
 			{errorsArray.length > 0 && (
 				<div>

@@ -1,4 +1,3 @@
-import { Button } from "react-bootstrap";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 export default function DeleteHabit({ habitId }: { habitId: number }) {
@@ -20,9 +19,9 @@ export default function DeleteHabit({ habitId }: { habitId: number }) {
 
 	return (
 		<>
-			<Button className='bg-danger' onClick={handleDeleteHabit}>
+			<button onClick={handleDeleteHabit}>
 				<RiDeleteBin6Line size={24} />
-			</Button>
+			</button>
 		</>
 	);
 }
