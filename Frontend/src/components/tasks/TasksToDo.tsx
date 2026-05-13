@@ -102,25 +102,25 @@ export default function TasksToDo() {
 									<div className='d-none d-md-flex fw-bold border-bottom py-2'>
 										<div className='d-flex align-items-center col-1'>
 											<div>#</div>
-											<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='id'>
+											<button className='sort-btn ms-2' onClick={handleSortFunction} value='id'>
 												{directionSort === "asc" && sortDataKey === "id" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 											</button>
 										</div>
 										<div className='d-flex align-items-center col-4'>
 											<div>Task</div>
-											<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='name'>
+											<button className='sort-btn ms-2' onClick={handleSortFunction} value='name'>
 												{directionSort === "asc" && sortDataKey === "name" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 											</button>
 										</div>
 										<div className='d-flex align-items-center col-3'>
 											<div>Date</div>
-											<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='created_at'>
+											<button className='sort-btn ms-2' onClick={handleSortFunction} value='created_at'>
 												{directionSort === "asc" && sortDataKey === "created_at" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 											</button>
 										</div>
 										<div className='d-flex align-items-center justify-content-center col-2'>
 											<div>Priority</div>
-											<button className='tasks-todo__sort-btn ms-2' onClick={handleSortFunction} value='priority'>
+											<button className='sort-btn ms-2' onClick={handleSortFunction} value='priority'>
 												{directionSort === "asc" && sortDataKey === "priority" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 											</button>
 										</div>

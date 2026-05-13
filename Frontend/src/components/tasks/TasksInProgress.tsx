@@ -94,7 +94,7 @@ export default function TasksInProgress() {
 					</div>
 					<div>
 						{isMenuDisplay && (
-							<div className='tasks-todo__main-container'>
+							<div className='tasks-in-progress__main-container'>
 								{errorsArray.length > 0 ? (
 									<div>
 										{errorsArray.map((error, index) => (
@@ -108,27 +108,27 @@ export default function TasksInProgress() {
 										<div className='d-none d-md-flex fw-bold border-bottom py-2'>
 											<div className='d-flex align-items-center col-1'>
 												<div>#</div>
-												<Button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='id'>
+												<button className='sort-btn ms-2' onClick={handleSortFunction} value='id'>
 													{directionSort === "asc" && sortDataKey === "id" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-												</Button>
+												</button>
 											</div>
 											<div className='d-flex align-items-center col-4'>
 												<div>Task</div>
-												<Button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='name'>
+												<button className='sort-btn ms-2' onClick={handleSortFunction} value='name'>
 													{directionSort === "asc" && sortDataKey === "name" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-												</Button>
+												</button>
 											</div>
 											<div className='d-flex align-items-center col-3'>
 												<div>Deadline</div>
-												<Button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='deadline'>
+												<button className='sort-btn ms-2' onClick={handleSortFunction} value='deadline'>
 													{directionSort === "asc" && sortDataKey === "deadline" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-												</Button>
+												</button>
 											</div>
 											<div className='d-flex align-items-center justify-content-center col-2'>
 												<div>Priority</div>
-												<Button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='priority'>
+												<button className='sort-btn ms-2' onClick={handleSortFunction} value='priority'>
 													{directionSort === "asc" && sortDataKey === "priority" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-												</Button>
+												</button>
 											</div>
 											<div className='col-2 text-center'>Actions</div>
 										</div>
@@ -138,7 +138,7 @@ export default function TasksInProgress() {
 													<div className='col-1 fw-bold'>{index + 1}.</div>
 													<div className='col-6 col-md-4'>{task.name}</div>
 													<div className='col-5 col-md-3'>{new Date(task.created_at).toLocaleString()}</div>
-													<div className={task.priority === "low" ? "tasks-todo__priority bg-success d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : task.priority === "medium" ? "tasks-todo__priority bg-warning d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : task.priority === "high" ? "tasks-todo__priority bg-danger d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : ""}>{task.priority}</div>
+													<div className={task.priority === "low" ? "tasks-in-progress__priority bg-success d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : task.priority === "medium" ? "tasks-in-progress__priority bg-warning d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : task.priority === "high" ? "tasks-in-progress__priority bg-danger d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : ""}>{task.priority}</div>
 													<div className='col-6 d-md-none text-end'>
 														<CiMenuKebab size={24} onClick={() => handleOpenMenuWithActionButtons(task.id)} />
 													</div>

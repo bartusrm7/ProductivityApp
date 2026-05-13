@@ -4,7 +4,6 @@ import { CiMenuKebab } from "react-icons/ci";
 import SetNoteImportant from "./SetNoteImportant";
 import DeleteNote from "./DeleteNote";
 import EditNote from "./EditNote";
-import { Button } from "react-bootstrap";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 export default function DisplayAllNotes() {
@@ -94,28 +93,28 @@ export default function DisplayAllNotes() {
 			<div className='d-none d-md-flex fw-bold border-bottom py-2'>
 				<div className='col-1'>
 					#
-					<Button className='display-note__sort-btn' onClick={handleSortFunction} value='id'>
+					<button className='sort-btn' onClick={handleSortFunction} value='id'>
 						{directionSort === "asc" && sortDataKey === "id" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-					</Button>
+					</button>
 				</div>
 				<div className='col-1'></div>
 				<div className='col-3'>
 					Note
-					<Button className='display-note__sort-btn' onClick={handleSortFunction} value='name'>
+					<button className='sort-btn' onClick={handleSortFunction} value='name'>
 						{directionSort === "asc" && sortDataKey === "name" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-					</Button>
+					</button>
 				</div>
 				<div className='col-2'>
 					Tag
-					<Button className='display-note__sort-btn' onClick={handleSortFunction} value='tag'>
+					<button className='sort-btn' onClick={handleSortFunction} value='tag'>
 						{directionSort === "asc" && sortDataKey === "tag" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-					</Button>
+					</button>
 				</div>
 				<div className='col-2'>
 					Date
-					<Button className='display-note__sort-btn' onClick={handleSortFunction} value='created_at'>
+					<button className='sort-btn' onClick={handleSortFunction} value='created_at'>
 						{directionSort === "asc" && sortDataKey === "created_at" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-					</Button>
+					</button>
 				</div>
 				<div className='col-3 text-center'>Actions</div>
 			</div>
