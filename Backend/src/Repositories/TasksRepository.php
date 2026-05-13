@@ -94,9 +94,13 @@ class TasksRepository implements TasksRepositoryInterface
         $sql = 'SELECT * FROM tasks WHERE status = :status AND user_id = :user_id';
         $bindings = [':status' => $params['status'], ':user_id' => $params['user_id']];
 
+        $sortData = ['id', 'name', 'created_at', 'priority'];
+        $directionsData = ['ASC', 'DESC'];
+
         if (!empty($params['sort'])) {
-            $direction = strtoupper($params['direction'] ?? 'ASC');
-            $sql .= " ORDER BY {$params['sort']} $direction";
+            $sort = in_array($params['sort'], $sortData) ? $params['sort'] : 'name';
+            $direction = in_array(strtoupper($params['direction'] ?? 'ASC'), $directionsData) ? strtoupper($params['direction']) : 'ASC';
+            $sql .= " ORDER BY $sort $direction";
         }
 
         $stmt = $this->pdo->prepare($sql);

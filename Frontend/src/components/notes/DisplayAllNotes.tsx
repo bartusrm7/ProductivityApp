@@ -4,9 +4,13 @@ import { CiMenuKebab } from "react-icons/ci";
 import SetNoteImportant from "./SetNoteImportant";
 import DeleteNote from "./DeleteNote";
 import EditNote from "./EditNote";
+import { Button } from "react-bootstrap";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 export default function DisplayAllNotes() {
 	const [notesData, setNotesData] = useState<UserNotesData[]>([]);
+	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
+	const [sortDataKey, setSortDataKey] = useState<string>();
 	const [isOpenMenuActionButtons, setIsOpenMenuActionButtons] = useState<number | null>(null);
 
 	async function getAllNotes() {
@@ -41,25 +45,78 @@ export default function DisplayAllNotes() {
 		}
 	}
 
+	async function sortNotesFunction() {
+		const jwt = localStorage.getItem("jwt");
+		const response = await fetch(`http://productivityapp.local/sort-notes?direction=${directionSort}&sort=${sortDataKey}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		const data = await response.json();
+		if (data.errors) {
+		} else {
+			setNotesData(data.data);
+		}
+	}
+
+	const handleSortFunction = (e: any) => {
+		const key = e.target.value;
+
+		if (sortDataKey === key) {
+			setDirectionSort(prevState => (prevState === "asc" ? "desc" : "asc"));
+		} else {
+			setDirectionSort("asc");
+		}
+		setSortDataKey(key);
+	};
+
 	const handleOpenMenuWithActionButtons = (habitId: number) => {
 		setIsOpenMenuActionButtons(prevState => (prevState === habitId ? null : habitId));
 	};
+
+	useEffect(() => {
+		if (sortDataKey) {
+			sortNotesFunction();
+		}
+	}, [directionSort, sortDataKey]);
 
 	useEffect(() => {
 		getAllNotes();
 	}, []);
 
 	return (
-		<div className='w-100'>
+		<div className='display-note w-100'>
 			<div className='d-flex align-items-center'>
 				<h4 className='ms-2 mb-0'>Done</h4>
 			</div>
 			<div className='d-none d-md-flex fw-bold border-bottom py-2'>
-				<div className='col-1'>#</div>
+				<div className='col-1'>
+					#
+					<Button className='display-note__sort-btn' onClick={handleSortFunction} value='id'>
+						{directionSort === "asc" && sortDataKey === "id" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+					</Button>
+				</div>
 				<div className='col-1'></div>
-				<div className='col-3'>Note</div>
-				<div className='col-2'>Tag</div>
-				<div className='col-2'>Date</div>
+				<div className='col-3'>
+					Note
+					<Button className='display-note__sort-btn' onClick={handleSortFunction} value='name'>
+						{directionSort === "asc" && sortDataKey === "name" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+					</Button>
+				</div>
+				<div className='col-2'>
+					Tag
+					<Button className='display-note__sort-btn' onClick={handleSortFunction} value='tag'>
+						{directionSort === "asc" && sortDataKey === "tag" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+					</Button>
+				</div>
+				<div className='col-2'>
+					Date
+					<Button className='display-note__sort-btn' onClick={handleSortFunction} value='created_at'>
+						{directionSort === "asc" && sortDataKey === "created_at" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+					</Button>
+				</div>
 				<div className='col-3 text-center'>Actions</div>
 			</div>
 			{notesData.map((note, index) => (

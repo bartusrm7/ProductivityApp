@@ -76,4 +76,23 @@ class NotesRepository implements NotesRepositoryInterface
         $stmt->execute([':id' => $id, ':user_id' => $userId]);
         return $stmt->rowCount();
     }
+
+    public function sortNotesQuery(array $params)
+    {
+        $sql = 'SELECT * FROM notes WHERE user_id = :user_id';
+        $bindings = [':user_id' => $params['user_id']];
+
+        $sortData = ['id', 'name', 'tag', 'created_at'];
+        $directionsData = ['ASC', 'DESC'];
+
+        if (!empty($params['sort'])) {
+            $sort = in_array($params['sort'], $sortData) ? $params['sort'] : 'name';
+            $direction = in_array(strtoupper($params['direction'] ?? 'ASC'), $directionsData) ? strtoupper($params['direction']) : 'ASC';
+            $sql .= " ORDER BY {$sort} {$direction}";
+        }
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($bindings);
+        return $stmt->fetchAll();
+    }
 }

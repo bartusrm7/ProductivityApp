@@ -5,6 +5,7 @@ import TaskDelete from "./TaskDelete";
 import TaskEdit from "./TaskEdit";
 import TaskDoneAsTaskDone from "./TaskDoneAsTaskDone";
 import { CiMenuKebab } from "react-icons/ci";
+import { Button } from "react-bootstrap";
 
 export default function TasksInProgress() {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
@@ -84,9 +85,9 @@ export default function TasksInProgress() {
 				<div>
 					<div>
 						<div className='d-flex align-items-center'>
-							<button className={`tasks-in-progress__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>
+							<Button className={`tasks-in-progress__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>
 								<IoIosArrowUp size={24} className='display-icon' />
-							</button>
+							</Button>
 							<h4 className='ms-2 mb-0'>In Progress</h4>
 						</div>
 						<hr />
@@ -107,27 +108,27 @@ export default function TasksInProgress() {
 										<div className='d-none d-md-flex fw-bold border-bottom py-2'>
 											<div className='d-flex align-items-center col-1'>
 												<div>#</div>
-												<button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='id'>
+												<Button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='id'>
 													{directionSort === "asc" && sortDataKey === "id" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-												</button>
+												</Button>
 											</div>
 											<div className='d-flex align-items-center col-4'>
 												<div>Task</div>
-												<button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='name'>
+												<Button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='name'>
 													{directionSort === "asc" && sortDataKey === "name" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-												</button>
+												</Button>
 											</div>
 											<div className='d-flex align-items-center col-3'>
 												<div>Deadline</div>
-												<button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='deadline'>
+												<Button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='deadline'>
 													{directionSort === "asc" && sortDataKey === "deadline" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-												</button>
+												</Button>
 											</div>
 											<div className='d-flex align-items-center justify-content-center col-2'>
 												<div>Priority</div>
-												<button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='priority'>
+												<Button className='tasks-in-progress__sort-btn ms-2' onClick={handleSortFunction} value='priority'>
 													{directionSort === "asc" && sortDataKey === "priority" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-												</button>
+												</Button>
 											</div>
 											<div className='col-2 text-center'>Actions</div>
 										</div>

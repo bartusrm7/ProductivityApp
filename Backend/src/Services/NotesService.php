@@ -80,8 +80,7 @@ class NotesService implements NotesServiceInterface
         $result = $this->repository->setImportantNoteQuery($id, $important, $userId);
         return [
             'success' => true,
-            'data' => $result,
-            'important' => $important
+            'data' => $result
         ];
     }
 
@@ -124,6 +123,22 @@ class NotesService implements NotesServiceInterface
         $this->repository->deleteNoteQuery($id, $userId);
         return [
             'success' => true
+        ];
+    }
+
+    public function sortNotes(array $params, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $result = $this->repository->sortNotesQuery($params);
+        return [
+            'success' => true,
+            'data'    => $result
         ];
     }
 }

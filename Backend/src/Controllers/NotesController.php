@@ -113,4 +113,25 @@ class NotesController
             }
         }
     }
+
+    public function sortNotes()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userId = $this->jwtservice->getUserIdFromJWT();
+            $params = [
+                'sort'      => $_GET['sort'] ?? null,
+                'direction' => $_GET['direction'] ?? null,
+                'user_id'   => $userId
+            ];
+
+            $result = $this->service->sortNotes($params, $userId);
+            if (isset($result['success'])) {
+                http_response_code(200);
+                echo json_encode($result);
+            } else {
+                http_response_code(422);
+                echo json_encode($result);
+            }
+        }
+    }
 }
