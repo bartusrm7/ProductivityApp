@@ -1,7 +1,6 @@
 @use "../../global" as *;
 @use "../../mixins" as *;
-
-.display-habits {
+.display-started-habit {
 	&__main-container {
 		border-radius: 5px;
 		&:hover {
@@ -21,7 +20,7 @@
 			order: 2;
 		}
 		&__streak_days {
-			padding-right: 10px;
+			padding-right: 10px ;
 			order: 3;
 		}
 		&__amount_days_done {

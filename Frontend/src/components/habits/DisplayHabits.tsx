@@ -34,12 +34,12 @@ export default function DisplayHabits() {
 	}, []);
 
 	return (
-		<div>
-			<div className='d-flex align-items-center'>
+		<div className='display-habits'>
+			<div className='d-flex align-items-center border-bottom pb-1'>
 				<IoIosArrowUp size={24} />
 				<h4 className='ms-2 mb-0'>Done</h4>
 			</div>
-			<div className='d-none d-md-flex fw-bold border-bottom py-2'>
+			<div className='header-custom-table-names d-none d-md-flex border-bottom'>
 				<div className='col-1'>#</div>
 				<div className='col-3'>Habit</div>
 				<div className='col-3'>Description</div>
@@ -47,24 +47,12 @@ export default function DisplayHabits() {
 				<div className='col-3 text-center'>Actions</div>
 			</div>
 			{habitsData.map((habit, index) => (
-				<div className='d-flex flex-wrap align-items-center border-bottom py-2' key={index}>
-					<div className='col-1 d-none d-md-block fw-bold'>{index + 1}.</div>
-					<div className='display-habit__name-row col-11 col-md-3'>{habit.name}</div>
-					<div className='col-1 d-md-none text-end'>
-						<CiMenuKebab size={24} onClick={() => handleOpenMenuWithActionButtons(habit.id)} />
-					</div>
-					<div className='col-9 col-md-3'>{habit.description}</div>
-					<div className='col-2 d-none d-md-flex'>{habit.created_at}</div>
-					<div className='d-md-none justify-content-center col-3'>
-						{isOpenMenuActionButtons === habit.id && (
-							<div>
-								<StartHabit habitId={habit.id} />
-								<EditHabit habitProp={habit} />
-								<DeleteHabit habitId={habit.id} />
-							</div>
-						)}
-					</div>
-					<div className='d-none d-md-flex justify-content-center col-3'>
+				<div className='display-habits__main-container custom-table-row d-flex flex-wrap align-items-center border-bottom' key={index}>
+					<div className='display-habits__id col-1 d-none d-md-block fw-bold'>{index + 1}.</div>
+					<div className='display-habits__name display-habit__name-row col-12 col-md-3'>{habit.name}</div>
+					<div className='display-habits__description col-12 col-md-3'>{habit.description}</div>
+					<div className='display-habits__created_at col-8 col-md-2'>{habit.created_at}</div>
+					<div className='display-habits__buttons-container d-flex justify-content-center col-4 col-md-3'>
 						<StartHabit habitId={habit.id} />
 						<EditHabit habitProp={habit} />
 						<DeleteHabit habitId={habit.id} />

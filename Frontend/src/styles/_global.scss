@@ -15,6 +15,9 @@ $pink: linear-gradient(90deg, #c471f2, #f76cc6);
 $purple: linear-gradient(90deg, #0e0725, #5c03bc, #c72591, #5a0042);
 $light-white: linear-gradient(90deg, #e0e0e4, #e4e2e2);
 $white: #ebedf7;
+$light-grey: #6969692c;
+$grey: #888888;
+$dark-grey: #4e4e4e;
 
 body {
 	background: $light-white;
@@ -40,8 +43,9 @@ body {
 .display-icon {
 	font-size: 16px;
 	color: #a5a5a5;
-	transition: 0.3s ease;
+	transition: 0.2s ease;
 	pointer-events: none;
+	cursor: pointer;
 }
 .sort-btn:hover .sort-icon {
 	color: black;
@@ -50,4 +54,29 @@ body {
 .display-btn:hover .display-icon {
 	color: black;
 	transform: translateY(1px);
+}
+
+.action-btn {
+	padding: 0.1rem;
+	background-color: $light-grey;
+	color: $dark-grey;
+	transition: 0.2s ease;
+	border-radius: 5px;
+	border: none;
+	font-size: 16px;
+	cursor: pointer;
+	&:hover {
+		font-weight: bold;
+		background-color: $grey;
+		color: $white;
+	}
+}
+
+.header-custom-table-names,
+.custom-table-row {
+	padding: 0.5rem;
+}
+
+.header-custom-table-names {
+	color: $grey;
 }

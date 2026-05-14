@@ -42,7 +42,7 @@ export default function EditHabit({ habitProp }: { habitProp: UserHabitData }) {
 
 	return (
 		<>
-			<button className='me-2' onClick={handleOpenModal}>
+			<button className='action-btn me-2' onClick={handleOpenModal}>
 				<CiEdit size={24} />
 			</button>
 

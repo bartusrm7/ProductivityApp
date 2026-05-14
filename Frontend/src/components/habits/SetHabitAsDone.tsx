@@ -78,7 +78,7 @@ export default function SetHabitAsDone({ habitId, amountDaysDone }: { habitId: n
 
 	return (
 		<>
-			<button className="me-2" onClick={handleServeAllMethods}>
+			<button className="action-btn me-2" onClick={handleServeAllMethods}>
 				<MdDownloadDone size={24} />
 			</button>
 
