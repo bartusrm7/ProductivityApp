@@ -26,7 +26,7 @@ export default function StartHabit({ habitId }: { habitId: number }) {
 
 	return (
 		<>
-			<button className='action-btn me-2' onClick={handleStartHabit}>
+			<button className='action-btn success-action-btn me-2' onClick={handleStartHabit}>
 				<MdDownloadDone size={24} />
 			</button>
 		</>

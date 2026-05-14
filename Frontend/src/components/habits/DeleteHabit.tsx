@@ -19,7 +19,7 @@ export default function DeleteHabit({ habitId }: { habitId: number }) {
 
 	return (
 		<>
-			<button className="action-btn" onClick={handleDeleteHabit}>
+			<button className="action-btn delete-action-btn" onClick={handleDeleteHabit}>
 				<RiDeleteBin6Line size={24} />
 			</button>
 		</>
