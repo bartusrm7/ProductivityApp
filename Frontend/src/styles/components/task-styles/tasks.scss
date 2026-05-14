@@ -10,4 +10,59 @@
 	@include min-width(1200px) {
 		margin-left: 220px;
 	}
+	&__priority-name {
+		&--low {
+			background: #dcfce7;
+			color: $low;
+			border: 1px solid #34ff7b;
+		}
+		&--medium {
+			background: #fef9c3;
+			color: $medium;
+			border: 1px solid #e6cf00;
+		}
+		&--high {
+			background: #fee2e2;
+			color: $high;
+			border: 1px solid #ff4949;
+		}
+		&--low,
+		&--medium,
+		&--high {
+			padding: 0.1rem 0;
+			font-weight: bold;
+		}
+	}
+}
+
+.main-task-container {
+	border-radius: 5px;
+	&:hover {
+		background-color: $light-grey;
+	}
+	@include max-width(768px) {
+		div {
+			margin: 0.1rem 0;
+		}
+		.task-id {
+			order: 1;
+		}
+		.task-name {
+			order: 2;
+		}
+		.task-date {
+			order: 3;
+		}
+		.task-priority {
+			margin-top: 0.25rem;
+			order: 5;
+		}
+		.task-btns-container {
+			order: 4;
+		}
+	}
+}
+
+.task-name {
+	font-weight: bold;
 }

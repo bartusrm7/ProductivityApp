@@ -8,9 +8,7 @@
 			background-color: $light-grey;
 		}
 	}
-	&__name,
-	&__streak_days,
-	&__amount_days_done {
+	&__name {
 		font-weight: bold;
 	}
 	@include max-width(768px) {

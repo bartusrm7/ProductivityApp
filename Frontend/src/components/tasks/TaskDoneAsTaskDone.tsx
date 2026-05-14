@@ -1,4 +1,3 @@
-import { Button } from "react-bootstrap";
 import { MdDownloadDone } from "react-icons/md";
 import type { UserTaskData } from "../../types/tasks";
 import { useEffect, useState } from "react";
@@ -20,7 +19,7 @@ export default function TaskDoneAsTaskDone({ taskProp, refreshData }: { taskProp
 		e.preventDefault();
 		try {
 			const jwt = localStorage.getItem("jwt");
-			const response = await fetch("http://productivityapp.local/done-task", {
+			await fetch("http://productivityapp.local/done-task", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -41,9 +40,9 @@ export default function TaskDoneAsTaskDone({ taskProp, refreshData }: { taskProp
 
 	return (
 		<>
-			<Button className='bg-success me-2' onClick={handleTaskDoneAsTaskDone}>
+			<button className='action-btn success-action-btn me-2' onClick={handleTaskDoneAsTaskDone}>
 				<MdDownloadDone size={24} />
-			</Button>
+			</button>
 		</>
 	);
 }

@@ -4,14 +4,12 @@ import type { UserTaskData } from "../../types/tasks";
 import TaskDelete from "./TaskDelete";
 import TaskEdit from "./TaskEdit";
 import TaskDoneAsTaskDone from "./TaskDoneAsTaskDone";
-import { CiMenuKebab } from "react-icons/ci";
 import { Button } from "react-bootstrap";
 
 export default function TasksInProgress() {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
-	const [isOpenMenuActionButtons, setIsOpenMenuActionButtons] = useState<number | null>(null);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 	const [refresh, setRefresh] = useState<number>(0);
 	const [isMenuDisplay, setIsMenuDisplay] = useState<boolean>(true);
@@ -65,10 +63,6 @@ export default function TasksInProgress() {
 		setSortDataKey(key);
 	};
 
-	const handleOpenMenuWithActionButtons = (taskId: number) => {
-		setIsOpenMenuActionButtons(prevState => (prevState === taskId ? null : taskId));
-	};
-
 	useEffect(() => {
 		getInProgressTasks();
 	}, [refresh]);
@@ -83,14 +77,11 @@ export default function TasksInProgress() {
 		<div className='tasks-in-progress'>
 			<div className='my-3'>
 				<div>
-					<div>
-						<div className='d-flex align-items-center'>
-							<Button className={`tasks-in-progress__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>
-								<IoIosArrowUp size={24} className='display-icon' />
-							</Button>
-							<h4 className='ms-2 mb-0'>In Progress</h4>
-						</div>
-						<hr />
+					<div className='d-flex align-items-center border-bottom pb-1'>
+						<Button className={`tasks-in-progress__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>
+							<IoIosArrowUp size={24} className='display-icon' />
+						</Button>
+						<h4 className='ms-2 mb-0'>In Progress</h4>
 					</div>
 					<div>
 						{isMenuDisplay && (
@@ -105,7 +96,7 @@ export default function TasksInProgress() {
 									</div>
 								) : (
 									<div className='col-12'>
-										<div className='d-none d-md-flex fw-bold border-bottom py-2'>
+										<div className='header-custom-table-names d-none d-md-flex border-bottom'>
 											<div className='d-flex align-items-center col-1'>
 												<div>#</div>
 												<button className='sort-btn ms-2' onClick={handleSortFunction} value='id'>
@@ -134,22 +125,12 @@ export default function TasksInProgress() {
 										</div>
 										<div>
 											{taskData.map((task, index) => (
-												<div className='d-flex flex-wrap align-items-center border-bottom py-2' key={index}>
-													<div className='col-1 fw-bold'>{index + 1}.</div>
-													<div className='col-6 col-md-4'>{task.name}</div>
-													<div className='col-5 col-md-3'>{new Date(task.created_at).toLocaleString()}</div>
-													<div className={task.priority === "low" ? "tasks-in-progress__priority bg-success d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : task.priority === "medium" ? "tasks-in-progress__priority bg-warning d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : task.priority === "high" ? "tasks-in-progress__priority bg-danger d-flex justify-content-center rounded-3 py-2 col-6 col-md-2" : ""}>{task.priority}</div>
-													<div className='col-6 d-md-none text-end'>
-														<CiMenuKebab size={24} onClick={() => handleOpenMenuWithActionButtons(task.id)} />
-													</div>
-													{isOpenMenuActionButtons === task.id && (
-														<div className='d-flex d-md-none justify-content-center col-6 col-md-2'>
-															<TaskDoneAsTaskDone refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
-															<TaskEdit refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
-															<TaskDelete refreshData={() => setRefresh(prevState => prevState + 1)} taskId={task.id} />
-														</div>
-													)}
-													<div className='d-none d-md-flex justify-content-end col-6 col-md-2'>
+												<div className='main-task-container custom-table-row d-flex flex-wrap align-items-center border-bottom py-2' key={index}>
+													<div className='task-id col-1 fw-bold'>{index + 1}.</div>
+													<div className='task-name col-12 col-md-4'>{task.name}</div>
+													<div className='task-date col-7 col-md-3'>{new Date(task.created_at).toLocaleString()}</div>
+													<div className={`tasks-in-progress__priority task-priority d-flex justify-content-center col-12 col-md-2 tasks__priority-name--${task.priority}`}>{task.priority}</div>
+													<div className='task-btns-container d-flex justify-content-end col-5 col-md-2'>
 														<TaskDoneAsTaskDone refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
 														<TaskEdit refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
 														<TaskDelete refreshData={() => setRefresh(prevState => prevState + 1)} taskId={task.id} />

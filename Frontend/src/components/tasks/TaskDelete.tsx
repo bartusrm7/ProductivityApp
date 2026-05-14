@@ -1,11 +1,10 @@
-import { Button } from "react-bootstrap";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 export default function TaskDelete({ taskId, refreshData }: { taskId: number; refreshData: () => void }) {
 	async function handleDeleteTask() {
 		try {
 			const jwt = localStorage.getItem("jwt");
-			const response = await fetch("http://productivityapp.local/delete-task", {
+			await fetch("http://productivityapp.local/delete-task", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -21,9 +20,9 @@ export default function TaskDelete({ taskId, refreshData }: { taskId: number; re
 
 	return (
 		<>
-			<Button className='bg-danger' onClick={handleDeleteTask}>
+			<button className="action-btn delete-action-btn" onClick={handleDeleteTask}>
 				<RiDeleteBin6Line size={24} />
-			</Button>
+			</button>
 		</>
 	);
 }

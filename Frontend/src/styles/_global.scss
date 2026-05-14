@@ -18,6 +18,9 @@ $white: #ebedf7;
 $light-grey: #6969692c;
 $grey: #888888;
 $dark-grey: #4e4e4e;
+$low: #15803d;
+$medium: #a16207;
+$high: #b91c1c;
 
 body {
 	background: $light-white;
@@ -65,10 +68,35 @@ body {
 	border: none;
 	font-size: 16px;
 	cursor: pointer;
+}
+
+.success-action-btn {
+	background: #cffec3;
+	color: rgb(112, 187, 0);
+	border: 1px solid #68e600;
 	&:hover {
-		font-weight: bold;
-		background-color: $grey;
-		color: $white;
+		background: rgb(112, 187, 0);
+		color: #cffec3;
+	}
+}
+
+.edit-action-btn {
+	background: #dce7fc;
+	color: blue;
+	border: 1px solid #3459ff;
+	&:hover {
+		background: blue;
+		color: #dce7fc;
+	}
+}
+
+.delete-action-btn {
+	background: #ffdcd8;
+	color: rgb(255, 24, 24);
+	border: 1px solid #ff2727;
+	&:hover {
+		background: rgb(255, 24, 24);
+		color: #ffdcd8;
 	}
 }
 
