@@ -2,7 +2,14 @@
 @use "../../mixins" as *;
 
 .display-note {
-	&__important-btn {
+	&__main-container {
+		border-radius: 5px;
+		&:hover {
+			background-color: $light-grey;
+		}
+	}
+	&__name {
+		font-weight: bold;
 	}
 	&__important-btn {
 		background: none;
@@ -17,6 +24,26 @@
 		}
 		&:focus {
 			background: none !important;
+		}
+	}
+	@include max-width(768px) {
+		&__id {
+			order: 1;
+		}
+		&__important {
+			order: 3;
+		}
+		&__name {
+			order: 2;
+		}
+		&__tag {
+			order: 4;
+		}
+		&__created_at {
+			order: 5;
+		}
+		&__btns-container {
+			order: 6;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-import { Button } from "react-bootstrap";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 export default function DeleteNote({ noteId }: { noteId: number }) {
@@ -21,9 +20,9 @@ export default function DeleteNote({ noteId }: { noteId: number }) {
 
 	return (
 		<>
-			<Button className='bg-danger' onClick={handleDeleteNote}>
+			<button className='action-btn delete-action-btn' onClick={handleDeleteNote}>
 				<RiDeleteBin6Line size={24} />
-			</Button>
+			</button>
 		</>
 	);
 }

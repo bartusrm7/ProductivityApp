@@ -42,9 +42,9 @@ export default function EditNote({ noteProp }: { noteProp: UserNotesData }) {
 
 	return (
 		<>
-			<Button className='bg-primary me-2' onClick={handleOpenModal}>
+			<button className='action-btn edit-action-btn me-2' onClick={handleOpenModal}>
 				<CiEdit size={24} />
-			</Button>
+			</button>
 
 			{showModal && (
 				<Modal show={showModal} onHide={handleCloseModal}>

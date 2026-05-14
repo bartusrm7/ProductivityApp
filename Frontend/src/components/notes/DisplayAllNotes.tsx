@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { UserNotesData } from "../../types/notes";
-import { CiMenuKebab } from "react-icons/ci";
 import SetNoteImportant from "./SetNoteImportant";
 import DeleteNote from "./DeleteNote";
 import EditNote from "./EditNote";
@@ -10,7 +9,6 @@ export default function DisplayAllNotes() {
 	const [notesData, setNotesData] = useState<UserNotesData[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
-	const [isOpenMenuActionButtons, setIsOpenMenuActionButtons] = useState<number | null>(null);
 
 	async function getAllNotes() {
 		const jwt = localStorage.getItem("jwt");
@@ -71,10 +69,6 @@ export default function DisplayAllNotes() {
 		setSortDataKey(key);
 	};
 
-	const handleOpenMenuWithActionButtons = (habitId: number) => {
-		setIsOpenMenuActionButtons(prevState => (prevState === habitId ? null : habitId));
-	};
-
 	useEffect(() => {
 		if (sortDataKey) {
 			sortNotesFunction();
@@ -90,7 +84,7 @@ export default function DisplayAllNotes() {
 			<div className='d-flex align-items-center'>
 				<h4 className='ms-2 mb-0'>Done</h4>
 			</div>
-			<div className='d-none d-md-flex fw-bold border-bottom py-2'>
+			<div className='header-custom-table-names d-none d-md-flex fw-bold border-bottom'>
 				<div className='col-1'>
 					#
 					<button className='sort-btn' onClick={handleSortFunction} value='id'>
@@ -119,26 +113,15 @@ export default function DisplayAllNotes() {
 				<div className='col-3 text-center'>Actions</div>
 			</div>
 			{notesData.map((note, index) => (
-				<div className='d-flex flex-wrap align-items-center border-bottom py-2' key={index}>
-					<div className='col-1 d-none d-md-block fw-bold'>{index + 1}.</div>
-					<div className='col-1 d-md-block'>
+				<div className='display-note__main-container custom-table-row d-flex flex-wrap align-items-center border-bottom' key={index}>
+					<div className='display-note__id col-1 d-none d-md-block fw-bold'>{index + 1}.</div>
+					<div className='display-note__important col-1 text-end text-md-center'>
 						<SetNoteImportant noteId={note.id} importantNote={note.important} handleImportantNote={handleUpdateNoteImportant} />
 					</div>
-					<div className='display-note__name-row col-10 col-md-3'>{note.name}</div>
-					<div className='col-1 d-md-none text-end'>
-						<CiMenuKebab size={24} />
-					</div>
-					<div className='col-9 col-md-2'>{note.tag}</div>
-					<div className='col-2 d-none d-md-flex'>{note.created_at}</div>
-					<div className='d-md-none justify-content-center col-3'>
-						{isOpenMenuActionButtons === note.id && (
-							<div>
-								<EditNote noteProp={note} />
-								<DeleteNote noteId={note.id} />
-							</div>
-						)}
-					</div>
-					<div className='d-none d-md-flex justify-content-center col-3'>
+					<div className='display-note__name col-11 col-md-3'>{note.name}</div>
+					<div className='display-note__tag col-9 col-md-2'>{note.tag}</div>
+					<div className='display-note__created_at col-7 col-md-2'>{note.created_at}</div>
+					<div className='display-note__btns-container d-flex justify-content-end justify-content-md-center col-5 col-md-3'>
 						<EditNote noteProp={note} />
 						<DeleteNote noteId={note.id} />
 					</div>

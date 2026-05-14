@@ -1,0 +1,13 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.create-note {
+	&__create-btn {
+		@include min-max-width(768px, 1200px) {
+			width: 300px;
+		}
+		@include min-width(1200px) {
+			width: 400px;
+		}
+	}
+}
