@@ -7,7 +7,7 @@ export default function StartHabit({ habitId }: { habitId: number }) {
 	async function handleStartHabit() {
 		try {
 			const jwt = localStorage.getItem("jwt");
-			const response = await fetch("http://productivityapp.local/habit-status-started", {
+			await fetch("http://productivityapp.local/habit-status-started", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

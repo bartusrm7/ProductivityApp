@@ -3,12 +3,10 @@ import type { UserHabitData } from "../../types/habits";
 import EditHabit from "./EditHabit";
 import DeleteHabit from "./DeleteHabit";
 import { IoIosArrowUp } from "react-icons/io";
-import { CiMenuKebab } from "react-icons/ci";
 import StartHabit from "./StartHabit";
 
 export default function DisplayHabits() {
 	const [habitsData, setHabitsData] = useState<UserHabitData[]>([]);
-	const [isOpenMenuActionButtons, setIsOpenMenuActionButtons] = useState<number | null>(null);
 
 	async function getAllHabits() {
 		const jwt = localStorage.getItem("jwt");
@@ -24,10 +22,6 @@ export default function DisplayHabits() {
 			setHabitsData(data.data);
 		}
 	}
-
-	const handleOpenMenuWithActionButtons = (habitId: number) => {
-		setIsOpenMenuActionButtons(prevState => (prevState === habitId ? null : habitId));
-	};
 
 	useEffect(() => {
 		getAllHabits();

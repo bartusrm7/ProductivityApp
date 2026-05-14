@@ -60,7 +60,7 @@ class HabitsController
             $userId = $this->jwtservice->getUserIdFromJWT();
 
             $data = json_decode(file_get_contents('php://input'), true);
-            $id = $data['id'];
+            $id = $data['habit_id'] ?? $data['id'] ?? null;
             $name = $data['name'];
             $description = $data['description'];
 

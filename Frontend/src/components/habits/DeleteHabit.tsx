@@ -4,7 +4,7 @@ export default function DeleteHabit({ habitId }: { habitId: number }) {
 	async function handleDeleteHabit() {
 		try {
 			const jwt = localStorage.getItem("jwt");
-			const response = await fetch("http://productivityapp.local/delete-habit", {
+			await fetch("http://productivityapp.local/delete-habit", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -19,7 +19,7 @@ export default function DeleteHabit({ habitId }: { habitId: number }) {
 
 	return (
 		<>
-			<button className="action-btn delete-action-btn" onClick={handleDeleteHabit}>
+			<button className='action-btn delete-action-btn' onClick={handleDeleteHabit}>
 				<RiDeleteBin6Line size={24} />
 			</button>
 		</>

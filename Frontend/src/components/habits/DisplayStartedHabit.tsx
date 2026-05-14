@@ -4,11 +4,9 @@ import type { UserHabitDetailsDataJoined } from "../../types/habits";
 import EditHabit from "./EditHabit";
 import DeleteHabit from "./DeleteHabit";
 import SetHabitAsDone from "./SetHabitAsDone";
-import { CiMenuKebab } from "react-icons/ci";
 
 export default function DisplayStartedHabit() {
 	const [habitsDetails, setHabitsDetails] = useState<UserHabitDetailsDataJoined[]>([]);
-	const [isOpenMenuActionButtons, setIsOpenMenuActionButtons] = useState<number | null>(null);
 
 	async function getStartedHabits() {
 		const jwt = localStorage.getItem("jwt");
@@ -25,16 +23,12 @@ export default function DisplayStartedHabit() {
 		}
 	}
 
-	const handleOpenMenuWithActionButtons = (habitId: number) => {
-		setIsOpenMenuActionButtons(prevState => (prevState === habitId ? null : habitId));
-	};
-
 	useEffect(() => {
 		getStartedHabits();
 	}, []);
 
 	return (
-		<div className="display-started-habit">
+		<div className='display-started-habit'>
 			<div className='d-flex align-items-center border-bottom pb-1'>
 				<IoIosArrowUp size={24} />
 				<h4 className='ms-2 mb-0'>Started</h4>
@@ -53,13 +47,16 @@ export default function DisplayStartedHabit() {
 					<div className='display-started-habit__id habit-started-order col-md-1 d-none d-md-block fw-bold'>{index + 1}.</div>
 					<div className='display-started-habit__name habit-started-order col-9 col-md-2'>{habit.name}</div>
 					<div className='display-started-habit__description habit-started-order col-10 col-md-3'>{habit.description}</div>
-					<div className='display-started-habit__streak_days habit-started-order text-end text-md-start col-2 col-md-1'><span className="me-1">🔥</span>{habit.streak_days}</div>
+					<div className='display-started-habit__streak_days habit-started-order text-end text-md-start col-2 col-md-1'>
+						<span className='me-1'>🔥</span>
+						{habit.streak_days}
+					</div>
 					<div className='display-started-habit__amount_days_done habit-started-order text-end text-md-start col-1 col-md-1'>{habit.amount_days_done}</div>
 					<div className='display-started-habit__created_at col-8 habit-started-order col-md-2'>{habit.created_at}</div>
 					<div className='display-started-habit__buttons-container habit-started-order col-4 d-flex justify-content-end justify-content-md-center col-md-2'>
 						<SetHabitAsDone habitId={habit.id} amountDaysDone={habit.amount_days_done} />
 						<EditHabit habitProp={habit} />
-						<DeleteHabit habitId={habit.id} />
+						<DeleteHabit habitId={habit.habit_id} />
 					</div>
 				</div>
 			))}
