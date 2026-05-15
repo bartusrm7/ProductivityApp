@@ -9,6 +9,7 @@ export default function DisplayAllNotes() {
 	const [notesData, setNotesData] = useState<UserNotesData[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
+	const [refresh, setRefresh] = useState<number>(0);
 
 	async function getAllNotes() {
 		const jwt = localStorage.getItem("jwt");
@@ -77,7 +78,7 @@ export default function DisplayAllNotes() {
 
 	useEffect(() => {
 		getAllNotes();
-	}, []);
+	}, [refresh]);
 
 	return (
 		<div className='display-note w-100'>
@@ -122,8 +123,8 @@ export default function DisplayAllNotes() {
 					<div className='display-note__tag col-9 col-md-2'>{note.tag}</div>
 					<div className='display-note__created_at col-7 col-md-2'>{note.created_at}</div>
 					<div className='display-note__btns-container d-flex justify-content-end justify-content-md-center col-5 col-md-3'>
-						<EditNote noteProp={note} />
-						<DeleteNote noteId={note.id} />
+						<EditNote noteProp={note} refreshData={() => setRefresh(prevState => prevState + 1)} />
+						<DeleteNote noteId={note.id} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 			))}

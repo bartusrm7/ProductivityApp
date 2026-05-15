@@ -1,9 +1,8 @@
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-export default function DeleteNote({ noteId }: { noteId: number }) {
+export default function DeleteNote({ noteId, refreshData }: { noteId: number; refreshData: () => void }) {
 	async function handleDeleteNote() {
 		try {
-			console.log(noteId);
 			const jwt = localStorage.getItem("jwt");
 			await fetch("http://productivityapp.local/delete-note", {
 				method: "POST",
@@ -13,6 +12,7 @@ export default function DeleteNote({ noteId }: { noteId: number }) {
 				},
 				body: JSON.stringify({ id: noteId }),
 			});
+			refreshData();
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}

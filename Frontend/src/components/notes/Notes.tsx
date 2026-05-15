@@ -7,13 +7,14 @@ import DisplayAllNotes from "./DisplayAllNotes";
 export default function Habits() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
+	const [refresh, setRefresh] = useState<number>(0);
 
 	const handleCloseModal = () => setShowModal(false);
 	const handleOpenModal = () => setShowModal(true);
 
 	useEffect(() => {
 		document.title = "ProductivityApp - Habits";
-	});
+	}, [refresh]);
 
 	return (
 		<>
@@ -24,7 +25,7 @@ export default function Habits() {
 					<div className='p-3 p-md-4'>
 						<div className='d-flex justify-content-between align-items-center'>
 							<h2 className='mb-0'>Notes</h2>
-							<CreateNote show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
+							<CreateNote show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
 					</div>
 				</div>
