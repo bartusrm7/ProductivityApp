@@ -57,7 +57,7 @@ class NotesService implements NotesServiceInterface
         $result = $this->repository->getAllNotesQuery($userId);
         return [
             'success' => true,
-            'data'    => $result
+            'data'    => array_map(fn($note) => [...$note, 'important' => (bool) $note['important']], $result),
         ];
     }
 
@@ -77,10 +77,10 @@ class NotesService implements NotesServiceInterface
             return ['errors' => $errors];
         }
         $important = (bool) $important;
-        $result = $this->repository->setImportantNoteQuery($id, $important, $userId);
+        $this->repository->setImportantNoteQuery($id, $important, $userId);
         return [
-            'success' => true,
-            'data' => $result
+            'success'   => true,
+            'important' => $important
         ];
     }
 

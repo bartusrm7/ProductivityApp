@@ -34,7 +34,7 @@ export default function DisplayAllNotes() {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${jwt}`,
 				},
-				body: JSON.stringify({ id: noteId, important: importantNote }),
+				body: JSON.stringify({ id: noteId, important: !importantNote }),
 			});
 			setNotesData(prevState => prevState.map(note => (note.id === noteId ? { ...note, important: !importantNote } : note)));
 		} catch (error) {

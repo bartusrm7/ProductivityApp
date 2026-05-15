@@ -23,7 +23,7 @@ export default function Habits() {
 				<div className='habits__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
 						<div className='d-flex justify-content-between align-items-center'>
-							<h2 className='mb-0'>My Habits</h2>
+							<h2 className='mb-0'>Notes</h2>
 							<CreateNote show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
 						</div>
 					</div>
