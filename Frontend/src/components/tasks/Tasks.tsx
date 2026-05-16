@@ -9,14 +9,13 @@ import TasksDone from "./TasksDone";
 export default function Tasks() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
-	const [refresh, setRefresh] = useState<number>(0);
 
 	const handleCloseModal = () => setShowModal(false);
 	const handleOpenModal = () => setShowModal(true);
 
 	useEffect(() => {
 		document.title = "ProductivityApp - Tasks";
-	}, [refresh]);
+	}, []);
 
 	return (
 		<>
@@ -27,7 +26,7 @@ export default function Tasks() {
 					<div className='p-3 p-md-4'>
 						<div className='d-flex justify-content-between align-items-center'>
 							<h2 className='mb-0'>My Tasks</h2>
-							<CreateTask refreshData={() => setRefresh(prevState => prevState + 1)} show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
+							<CreateTask show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
 						</div>
 					</div>
 				</div>

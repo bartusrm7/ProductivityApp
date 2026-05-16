@@ -24,6 +24,7 @@ export default function DisplayAllNotes() {
 		const data = await response.json();
 		if (data.success) {
 			setNotesData(data.data);
+			setRefresh(prevState => prevState + 1);
 		}
 	}
 

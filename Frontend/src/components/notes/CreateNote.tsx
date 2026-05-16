@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { UserNotesData } from "../../types/notes";
 import { Button, Modal, Form } from "react-bootstrap";
 
-export default function CreateNote({ show, handleOpenModal, handleCloseModal, refreshData }: { show: boolean; handleOpenModal: () => void; handleCloseModal: () => void; refreshData: () => void }) {
+export default function CreateNote({ show, handleOpenModal, handleCloseModal }: { show: boolean; handleOpenModal: () => void; handleCloseModal: () => void }) {
 	const [notesData, setNotesData] = useState<UserNotesData>({ id: 0, name: "", tag: "", created_at: new Date().toISOString(), important: false, savedToHistory: false });
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
@@ -22,7 +22,7 @@ export default function CreateNote({ show, handleOpenModal, handleCloseModal, re
 			if (data.errors) {
 				setErrorsArray(data.errors);
 			} else {
-				refreshData();
+				handleCloseModal();
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
