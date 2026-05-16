@@ -44,7 +44,12 @@ class NotesRepository implements NotesRepositoryInterface
 
     public function getSavedToHistoryNotesQuery(int $userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM notes WHERE saved_to_history = 1 AND user_id = :user_id ORDER BY important DESC');
+        $stmt = $this->pdo->prepare(
+            'SELECT * FROM notes as n
+            INNER JOIN notes_history AS nh ON nh.note_id = n.id
+            WHERE n.user_id = :user_id
+            AND n.saved_to_history = 1'
+        );
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
@@ -70,6 +75,9 @@ class NotesRepository implements NotesRepositoryInterface
         $savedToHistory = $savedToHistory ? 1 : 0;
         $stmt = $this->pdo->prepare('UPDATE notes SET saved_to_history = :saved_to_history WHERE id = :id AND user_id = :user_id');
         $stmt->execute([':id' => $id, ':saved_to_history' => $savedToHistory, ':user_id' => $userId]);
+
+        $stmt = $this->pdo->prepare('INSERT INTO notes_history (date_saved, note_id) VALUES (:date_saved, :note_id)');
+        $stmt->execute([':date_saved' => new DateTime()->format('Y-m-d H:i:s'), ':note_id' => $id]);
 
         return new NotesModel(
             $id,

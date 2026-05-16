@@ -104,7 +104,7 @@ export default function DisplayAllNotes() {
 	return (
 		<div className='display-note w-100'>
 			<div className='d-flex align-items-center'>
-				<h4 className='ms-2 mb-0'>Done</h4>
+				<h4 className='ms-2 mb-0'>Notes</h4>
 			</div>
 			<div className='header-custom-table-names d-none d-md-flex fw-bold border-bottom'>
 				<div className='col-1'>

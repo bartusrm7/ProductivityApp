@@ -12,7 +12,7 @@ export interface UserNotesDataJoined {
 	name: string;
 	tag: string;
 	created_at: string;
-	dateSaved: string;
+	date_saved: string;
 	important: boolean;
 	savedToHistory: boolean;
 }
