@@ -7,6 +7,7 @@ import StartHabit from "./StartHabit";
 
 export default function DisplayHabits() {
 	const [habitsData, setHabitsData] = useState<UserHabitData[]>([]);
+	const [refresh, setRefresh] = useState<number>(0);
 
 	async function getAllHabits() {
 		const jwt = localStorage.getItem("jwt");
@@ -20,12 +21,13 @@ export default function DisplayHabits() {
 		const data = await response.json();
 		if (data.success) {
 			setHabitsData(data.data);
+			setRefresh(prevState => prevState + 1);
 		}
 	}
 
 	useEffect(() => {
 		getAllHabits();
-	}, []);
+	}, [refresh]);
 
 	return (
 		<div className='display-habits'>
