@@ -107,6 +107,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // NOTES
     $r->addRoute('GET', '/get-notes', [NotesController::class, 'getNotes']);
+    $r->addRoute('GET', '/get-saved-notes', [NotesController::class, 'getSavedToHistoryNotes']);
     $r->addRoute('GET', '/sort-notes', [NotesController::class, 'sortNotes']);
 
     // POST

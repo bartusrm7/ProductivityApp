@@ -42,6 +42,13 @@ class NotesRepository implements NotesRepositoryInterface
         return $stmt->fetchAll();
     }
 
+    public function getSavedToHistoryNotesQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM notes WHERE saved_to_history = 1 AND user_id = :user_id ORDER BY important DESC');
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
+
     public function setImportantNoteQuery(int $id, bool $important, int $userId)
     {
         $important = $important ? 1 : 0;

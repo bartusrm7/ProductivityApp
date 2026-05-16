@@ -54,6 +54,22 @@ class NotesController
         }
     }
 
+    public function getSavedToHistoryNotes()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $userId = $this->jwtservice->getUserIdFromJWT();
+
+            $result = $this->service->getSavedToHistoryNotes($userId);
+            if (isset($result['success'])) {
+                http_response_code(200);
+                echo json_encode($result);
+            } else {
+                http_response_code(422);
+                echo json_encode($result);
+            }
+        }
+    }
+
     public function setImportantNote()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
