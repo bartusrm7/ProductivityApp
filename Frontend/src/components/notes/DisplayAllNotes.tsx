@@ -4,6 +4,7 @@ import SetNoteImportant from "./SetNoteImportant";
 import DeleteNote from "./DeleteNote";
 import EditNote from "./EditNote";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import SaveNoteToHistory from "./SaveNoteToHistory";
 
 export default function DisplayAllNotes() {
 	const [notesData, setNotesData] = useState<UserNotesData[]>([]);
@@ -38,6 +39,26 @@ export default function DisplayAllNotes() {
 				body: JSON.stringify({ id: noteId, important: !importantNote }),
 			});
 			setNotesData(prevState => prevState.map(note => (note.id === noteId ? { ...note, important: !importantNote } : note)));
+		} catch (error) {
+			console.error("Server error. Try again.", error);
+		}
+	}
+
+	async function handleSaveNoteIntoHistory(noteId: number, saveToHistory: boolean) {
+		try {
+			const jwt = localStorage.getItem("jwt");
+			const response = await fetch("http://productivityapp.local/save-note-to-history", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${jwt}`,
+				},
+				body: JSON.stringify({ id: noteId, saveToHistory: !saveToHistory }),
+			});
+			const data = await response.json();
+			if (data.success) {
+				setNotesData(prevState => prevState.map(note => (note.id === noteId ? { ...note, saveToHistory: !saveToHistory } : note)));
+			}
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}
@@ -123,6 +144,7 @@ export default function DisplayAllNotes() {
 					<div className='display-note__tag col-9 col-md-2'>{note.tag}</div>
 					<div className='display-note__created_at col-7 col-md-2'>{note.created_at}</div>
 					<div className='display-note__btns-container d-flex justify-content-end justify-content-md-center col-5 col-md-3'>
+						<SaveNoteToHistory noteId={note.id} saveToHistory={note.savedToHistory} handleSaveToHistory={handleSaveNoteIntoHistory} />
 						<EditNote noteProp={note} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						<DeleteNote noteId={note.id} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>

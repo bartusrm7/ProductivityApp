@@ -30,13 +30,14 @@ class NotesRepository implements NotesRepositoryInterface
             $name,
             $tag,
             $createdAt,
+            false,
             false
         );
     }
 
     public function getAllNotesQuery(int $userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM notes WHERE user_id = :user_id');
+        $stmt = $this->pdo->prepare('SELECT * FROM notes WHERE saved_to_history = 0 AND user_id = :user_id ORDER BY important DESC');
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
@@ -52,7 +53,24 @@ class NotesRepository implements NotesRepositoryInterface
             '',
             '',
             new DateTime,
-            (bool) $important
+            (bool) $important,
+            false
+        );
+    }
+
+    public function saveNoteIntoHistoryQuery(int $id, bool $savedToHistory, int $userId)
+    {
+        $savedToHistory = $savedToHistory ? 1 : 0;
+        $stmt = $this->pdo->prepare('UPDATE notes SET saved_to_history = :saved_to_history WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':saved_to_history' => $savedToHistory, ':user_id' => $userId]);
+
+        return new NotesModel(
+            $id,
+            '',
+            '',
+            new DateTime,
+            false,
+            (bool) $savedToHistory
         );
     }
 
@@ -66,6 +84,7 @@ class NotesRepository implements NotesRepositoryInterface
             $name,
             $tag,
             new DateTime,
+            false,
             false
         );
     }

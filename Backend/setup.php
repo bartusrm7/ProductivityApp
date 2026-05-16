@@ -15,3 +15,4 @@ $db->createTasksDataTable();
 $db->createHabitsTable();
 $db->createHabitsDataTable();
 $db->createNotesTable();
+$db->createNotesHistoryTable();

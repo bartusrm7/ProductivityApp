@@ -30,6 +30,12 @@ class NotesValidation
             return 'Created at time is not exists';
         }
     }
+    public function emptySavedToHistory(bool $savedToHistory)
+    {
+        if (!isset($savedToHistory)) {
+            return 'Saved history note is not exists';
+        }
+    }
     public function emptyImportantNote(bool $important)
     {
         if (!isset($important)) {

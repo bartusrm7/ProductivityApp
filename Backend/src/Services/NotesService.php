@@ -84,6 +84,29 @@ class NotesService implements NotesServiceInterface
         ];
     }
 
+    public function saveNoteIntoHistory(int $id, bool $savedToHistory, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyNoteId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptySavedToHistory($savedToHistory)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $savedToHistory = (bool) $savedToHistory;
+        $this->repository->saveNoteIntoHistoryQuery($id, $savedToHistory, $userId);
+        return [
+            'success'       => true,
+            'saveToHistory' => $savedToHistory
+        ];
+    }
+
     public function editNote(int $id, string $name, string $tag, int $userId)
     {
         $errors = [];

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 
 export default function EditNote({ noteProp, refreshData }: { noteProp: UserNotesData; refreshData: () => void }) {
-	const [noteData, setNoteData] = useState<UserNotesData>({ id: 0, name: "", tag: "", created_at: "", important: false });
+	const [noteData, setNoteData] = useState<UserNotesData>({ id: 0, name: "", tag: "", created_at: "", important: false, savedToHistory: false });
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 

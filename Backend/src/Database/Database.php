@@ -112,11 +112,25 @@ class Database
             tag VARCHAR(255) NOT NULL,
             created_at DATETIME,
             important TINYINT(1) DEFAULT 0,
+            saved_to_history TINYINT(1) DEFAULT 0,
             user_id INT,
             CONSTRAINT fk_user_notes
             FOREIGN KEY (user_id)
             REFERENCES users(id)
             ON DELETE CASCADE 
+        )');
+    }
+
+    public function createNotesHistoryTable()
+    {
+        $this->pdo->exec('CREATE TABLE IF NOT EXISTS notes_history (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            date_saved DATETIME NOT NULL,
+            note_id INT,
+            CONSTRAINT fk_notes
+            FOREIGN KEY (note_id)
+            REFERENCES notes(id)
+            ON DELETE CASCADE
         )');
     }
 }
