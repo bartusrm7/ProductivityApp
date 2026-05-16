@@ -6,6 +6,7 @@ export default function DisplaySavedToHistoryNotes() {
 	const [notesData, setNotesData] = useState<UserNotesDataJoined[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
+	const [refresh, setRefresh] = useState<number>(0);
 
 	async function getAllNotes() {
 		const jwt = localStorage.getItem("jwt");
@@ -19,7 +20,7 @@ export default function DisplaySavedToHistoryNotes() {
 		const data = await response.json();
 		if (data.success) {
 			setNotesData(data.data);
-			console.log(data.data);
+			setRefresh(prevState => prevState + 1);
 		}
 	}
 
@@ -36,7 +37,7 @@ export default function DisplaySavedToHistoryNotes() {
 
 	useEffect(() => {
 		getAllNotes();
-	}, []);
+	}, [refresh]);
 
 	useEffect(() => {}, [directionSort, sortDataKey]);
 

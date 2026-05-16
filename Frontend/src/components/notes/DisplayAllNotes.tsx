@@ -58,6 +58,7 @@ export default function DisplayAllNotes() {
 			const data = await response.json();
 			if (data.success) {
 				setNotesData(prevState => prevState.map(note => (note.id === noteId ? { ...note, saveToHistory: !saveToHistory } : note)));
+				setRefresh(prevState => prevState + 1);
 			}
 		} catch (error) {
 			console.error("Server error. Try again.", error);
