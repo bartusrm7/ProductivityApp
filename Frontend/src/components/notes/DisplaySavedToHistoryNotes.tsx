@@ -6,9 +6,8 @@ export default function DisplaySavedToHistoryNotes() {
 	const [notesData, setNotesData] = useState<UserNotesDataJoined[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
-	const [refresh, setRefresh] = useState<number>(0);
 
-	async function getAllNotes() {
+	async function getSavedHistoryNotes() {
 		const jwt = localStorage.getItem("jwt");
 		const response = await fetch("http://productivityapp.local/get-saved-notes", {
 			method: "GET",
@@ -20,7 +19,21 @@ export default function DisplaySavedToHistoryNotes() {
 		const data = await response.json();
 		if (data.success) {
 			setNotesData(data.data);
-			setRefresh(prevState => prevState + 1);
+		}
+	}
+
+	async function sortSavedHistoryNotes() {
+		const jwt = localStorage.getItem("jwt");
+		const response = await fetch(`http://productivityapp.local/sort-notes?direction=${directionSort}&sort=${sortDataKey}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		const data = await response.json();
+		if (data.success) {
+			setNotesData(data.data);
 		}
 	}
 
@@ -28,7 +41,7 @@ export default function DisplaySavedToHistoryNotes() {
 		const key = e.target.value;
 
 		if (key) {
-			setDirectionSort(prevState => (prevState === "asc" ? "asc" : "desc"));
+			setDirectionSort(prevState => (prevState === "asc" ? "desc" : "asc"));
 		} else {
 			setDirectionSort("asc");
 		}
@@ -36,10 +49,14 @@ export default function DisplaySavedToHistoryNotes() {
 	};
 
 	useEffect(() => {
-		getAllNotes();
-	}, [refresh]);
+		getSavedHistoryNotes();
+	}, []);
 
-	useEffect(() => {}, [directionSort, sortDataKey]);
+	useEffect(() => {
+		if (sortDataKey) {
+			sortSavedHistoryNotes();
+		}
+	}, [directionSort, sortDataKey]);
 
 	return (
 		<div className='display-note w-100'>

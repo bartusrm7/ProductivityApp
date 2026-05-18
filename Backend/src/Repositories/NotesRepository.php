@@ -113,7 +113,7 @@ class NotesRepository implements NotesRepositoryInterface
 
     public function sortNotesQuery(array $params)
     {
-        $sql = 'SELECT * FROM notes WHERE user_id = :user_id';
+        $sql = 'SELECT * FROM notes WHERE user_id = :user_id AND saved_to_history = 0';
         $bindings = [':user_id' => $params['user_id']];
 
         $sortData = ['id', 'name', 'tag', 'created_at'];

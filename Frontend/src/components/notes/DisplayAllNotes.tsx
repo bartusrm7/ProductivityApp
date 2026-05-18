@@ -6,7 +6,7 @@ import EditNote from "./EditNote";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import SaveNoteToHistory from "./SaveNoteToHistory";
 
-export default function DisplayAllNotes() {
+export default function DisplayAllNotes({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [notesData, setNotesData] = useState<UserNotesData[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
@@ -24,7 +24,6 @@ export default function DisplayAllNotes() {
 		const data = await response.json();
 		if (data.success) {
 			setNotesData(data.data);
-			setRefresh(prevState => prevState + 1);
 		}
 	}
 
@@ -76,8 +75,7 @@ export default function DisplayAllNotes() {
 			},
 		});
 		const data = await response.json();
-		if (data.errors) {
-		} else {
+		if (data.success) {
 			setNotesData(data.data);
 		}
 	}
@@ -94,14 +92,14 @@ export default function DisplayAllNotes() {
 	};
 
 	useEffect(() => {
+		getAllNotes();
+	}, [refreshParent, refresh]);
+
+	useEffect(() => {
 		if (sortDataKey) {
 			sortNotesFunction();
 		}
 	}, [directionSort, sortDataKey]);
-
-	useEffect(() => {
-		getAllNotes();
-	}, [refresh]);
 
 	return (
 		<div className='display-note w-100'>
