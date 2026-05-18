@@ -29,6 +29,7 @@ export default function TasksInProgress() {
 				setErrorsArray(data.errors);
 			} else {
 				setTaskData(data.data);
+				setRefresh(prevState => prevState + 1);
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);

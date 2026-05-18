@@ -26,6 +26,7 @@ export default function TasksDone() {
 			setErrorsArray(data.errors);
 		} else {
 			setTaskData(data.data);
+			setRefresh(prevState => prevState + 1);
 		}
 	}
 

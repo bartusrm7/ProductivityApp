@@ -2,7 +2,7 @@ import { MdDownloadDone } from "react-icons/md";
 import type { UserTaskData } from "../../types/tasks";
 import { useEffect, useState } from "react";
 
-export default function TaskDoneAsInProgress({ taskProp, refreshData }: { taskProp: UserTaskData; refreshData: () => void }) {
+export default function TaskDoneAsInProgress({ taskProp }: { taskProp: UserTaskData }) {
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: 0,
 		name: "",
@@ -27,7 +27,6 @@ export default function TaskDoneAsInProgress({ taskProp, refreshData }: { taskPr
 				},
 				body: JSON.stringify(taskData),
 			});
-			refreshData();
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}
