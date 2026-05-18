@@ -23,7 +23,6 @@ export default function SignIn() {
 				setErrorsArray(data.errors);
 			} else {
 				localStorage.setItem("jwt", data.token);
-				localStorage.setItem("userName", data.data.name);
 				navigate("/dashboard");
 			}
 		} catch (error) {
