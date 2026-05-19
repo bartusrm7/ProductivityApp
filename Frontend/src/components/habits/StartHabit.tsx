@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react";
 import { MdDownloadDone } from "react-icons/md";
 
-export default function StartHabit({ habitId }: { habitId: number }) {
-	const [habitsData, setHabitsData] = useState<number>();
-
+export default function StartHabit({ habitId, refreshData }: { habitId: number; refreshData: () => void }) {
 	async function handleStartHabit() {
 		try {
 			const jwt = localStorage.getItem("jwt");
-			await fetch("http://productivityapp.local/habit-status-started", {
+			const response = await fetch("http://productivityapp.local/habit-status-started", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -15,14 +12,14 @@ export default function StartHabit({ habitId }: { habitId: number }) {
 				},
 				body: JSON.stringify({ id: habitId }),
 			});
+			const data = await response.json();
+			if (data.success) {
+				refreshData();
+			}
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}
 	}
-
-	useEffect(() => {
-		setHabitsData(habitId);
-	}, [habitId]);
 
 	return (
 		<>

@@ -5,7 +5,7 @@ import EditHabit from "./EditHabit";
 import DeleteHabit from "./DeleteHabit";
 import SetHabitAsDone from "./SetHabitAsDone";
 
-export default function DisplayStartedHabit() {
+export default function DisplayStartedHabit({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [habitsDetails, setHabitsDetails] = useState<UserHabitDetailsDataJoined[]>([]);
 	const [refresh, setRefresh] = useState<number>(0);
 
@@ -21,13 +21,12 @@ export default function DisplayStartedHabit() {
 		const data = await response.json();
 		if (data.success) {
 			setHabitsDetails(data.data);
-			setRefresh(prevState => prevState + 1);
 		}
 	}
 
 	useEffect(() => {
 		getStartedHabits();
-	}, [refresh]);
+	}, [refreshParent, refresh]);
 
 	return (
 		<div className='display-started-habit'>
@@ -56,9 +55,9 @@ export default function DisplayStartedHabit() {
 					<div className='display-started-habit__amount_days_done habit-started-order text-end text-md-start col-1 col-md-1'>{habit.amount_days_done}</div>
 					<div className='display-started-habit__created_at col-8 habit-started-order col-md-2'>{habit.created_at}</div>
 					<div className='display-started-habit__buttons-container habit-started-order col-4 d-flex justify-content-end justify-content-md-center col-md-2'>
-						<SetHabitAsDone habitId={habit.id} amountDaysDone={habit.amount_days_done} />
-						<EditHabit habitProp={habit} />
-						<DeleteHabit habitId={habit.habit_id} />
+						<SetHabitAsDone habitId={habit.id} amountDaysDone={habit.amount_days_done} refreshData={() => setRefresh(prevState => prevState + 1)} />
+						<EditHabit habitProp={habit} refreshData={() => setRefresh(prevState => prevState + 1)} />
+						<DeleteHabit habitId={habit.habit_id} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 			))}

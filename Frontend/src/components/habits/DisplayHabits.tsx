@@ -5,7 +5,7 @@ import DeleteHabit from "./DeleteHabit";
 import { IoIosArrowUp } from "react-icons/io";
 import StartHabit from "./StartHabit";
 
-export default function DisplayHabits() {
+export default function DisplayHabits({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [habitsData, setHabitsData] = useState<UserHabitData[]>([]);
 	const [refresh, setRefresh] = useState<number>(0);
 
@@ -21,13 +21,12 @@ export default function DisplayHabits() {
 		const data = await response.json();
 		if (data.success) {
 			setHabitsData(data.data);
-			setRefresh(prevState => prevState + 1);
 		}
 	}
 
 	useEffect(() => {
 		getAllHabits();
-	}, [refresh]);
+	}, [refreshParent, refresh]);
 
 	return (
 		<div className='display-habits'>
@@ -49,9 +48,9 @@ export default function DisplayHabits() {
 					<div className='display-habits__description col-12 col-md-3'>{habit.description}</div>
 					<div className='display-habits__created_at col-8 col-md-2'>{habit.created_at}</div>
 					<div className='display-habits__buttons-container d-flex justify-content-center col-4 col-md-3'>
-						<StartHabit habitId={habit.id} />
-						<EditHabit habitProp={habit} />
-						<DeleteHabit habitId={habit.id} />
+						<StartHabit habitId={habit.id} refreshData={refreshData} />
+						<EditHabit habitProp={habit} refreshData={() => setRefresh(prevState => prevState + 1)} />
+						<DeleteHabit habitId={habit.id} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 			))}

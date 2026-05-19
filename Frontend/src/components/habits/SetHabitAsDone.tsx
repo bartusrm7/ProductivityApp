@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MdDownloadDone } from "react-icons/md";
 
-export default function SetHabitAsDone({ habitId, amountDaysDone }: { habitId: number; amountDaysDone: number }) {
+export default function SetHabitAsDone({ habitId, amountDaysDone, refreshData }: { habitId: number; amountDaysDone: number; refreshData: () => void }) {
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
 	async function handleSetHabitAsDone() {
@@ -24,6 +24,8 @@ export default function SetHabitAsDone({ habitId, amountDaysDone }: { habitId: n
 			const data = await response.json();
 			if (data.errors) {
 				setErrorsArray(data.errors);
+			} else {
+				refreshData();
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
@@ -78,7 +80,7 @@ export default function SetHabitAsDone({ habitId, amountDaysDone }: { habitId: n
 
 	return (
 		<>
-			<button className="action-btn success-action-btn me-2" onClick={handleServeAllMethods}>
+			<button className='action-btn success-action-btn me-2' onClick={handleServeAllMethods}>
 				<MdDownloadDone size={24} />
 			</button>
 

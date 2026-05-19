@@ -1,10 +1,10 @@
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-export default function DeleteHabit({ habitId }: { habitId: number }) {
+export default function DeleteHabit({ habitId, refreshData }: { habitId: number; refreshData: () => void }) {
 	async function handleDeleteHabit() {
 		try {
 			const jwt = localStorage.getItem("jwt");
-			await fetch("http://productivityapp.local/delete-habit", {
+			const response = await fetch("http://productivityapp.local/delete-habit", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -12,6 +12,10 @@ export default function DeleteHabit({ habitId }: { habitId: number }) {
 				},
 				body: JSON.stringify({ id: habitId }),
 			});
+			const data = await response.json();
+			if (data.success) {
+				refreshData();
+			}
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}

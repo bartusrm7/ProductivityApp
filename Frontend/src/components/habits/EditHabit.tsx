@@ -3,7 +3,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { CiEdit } from "react-icons/ci";
 import type { UserHabitData } from "../../types/habits";
 
-export default function EditHabit({ habitProp }: { habitProp: UserHabitData }) {
+export default function EditHabit({ habitProp, refreshData }: { habitProp: UserHabitData; refreshData: () => void }) {
 	const [habitData, setHabitData] = useState<UserHabitData>({ id: 0, name: "", description: "", created_at: "" });
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
@@ -34,6 +34,7 @@ export default function EditHabit({ habitProp }: { habitProp: UserHabitData }) {
 				setErrorsArray(data.errors);
 			} else {
 				setShowModal(false);
+				refreshData();
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);

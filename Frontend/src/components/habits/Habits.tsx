@@ -8,13 +8,14 @@ import DisplayStartedHabit from "./DisplayStartedHabit";
 export default function Habits() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
+	const [refresh, setRefresh] = useState<number>(0);
 
 	const handleCloseModal = () => setShowModal(false);
 	const handleOpenModal = () => setShowModal(true);
 
 	useEffect(() => {
 		document.title = "ProductivityApp - Habits";
-	});
+	}, [refresh]);
 
 	return (
 		<>
@@ -25,18 +26,18 @@ export default function Habits() {
 					<div className='p-3 p-md-4'>
 						<div className='d-flex justify-content-between align-items-center'>
 							<h2 className='mb-0'>My Habits</h2>
-							<CreateHabit show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
+							<CreateHabit show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
 					</div>
 				</div>
 				<div className='habits__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
-						<DisplayHabits />
+						<DisplayHabits refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 				<div className='habits__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
-						<DisplayStartedHabit />
+						<DisplayStartedHabit refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 			</div>

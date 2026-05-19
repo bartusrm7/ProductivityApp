@@ -14,7 +14,7 @@ export default function Habits() {
 	const handleOpenModal = () => setShowModal(true);
 
 	useEffect(() => {
-		document.title = "ProductivityApp - Habits";
+		document.title = "ProductivityApp - Notes";
 	}, [refresh]);
 
 	return (
