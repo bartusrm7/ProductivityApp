@@ -7,7 +7,7 @@ namespace App\Controllers;
 use App\Services\HabitsService;
 use App\Services\JWTService;
 
-class HabitsController
+class HabitsController extends BaseController
 {
     private HabitsService $service;
     private JWTService $jwtservice;
@@ -20,113 +20,95 @@ class HabitsController
 
     public function newHabit()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $data = json_decode(file_get_contents('php://input'), true);
-            $name = $data['name'];
-            $createdAt = $data['created_at'];
-
-            $result = $this->service->newHabit($name, $createdAt, $userId);
-            if (isset($result['success'])) {
-                http_response_code(201);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $name = $data['name'];
+        $createdAt = $data['created_at'];
+
+        $result = $this->service->newHabit($name, $createdAt, $userId);
+        $status = isset($result['success']) ? 201 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function getHabits()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $result = $this->service->getHabits($userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getHabits($userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function editHabit()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $data = json_decode(file_get_contents('php://input'), true);
-            $id = $data['habit_id'] ?? $data['id'] ?? null;
-            $name = $data['name'];
-            $description = $data['description'];
-
-            $result = $this->service->editHabit($id, $name, $description, $userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $id = $data['habit_id'] ?? $data['id'] ?? null;
+        $name = $data['name'];
+        $description = $data['description'];
+
+        $result = $this->service->editHabit($id, $name, $description, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function deleteHabit()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $data = json_decode(file_get_contents('php://input'), true);
-            $id = $data['id'];
-
-            $result = $this->service->deleteHabit($id, $userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $id = $data['id'];
+
+        $result = $this->service->deleteHabit($id, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function habitStatusStarted()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $data = json_decode(file_get_contents('php://input'), true);
-            $id = $data['id'];
-
-            $result = $this->service->habitStatusStarted($id, $userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $id = $data['id'];
+
+        $result = $this->service->habitStatusStarted($id, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function getStartedHabits()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-            $status = $_GET['status'];
-
-            $result = $this->service->getStartedHabits($status, $userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+        $status = $_GET['status'];
+
+        $result = $this->service->getStartedHabits($status, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 }
