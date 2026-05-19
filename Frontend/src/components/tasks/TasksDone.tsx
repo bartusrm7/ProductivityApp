@@ -4,7 +4,7 @@ import type { UserTaskData } from "../../types/tasks";
 import TaskDelete from "./TaskDelete";
 import TaskEdit from "./TaskEdit";
 
-export default function TasksDone() {
+export default function TasksDone({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
@@ -26,7 +26,7 @@ export default function TasksDone() {
 			setErrorsArray(data.errors);
 		} else {
 			setTaskData(data.data);
-			setRefresh(prevState => prevState + 1);
+			refreshData();
 		}
 	}
 
@@ -60,7 +60,7 @@ export default function TasksDone() {
 
 	useEffect(() => {
 		getDoneTasks();
-	}, [refresh]);
+	}, [refreshParent,refresh]);
 
 	useEffect(() => {
 		if (sortDataKey) {

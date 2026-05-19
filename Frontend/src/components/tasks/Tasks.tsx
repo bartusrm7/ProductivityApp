@@ -9,13 +9,14 @@ import TasksDone from "./TasksDone";
 export default function Tasks() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
+	const [refresh, setRefresh] = useState<number>(0);
 
 	const handleCloseModal = () => setShowModal(false);
 	const handleOpenModal = () => setShowModal(true);
 
 	useEffect(() => {
 		document.title = "ProductivityApp - Tasks";
-	}, []);
+	}, [refresh]);
 
 	return (
 		<>
@@ -26,23 +27,23 @@ export default function Tasks() {
 					<div className='p-3 p-md-4'>
 						<div className='d-flex justify-content-between align-items-center'>
 							<h2 className='mb-0'>My Tasks</h2>
-							<CreateTask show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} />
+							<CreateTask show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
 					</div>
 				</div>
 				<div className='tasks__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
-						<TasksToDo />
+						<TasksToDo refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 				<div className='tasks__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
-						<TasksInProgress />
+						<TasksInProgress refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 				<div className='tasks__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
-						<TasksDone />
+						<TasksDone refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 			</div>

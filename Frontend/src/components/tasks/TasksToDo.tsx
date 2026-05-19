@@ -5,7 +5,7 @@ import TaskDelete from "./TaskDelete";
 import TaskEdit from "./TaskEdit";
 import TaskDoneAsInProgress from "./TaskDoneAsInProgress";
 
-export default function TasksToDo() {
+export default function TasksToDo({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
@@ -27,7 +27,7 @@ export default function TasksToDo() {
 			setErrorsArray(data.errors);
 		} else {
 			setTaskData(data.data);
-			setRefresh(prevState => prevState + 1);
+			refreshData();
 		}
 	}
 
@@ -61,7 +61,7 @@ export default function TasksToDo() {
 
 	useEffect(() => {
 		getToDoTasks();
-	}, [refresh]);
+	}, [refreshParent, refresh]);
 
 	useEffect(() => {
 		if (sortDataKey) {
@@ -126,7 +126,7 @@ export default function TasksToDo() {
 												<div className='task-date col-7 col-md-3'>{new Date(task.created_at).toLocaleString()}</div>
 												<div className={`tasks-todo__priority task-priority d-flex justify-content-center col-12 col-md-2 tasks__priority-name--${task.priority}`}>{task.priority}</div>
 												<div className='task-btns-container d-flex justify-content-end col-5 col-md-2'>
-													<TaskDoneAsInProgress taskProp={task} />
+													<TaskDoneAsInProgress taskProp={task} refreshData={() => setRefresh(prevState => prevState + 1)} />
 													<TaskEdit refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
 													<TaskDelete refreshData={() => setRefresh(prevState => prevState + 1)} taskId={task.id} />
 												</div>

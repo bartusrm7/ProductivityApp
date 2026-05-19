@@ -19,7 +19,7 @@ export default function TaskDoneAsTaskDone({ taskProp, refreshData }: { taskProp
 		e.preventDefault();
 		try {
 			const jwt = localStorage.getItem("jwt");
-			await fetch("http://productivityapp.local/done-task", {
+			const response = await fetch("http://productivityapp.local/done-task", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -27,7 +27,10 @@ export default function TaskDoneAsTaskDone({ taskProp, refreshData }: { taskProp
 				},
 				body: JSON.stringify(taskData),
 			});
-			refreshData();
+			const data = await response.json();
+			if (data.success) {
+				refreshData();
+			}
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}

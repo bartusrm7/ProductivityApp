@@ -2,7 +2,7 @@ import { MdDownloadDone } from "react-icons/md";
 import type { UserTaskData } from "../../types/tasks";
 import { useEffect, useState } from "react";
 
-export default function TaskDoneAsInProgress({ taskProp }: { taskProp: UserTaskData }) {
+export default function TaskDoneAsInProgress({ taskProp, refreshData }: { taskProp: UserTaskData; refreshData: () => void }) {
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: 0,
 		name: "",
@@ -19,7 +19,7 @@ export default function TaskDoneAsInProgress({ taskProp }: { taskProp: UserTaskD
 		e.preventDefault();
 		try {
 			const jwt = localStorage.getItem("jwt");
-			await fetch("http://productivityapp.local/done-task", {
+			const response = await fetch("http://productivityapp.local/done-task", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -27,6 +27,10 @@ export default function TaskDoneAsInProgress({ taskProp }: { taskProp: UserTaskD
 				},
 				body: JSON.stringify(taskData),
 			});
+			const data = await response.json();
+			if (data.success) {
+				refreshData();
+			}
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}

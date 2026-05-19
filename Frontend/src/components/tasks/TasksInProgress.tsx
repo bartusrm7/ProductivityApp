@@ -6,7 +6,7 @@ import TaskEdit from "./TaskEdit";
 import TaskDoneAsTaskDone from "./TaskDoneAsTaskDone";
 import { Button } from "react-bootstrap";
 
-export default function TasksInProgress() {
+export default function TasksInProgress({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
@@ -29,7 +29,7 @@ export default function TasksInProgress() {
 				setErrorsArray(data.errors);
 			} else {
 				setTaskData(data.data);
-				setRefresh(prevState => prevState + 1);
+				refreshData();
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
@@ -66,7 +66,7 @@ export default function TasksInProgress() {
 
 	useEffect(() => {
 		getInProgressTasks();
-	}, [refresh]);
+	}, [refreshParent, refresh]);
 
 	useEffect(() => {
 		if (sortDataKey) {
