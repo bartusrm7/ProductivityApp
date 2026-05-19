@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { UserNotesDataJoined } from "../../types/notes";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
-export default function DisplaySavedToHistoryNotes() {
+export default function DisplaySavedToHistoryNotes({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [notesData, setNotesData] = useState<UserNotesDataJoined[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
@@ -34,6 +34,7 @@ export default function DisplaySavedToHistoryNotes() {
 		const data = await response.json();
 		if (data.success) {
 			setNotesData(data.data);
+			refreshData();
 		}
 	}
 
@@ -50,7 +51,7 @@ export default function DisplaySavedToHistoryNotes() {
 
 	useEffect(() => {
 		getSavedHistoryNotes();
-	}, []);
+	}, [refreshParent]);
 
 	useEffect(() => {
 		if (sortDataKey) {

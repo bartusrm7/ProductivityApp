@@ -33,14 +33,14 @@ export default function Habits() {
 				<div className='habits__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
 						<div className='d-flex justify-content-between align-items-center'>
-							<DisplayAllNotes refreshData={() => setRefresh(prevState => prevState + 1)} refreshParent={refresh} />
+							<DisplayAllNotes refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
 					</div>
 				</div>
 				<div className='habits__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
 						<div className='d-flex justify-content-between align-items-center'>
-							<DisplaySavedToHistoryNotes />
+							<DisplaySavedToHistoryNotes refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
 					</div>
 				</div>
