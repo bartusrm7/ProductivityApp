@@ -7,7 +7,7 @@ namespace App\Controllers;
 use App\Services\HabitsDataService;
 use App\Services\JWTService;
 
-class HabitsDataController
+class HabitsDataController extends BaseController
 {
     private HabitsDataService $service;
     private JWTService $jwtservice;
@@ -20,54 +20,45 @@ class HabitsDataController
 
     public function setHabitThisDayDone()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $id = $data['id'];
-            $checkCurrentDay = $data['checkCurrentDay'];
-
-            $result = $this->service->setHabitThisDayDone($id, $checkCurrentDay);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $data = $this->jsonInput();
+        $id = $data['id'];
+        $checkCurrentDay = $data['checkCurrentDay'];
+
+        $result = $this->service->setHabitThisDayDone($id, $checkCurrentDay);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function countCurrentStreakDays()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $id = $data['id'];
-
-            $result = $this->service->countCurrentStreakDays($id);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $data = $this->jsonInput();
+        $id = $data['id'];
+
+        $result = $this->service->countCurrentStreakDays($id);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function countAmountDaysDone()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $id = $data['id'];
-            $amountDaysDone = $data['amountDaysDone'];
-
-            $result = $this->service->countAmountDaysDone($id, $amountDaysDone);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $data = $this->jsonInput();
+        $id = $data['id'];
+        $amountDaysDone = $data['amountDaysDone'];
+
+        $result = $this->service->countAmountDaysDone($id, $amountDaysDone);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 }

@@ -7,7 +7,7 @@ namespace App\Controllers;
 use App\Services\JWTService;
 use App\Services\TasksService;
 
-class TasksController
+class TasksController extends BaseController
 {
     private TasksService $service;
     private JWTService $jwtservice;
@@ -19,152 +19,128 @@ class TasksController
 
     public function createNewTask()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $data = json_decode(file_get_contents('php://input'), true);
-            $name = $data['name'];
-            $createdAt = $data['created_at'];
-            $priority = $data['priority'];
-
-            $result = $this->service->createNewTask($name, $createdAt, $priority, $userId);
-            if (isset($result['success'])) {
-                http_response_code(201);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if ($this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $name = $data['name'];
+        $createdAt = $data['created_at'];
+        $priority = $data['priority'];
+
+        $result = $this->service->createNewTask($name, $createdAt, $priority, $userId);
+        $status = isset($result['success']) ? 201 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function getToDoTasks()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $result = $this->service->getToDoTasks($userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getToDoTasks($userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function getInProgressTasks()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $result = $this->service->getInProgressTasks($userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getInProgressTasks($userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function getDoneTasks()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $result = $this->service->getDoneTasks($userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getDoneTasks($userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function doneTask()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $data = json_decode(file_get_contents('php://input'), true);
-            $id = $data['id'];
-            $status = $data['status'];
-
-            $result = $this->service->doneTask($id, $status, $userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if ($this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $id = $data['id'];
+        $status = $data['status'];
+
+        $result = $this->service->doneTask($id, $status, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function editTask()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $data = json_decode(file_get_contents('php://input'), true);
-            $id = $data['id'];
-            $name = $data['name'];
-            $priority = $data['priority'];
-
-            $result = $this->service->editTask($id, $name, $priority, $userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if ($this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $id = $data['id'];
+        $name = $data['name'];
+        $priority = $data['priority'];
+
+        $result = $this->service->editTask($id, $name, $priority, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function deleteTask()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-
-            $data = json_decode(file_get_contents('php://input'), true);
-            $id = $data['id'];
-
-            $result = $this->service->deleteTask($id, $userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if ($this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $id = $data['id'];
+
+        $result = $this->service->deleteTask($id, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 
     public function sortTasks()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $userId = $this->jwtservice->getUserIdFromJWT();
-            $params = [
-                'status'        => $_GET['status'] ?? null,
-                'sort'          => $_GET['sort'] ?? null,
-                'direction'     => $_GET['direction'] ?? null,
-                'user_id'       => $userId
-            ];
-
-            $result = $this->service->sortTasks($params, $userId);
-            if (isset($result['success'])) {
-                http_response_code(200);
-                echo json_encode($result);
-            } else {
-                http_response_code(422);
-                echo json_encode($result);
-            }
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+        $params = [
+            'status'        => $_GET['status'] ?? null,
+            'sort'          => $_GET['sort'] ?? null,
+            'direction'     => $_GET['direction'] ?? null,
+            'user_id'       => $userId
+        ];
+
+        $result = $this->service->sortTasks($params, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 }
