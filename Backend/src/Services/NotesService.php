@@ -9,7 +9,7 @@ use App\Services\Interfaces\NotesServiceInterface;
 use App\Validations\NotesValidation;
 use DateTime;
 
-class NotesService implements NotesServiceInterface
+class NotesService extends BaseService implements NotesServiceInterface
 {
     private NotesRepository $repository;
     private NotesValidation $validation;
@@ -40,9 +40,7 @@ class NotesService implements NotesServiceInterface
         }
         $newCreatedAt = new DateTime($createdAt);
         $this->repository->createNewNoteQuery($name, $tag, $newCreatedAt, $userId);
-        return [
-            'success' => true
-        ];
+        return $this->successResponse();
     }
 
     public function getNotes(int $userId)
@@ -142,9 +140,7 @@ class NotesService implements NotesServiceInterface
             return ['errors' => $errors];
         }
         $this->repository->editNoteQuery($id, $name, $tag, $userId);
-        return [
-            'success' => true
-        ];
+        return $this->successResponse();
     }
 
     public function deleteNote(int $id, int $userId)
@@ -160,9 +156,7 @@ class NotesService implements NotesServiceInterface
             return ['errors' => $errors];
         }
         $this->repository->deleteNoteQuery($id, $userId);
-        return [
-            'success' => true
-        ];
+        return $this->successResponse();
     }
 
     public function sortNotes(array $params, int $userId)
@@ -175,9 +169,6 @@ class NotesService implements NotesServiceInterface
             return ['errors' => $errors];
         }
         $result = $this->repository->sortNotesQuery($params);
-        return [
-            'success' => true,
-            'data'    => $result
-        ];
+        return $this->successResponseWithData($result);
     }
 }

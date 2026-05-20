@@ -9,7 +9,7 @@ use App\Services\Interfaces\TasksServiceInterface;
 use App\Validations\TasksValidation;
 use DateTime;
 
-class TasksService implements TasksServiceInterface
+class TasksService extends BaseService implements TasksServiceInterface
 {
     private TasksRepository $repository;
     private TasksValidation $validation;
@@ -40,9 +40,7 @@ class TasksService implements TasksServiceInterface
         } else {
             $newCreatedAt = new DateTime($createdAt);
             $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
-            return [
-                'success' => true
-            ];
+            return $this->successResponse();
         }
     }
 
@@ -56,10 +54,7 @@ class TasksService implements TasksServiceInterface
             return ['errors' => $errors];
         } else {
             $result = $this->repository->getToDoTasksQuery($userId);
-            return [
-                'success' => true,
-                'data' => $result
-            ];
+            return $this->successResponseWithData($result);
         }
     }
 
@@ -73,10 +68,7 @@ class TasksService implements TasksServiceInterface
             return ['errors' => $errors];
         } else {
             $result = $this->repository->getInProgressTasksQuery($userId);
-            return [
-                'success' => true,
-                'data' => $result
-            ];
+            return $this->successResponseWithData($result);
         }
     }
 
@@ -90,10 +82,7 @@ class TasksService implements TasksServiceInterface
             return ['errors' => $errors];
         } else {
             $result = $this->repository->getDoneTasksQuery($userId);
-            return [
-                'success' => true,
-                'data' => $result
-            ];
+            return $this->successResponseWithData($result);
         }
     }
 
@@ -113,9 +102,7 @@ class TasksService implements TasksServiceInterface
             return ['errors' => $errors];
         } else {
             $this->repository->doneTaskQuery($id, $status, $userId);
-            return [
-                'success' => true
-            ];
+            return $this->successResponse();
         }
     }
 
@@ -138,9 +125,7 @@ class TasksService implements TasksServiceInterface
             return ['errors' => $errors];
         } else {
             $this->repository->editTaskQuery($id, $name, $priority, $userId);
-            return [
-                'success' => true
-            ];
+            return $this->successResponse();
         }
     }
 
@@ -157,9 +142,7 @@ class TasksService implements TasksServiceInterface
             return ['errors' => $errors];
         } else {
             $this->repository->deleteTaskQuery($id, $userId);
-            return [
-                'success' => true
-            ];
+            return $this->successResponse();
         }
     }
 
@@ -176,10 +159,7 @@ class TasksService implements TasksServiceInterface
             return ['errors' => $errors];
         } else {
             $result = $this->repository->sortDataByStatusAndTitleQuery($params);
-            return [
-                'success' => true,
-                'data'    => $result
-            ];
+            return $this->successResponseWithData($result);
         }
     }
 }

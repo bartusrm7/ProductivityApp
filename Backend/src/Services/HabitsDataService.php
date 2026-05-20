@@ -9,7 +9,7 @@ use App\Services\Interfaces\HabitsDataServiceInterface;
 use App\Validations\HabitsDataValidation;
 use DateTime;
 
-class HabitsDataService implements HabitsDataServiceInterface
+class HabitsDataService extends BaseService implements HabitsDataServiceInterface
 {
     private HabitsDataRepository $repository;
     private HabitsDataValidation $validation;
@@ -36,9 +36,7 @@ class HabitsDataService implements HabitsDataServiceInterface
             $isTodayDateExists = $this->repository->isHabitCurrentDateExistsTodayQuery($id, $newCheckCurrentDay);
             if (!$isTodayDateExists) {
                 $this->repository->setHabitThisDayDoneQuery($id, $newCheckCurrentDay);
-                return [
-                    'success' => true
-                ];
+                return $this->successResponse();
             } else {
                 return [
                     'success' => false,
@@ -62,9 +60,7 @@ class HabitsDataService implements HabitsDataServiceInterface
 
             if (!$getLastCheckDay) {
                 $this->repository->countCurrentStreakDaysQuery($id, 1);
-                return [
-                    'success' => true
-                ];
+                return $this->successResponse();
             }
 
             $today = new DateTime('today');
@@ -85,9 +81,7 @@ class HabitsDataService implements HabitsDataServiceInterface
             }
 
             $this->repository->countCurrentStreakDaysQuery($id, $newStreakDays);
-            return [
-                'success' => true
-            ];
+            return $this->successResponse();
         }
     }
 
@@ -105,9 +99,7 @@ class HabitsDataService implements HabitsDataServiceInterface
 
             if (!$currentDayChecked) {
                 $this->repository->countAmountDaysDoneQuery($id, $amountDaysDone + 1);
-                return [
-                    'success' => true
-                ];
+                return $this->successResponse();
             } else {
                 return [
                     'success' => false,

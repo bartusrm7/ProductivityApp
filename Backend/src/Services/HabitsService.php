@@ -9,7 +9,7 @@ use App\Services\Interfaces\HabitsServiceInterface;
 use App\Validations\HabitsValidation;
 use DateTime;
 
-class HabitsService implements HabitsServiceInterface
+class HabitsService extends BaseService implements HabitsServiceInterface
 {
     private HabitsRepository $repository;
     private HabitsValidation $validation;
@@ -33,13 +33,11 @@ class HabitsService implements HabitsServiceInterface
         }
         if (!empty($errors)) {
             return ['errors' => $errors];
-        } else {
-            $newCreatedAt = new DateTime($createdAt);
-            $this->repository->newHabitQuery($name, $newCreatedAt, $userId);
-            return [
-                'success' => true
-            ];
         }
+
+        $newCreatedAt = new DateTime($createdAt);
+        $this->repository->newHabitQuery($name, $newCreatedAt, $userId);
+        return $this->successResponse();
     }
 
     public function getHabits(int $userId)
@@ -50,13 +48,10 @@ class HabitsService implements HabitsServiceInterface
         }
         if (!empty($errors)) {
             return ['errors' => $errors];
-        } else {
-            $result = $this->repository->getAllHabitsQuery($userId);
-            return [
-                'success' => true,
-                'data'    => $result
-            ];
         }
+
+        $result = $this->repository->getAllHabitsQuery($userId);
+        return $this->successResponseWithData($result);
     }
 
     public function editHabit(int $id, string $name, string $description, int $userId)
@@ -76,12 +71,10 @@ class HabitsService implements HabitsServiceInterface
         }
         if (!empty($errors)) {
             return ['errors' => $errors];
-        } else {
-            $this->repository->editHabitQuery($id, $name, $description, $userId);
-            return [
-                'success' => true
-            ];
         }
+
+        $this->repository->editHabitQuery($id, $name, $description, $userId);
+        return $this->successResponse();
     }
 
     public function deleteHabit(int $id, int $userId)
@@ -95,12 +88,10 @@ class HabitsService implements HabitsServiceInterface
         }
         if (!empty($errors)) {
             return ['errors' => $errors];
-        } else {
-            $this->repository->deleteHabitQuery($id, $userId);
-            return [
-                'success' => true
-            ];
         }
+
+        $this->repository->deleteHabitQuery($id, $userId);
+        return $this->successResponse();
     }
 
     public function habitStatusStarted(int $id, int $userId)
@@ -114,12 +105,10 @@ class HabitsService implements HabitsServiceInterface
         }
         if (!empty($errors)) {
             return ['errors' => $errors];
-        } else {
-            $this->repository->habitStatusStartedQuery($id, $userId);
-            return [
-                'success' => true
-            ];
         }
+
+        $this->repository->habitStatusStartedQuery($id, $userId);
+        return $this->successResponse();
     }
     public function getStartedHabits(string $status, int $userId)
     {
@@ -132,12 +121,9 @@ class HabitsService implements HabitsServiceInterface
         }
         if (!empty($errors)) {
             return ['errors' => $errors];
-        } else {
-            $result = $this->repository->getHabitsWithStartedStatusQuery($status, $userId);
-            return [
-                'success' => true,
-                'data'    => $result
-            ];
         }
+
+        $result = $this->repository->getHabitsWithStartedStatusQuery($status, $userId);
+        return $this->successResponseWithData($result);
     }
 }
