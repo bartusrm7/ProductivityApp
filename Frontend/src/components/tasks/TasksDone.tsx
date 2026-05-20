@@ -26,7 +26,7 @@ export default function TasksDone({ refreshParent, refreshData }: { refreshParen
 			setErrorsArray(data.errors);
 		} else {
 			setTaskData(data.data);
-			refreshData();
+			
 		}
 	}
 
@@ -60,7 +60,7 @@ export default function TasksDone({ refreshParent, refreshData }: { refreshParen
 
 	useEffect(() => {
 		getDoneTasks();
-	}, [refreshParent,refresh]);
+	}, [refreshParent, refresh]);
 
 	useEffect(() => {
 		if (sortDataKey) {

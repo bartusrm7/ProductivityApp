@@ -29,7 +29,6 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 				setErrorsArray(data.errors);
 			} else {
 				setTaskData(data.data);
-				refreshData();
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
@@ -132,7 +131,7 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 													<div className='task-date col-7 col-md-3'>{new Date(task.created_at).toLocaleString()}</div>
 													<div className={`tasks-in-progress__priority task-priority d-flex justify-content-center col-12 col-md-2 tasks__priority-name--${task.priority}`}>{task.priority}</div>
 													<div className='task-btns-container d-flex justify-content-end col-5 col-md-2'>
-														<TaskDoneAsTaskDone refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
+														<TaskDoneAsTaskDone refreshData={refreshData} taskProp={task} />
 														<TaskEdit refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
 														<TaskDelete refreshData={() => setRefresh(prevState => prevState + 1)} taskId={task.id} />
 													</div>

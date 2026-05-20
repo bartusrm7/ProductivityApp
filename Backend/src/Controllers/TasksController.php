@@ -19,7 +19,7 @@ class TasksController extends BaseController
 
     public function createNewTask()
     {
-        if ($this->requestMethod('POST')) {
+        if (!$this->requestMethod('POST')) {
             $this->jsonResponseMethodNotAllowed();
         }
         $userId = $this->jwtservice->getUserIdFromJWT();
@@ -76,7 +76,7 @@ class TasksController extends BaseController
 
     public function doneTask()
     {
-        if ($this->requestMethod('POST')) {
+        if (!$this->requestMethod('POST')) {
             $this->jsonResponseMethodNotAllowed();
         }
         $userId = $this->jwtservice->getUserIdFromJWT();
@@ -93,7 +93,7 @@ class TasksController extends BaseController
 
     public function editTask()
     {
-        if ($this->requestMethod('POST')) {
+        if (!$this->requestMethod('POST')) {
             $this->jsonResponseMethodNotAllowed();
         }
         $userId = $this->jwtservice->getUserIdFromJWT();
@@ -111,7 +111,7 @@ class TasksController extends BaseController
 
     public function deleteTask()
     {
-        if ($this->requestMethod('POST')) {
+        if (!$this->requestMethod('POST')) {
             $this->jsonResponseMethodNotAllowed();
         }
         $userId = $this->jwtservice->getUserIdFromJWT();

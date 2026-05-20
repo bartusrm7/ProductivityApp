@@ -4,7 +4,7 @@ export default function TaskDelete({ taskId, refreshData }: { taskId: number; re
 	async function handleDeleteTask() {
 		try {
 			const jwt = localStorage.getItem("jwt");
-			await fetch("http://productivityapp.local/delete-task", {
+			const response = await fetch("http://productivityapp.local/delete-task", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -12,7 +12,10 @@ export default function TaskDelete({ taskId, refreshData }: { taskId: number; re
 				},
 				body: JSON.stringify({ id: taskId }),
 			});
-			refreshData();
+			const data = await response.json();
+			if (data.success) {
+				refreshData();
+			}
 		} catch (error) {
 			console.error("Server error. Try again.", error);
 		}
@@ -20,7 +23,7 @@ export default function TaskDelete({ taskId, refreshData }: { taskId: number; re
 
 	return (
 		<>
-			<button className="action-btn delete-action-btn" onClick={handleDeleteTask}>
+			<button className='action-btn delete-action-btn' onClick={handleDeleteTask}>
 				<RiDeleteBin6Line size={24} />
 			</button>
 		</>

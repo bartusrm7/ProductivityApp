@@ -27,7 +27,6 @@ export default function TasksToDo({ refreshParent, refreshData }: { refreshParen
 			setErrorsArray(data.errors);
 		} else {
 			setTaskData(data.data);
-			refreshData();
 		}
 	}
 
@@ -126,7 +125,7 @@ export default function TasksToDo({ refreshParent, refreshData }: { refreshParen
 												<div className='task-date col-7 col-md-3'>{new Date(task.created_at).toLocaleString()}</div>
 												<div className={`tasks-todo__priority task-priority d-flex justify-content-center col-12 col-md-2 tasks__priority-name--${task.priority}`}>{task.priority}</div>
 												<div className='task-btns-container d-flex justify-content-end col-5 col-md-2'>
-													<TaskDoneAsInProgress taskProp={task} refreshData={() => setRefresh(prevState => prevState + 1)} />
+													<TaskDoneAsInProgress taskProp={task} refreshData={refreshData} />
 													<TaskEdit refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
 													<TaskDelete refreshData={() => setRefresh(prevState => prevState + 1)} taskId={task.id} />
 												</div>
