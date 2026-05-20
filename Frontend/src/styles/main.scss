@@ -3,6 +3,7 @@
 @use "components/auth/auth" as *;
 @use "components/navigation/sidebar" as *;
 @use "components/navigation/navbar-menu" as *;
+@use "components/dashboard/dashboard" as *;
 @use "components/task-styles/tasks" as *;
 @use "components/task-styles/create-tasks" as *;
 @use "components/task-styles/tasks-todo" as *;

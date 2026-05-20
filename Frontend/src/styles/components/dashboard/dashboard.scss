@@ -1,0 +1,30 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.dashboard {
+	margin: 5rem 0;
+	&__main-container {
+		margin: 1rem 0;
+		background-color: $white;
+	}
+	@include min-width(1200px) {
+		margin-left: 220px;
+	}
+	.new-task-link-btn {
+		background: $blue !important;
+		transition: background 0.2s;
+		&:hover {
+			background: $white !important;
+			color: $very-dark-blue;
+		}
+	}
+	.new-habit-link-btn {
+		background: $white !important;
+		color: $very-dark-blue;
+		transition: background 0.2s;
+		&:hover {
+			background: $blue !important;
+			color: $white;
+		}
+	}
+}
