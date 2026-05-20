@@ -38,7 +38,7 @@ class NotesService extends BaseService implements NotesServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
-        $newCreatedAt = new DateTime($createdAt);
+        $newCreatedAt = new DateTime($createdAt)->modify('+2 hours');
         $this->repository->createNewNoteQuery($name, $tag, $newCreatedAt, $userId);
         return $this->successResponse();
     }

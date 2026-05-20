@@ -35,7 +35,7 @@ class HabitsService extends BaseService implements HabitsServiceInterface
             return ['errors' => $errors];
         }
 
-        $newCreatedAt = new DateTime($createdAt);
+        $newCreatedAt = new DateTime($createdAt)->modify('+2 hours');
         $this->repository->newHabitQuery($name, $newCreatedAt, $userId);
         return $this->successResponse();
     }

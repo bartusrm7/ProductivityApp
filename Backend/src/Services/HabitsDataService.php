@@ -32,7 +32,7 @@ class HabitsDataService extends BaseService implements HabitsDataServiceInterfac
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $newCheckCurrentDay = new DateTime($checkCurrentDay);
+            $newCheckCurrentDay = new DateTime($checkCurrentDay)->modify('+2 hours');
             $isTodayDateExists = $this->repository->isHabitCurrentDateExistsTodayQuery($id, $newCheckCurrentDay);
             if (!$isTodayDateExists) {
                 $this->repository->setHabitThisDayDoneQuery($id, $newCheckCurrentDay);

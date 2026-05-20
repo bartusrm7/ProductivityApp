@@ -38,7 +38,7 @@ class TasksService extends BaseService implements TasksServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
-            $newCreatedAt = new DateTime($createdAt);
+            $newCreatedAt = new DateTime($createdAt)->modify('+2 hours');
             $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
             return $this->successResponse();
         }
