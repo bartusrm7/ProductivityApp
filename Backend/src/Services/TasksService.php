@@ -162,4 +162,21 @@ class TasksService extends BaseService implements TasksServiceInterface
             return $this->successResponseWithData($result);
         }
     }
+
+    public function getTodayTasks(string $status, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyTaskStatus($status)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->getTodayTasksQuery($status, $userId);
+            return $this->successResponseWithData($result);
+        }
+    }
 }

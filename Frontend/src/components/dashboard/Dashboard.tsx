@@ -1,12 +1,50 @@
 import Sidebar from "../navigation/Sidebar";
 import NavbarMenu from "../navigation/NavbarMenu";
-import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import DisplayTodayTasks from "./DisplayTodayTasks";
+import type { UserTaskData } from "../../types/tasks";
 
 export default function Dashboard() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
-	const [tasksStatus, setTasksStatus] = useState<string[]>(["To Do", "In Progress", "Done"]);
+	const [tasksStatus, setTasksStatus] = useState<{ key: string; name: string }[]>([
+		{ key: "todo", name: "To Do" },
+		{ key: "in_progress", name: "In Progress" },
+		{ key: "done", name: "Done" },
+	]);
+	const [selectedStatus, setSelectedStatus] = useState<string>("");
+	const [refresh, setRefresh] = useState<number>(0);
+	const [tasksName, setTasksName] = useState<UserTaskData[]>([]);
+
+	async function getTodayTasks() {
+		const jwt = localStorage.getItem("jwt");
+		const response = await fetch(`http://productivityapp.local/get-today-tasks?status=${selectedStatus}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		const data = await response.json();
+		if (data.success) {
+			setTasksName(data.data);
+		}
+	}
+
+	const handleGetTaskStatus = (e: any) => {
+		setSelectedStatus(e.target.value);
+	};
+
+	useEffect(() => {
+		if (selectedStatus !== "") {
+			getTodayTasks();
+		}
+	}, [selectedStatus]);
+
+	useEffect(() => {
+		document.title = "ProductivityApp - Dashboard";
+	}, [refresh]);
 
 	return (
 		<>
@@ -29,7 +67,7 @@ export default function Dashboard() {
 											</Link>
 										</div>
 									</div>
-									<div className='mb-0 pb-0'>Board to display most important data</div>
+									<div className='mb-0 pb-0'>Board to display the most important data</div>
 								</div>
 							</div>
 						</div>
@@ -47,16 +85,23 @@ export default function Dashboard() {
 								<div className='p-3 p-md-4'>
 									<div className='d-flex justify-content-between align-items-center'>
 										<h2 className='mb-0'>Today tasks</h2>
-										<select>
-											<option value=''></option>
-											{tasksStatus.map((status, index) => (
-												<option key={index} value={status}>
-													{status}
-												</option>
-											))}
-										</select>
+										<Form>
+											<Form.Select onClick={handleGetTaskStatus}>
+												<option value=''></option>
+												{tasksStatus.map((status, index) => (
+													<option key={index} value={status.key}>
+														{status.name}
+													</option>
+												))}
+											</Form.Select>
+										</Form>
 									</div>
-									<div></div>
+									{/* <div>{selectedStatus && <DisplayTodayTasks taskStatus={selectedStatus} />}</div> */}
+									<div>
+										{tasksName.map((task, index) => (
+											<div key={index}>{task.name}</div>
+										))}
+									</div>
 								</div>
 							</div>
 						</div>
@@ -65,14 +110,6 @@ export default function Dashboard() {
 								<div className='p-3 p-md-4'>
 									<div className='d-flex justify-content-between align-items-center'>
 										<h2 className='mb-0'>Last training</h2>
-										<select>
-											<option value=''></option>
-											{tasksStatus.map((status, index) => (
-												<option key={index} value={status}>
-													{status}
-												</option>
-											))}
-										</select>
 									</div>
 									<div></div>
 								</div>

@@ -83,9 +83,9 @@ class TasksController extends BaseController
 
         $data = $this->jsonInput();
         $id = $data['id'];
-        $status = $data['status'];
+        $statusTask = $data['status'];
 
-        $result = $this->service->doneTask($id, $status, $userId);
+        $result = $this->service->doneTask($id, $statusTask, $userId);
         $status = isset($result['success']) ? 200 : 422;
 
         $this->jsonResponse($result, $status);
@@ -139,6 +139,20 @@ class TasksController extends BaseController
         ];
 
         $result = $this->service->sortTasks($params, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
+
+    public function getTodayTasks()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+        $statusTask = $_GET['status'];
+
+        $result = $this->service->getTodayTasks($statusTask, $userId);
         $status = isset($result['success']) ? 200 : 422;
 
         $this->jsonResponse($result, $status);

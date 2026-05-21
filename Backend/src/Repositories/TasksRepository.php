@@ -107,4 +107,11 @@ class TasksRepository implements TasksRepositoryInterface
         $stmt->execute($bindings);
         return $stmt->fetchAll();
     }
+
+    public function getTodayTasksQuery(string $status, int $userId)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE status = :status AND user_id = :user_id');
+        $stmt->execute([':status' => $status, ':user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
 }
