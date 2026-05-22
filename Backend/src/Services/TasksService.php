@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Repositories\ActivityLogRepository;
 use App\Repositories\TasksRepository;
 use App\Services\Interfaces\TasksServiceInterface;
 use App\Validations\TasksValidation;
@@ -12,11 +13,13 @@ use DateTime;
 class TasksService extends BaseService implements TasksServiceInterface
 {
     private TasksRepository $repository;
+    private ActivityLogRepository $activeLogs;
     private TasksValidation $validation;
 
-    public function __construct(TasksRepository $repository, TasksValidation $validation)
+    public function __construct(TasksRepository $repository, ActivityLogRepository $activeLogs, TasksValidation $validation)
     {
         $this->repository = $repository;
+        $this->activeLogs = $activeLogs;
         $this->validation = $validation;
     }
 
@@ -39,7 +42,10 @@ class TasksService extends BaseService implements TasksServiceInterface
             return ['errors' => $errors];
         } else {
             $newCreatedAt = new DateTime($createdAt)->modify('+2 hours');
-            $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
+            $currentCreatedAt = new DateTime('now');
+            $newTask =  $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
+            $taskId = $newTask->getId();
+            $this->activeLogs->createActivityLogQuery('create', 'tasks', $taskId, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
