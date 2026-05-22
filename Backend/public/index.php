@@ -69,7 +69,7 @@ $notesValidation = new NotesValidation();
 $jwtService = new JWTService();
 $authService = new AuthService($authRepository, $authValidation);
 $tasksService = new TasksService($tasksRepository, $activeLogRepository, $tasksValidation);
-$habitsService = new HabitsService($habitsRepository, $habitsValidation);
+$habitsService = new HabitsService($habitsRepository, $activeLogRepository, $habitsValidation);
 $habitsDataService = new HabitsDataService($habitsDataRepository, $habitsDataValidation);
 $notesService = new NotesService($notesRepository, $notesValidation);
 
