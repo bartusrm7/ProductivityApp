@@ -71,7 +71,7 @@ $authService = new AuthService($authRepository, $authValidation);
 $tasksService = new TasksService($tasksRepository, $activeLogRepository, $tasksValidation);
 $habitsService = new HabitsService($habitsRepository, $activeLogRepository, $habitsValidation);
 $habitsDataService = new HabitsDataService($habitsDataRepository, $habitsDataValidation);
-$notesService = new NotesService($notesRepository, $notesValidation);
+$notesService = new NotesService($notesRepository, $activeLogRepository, $notesValidation);
 
 // MIDDLEWARES
 $authMiddleware = new AuthMiddleware($jwtService);

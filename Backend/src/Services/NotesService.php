@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Repositories\ActivityLogRepository;
 use App\Repositories\NotesRepository;
 use App\Services\Interfaces\NotesServiceInterface;
 use App\Validations\NotesValidation;
@@ -12,11 +13,13 @@ use DateTime;
 class NotesService extends BaseService implements NotesServiceInterface
 {
     private NotesRepository $repository;
+    private ActivityLogRepository $activeLogs;
     private NotesValidation $validation;
 
-    public function __construct(NotesRepository $repository, NotesValidation $validation)
+    public function __construct(NotesRepository $repository, ActivityLogRepository $activeLogs, NotesValidation $validation)
     {
         $this->repository = $repository;
+        $this->activeLogs = $activeLogs;
         $this->validation = $validation;
     }
 
@@ -39,7 +42,10 @@ class NotesService extends BaseService implements NotesServiceInterface
             return ['errors' => $errors];
         }
         $newCreatedAt = new DateTime($createdAt)->modify('+2 hours');
-        $this->repository->createNewNoteQuery($name, $tag, $newCreatedAt, $userId);
+        $currentCreatedAt = new DateTime('now');
+        $result = $this->repository->createNewNoteQuery($name, $tag, $newCreatedAt, $userId);
+        $noteId = $result->getId();
+        $this->activeLogs->createActivityLogQuery('create', 'notes', $noteId, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -91,7 +97,9 @@ class NotesService extends BaseService implements NotesServiceInterface
             return ['errors' => $errors];
         }
         $important = (bool) $important;
+        $currentCreatedAt = new DateTime('now');
         $this->repository->setImportantNoteQuery($id, $important, $userId);
+        $this->activeLogs->createActivityLogQuery('set', 'notes', $id, $currentCreatedAt, $userId);
         return [
             'success'   => true,
             'important' => $important
@@ -113,8 +121,10 @@ class NotesService extends BaseService implements NotesServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
+        $currentCreatedAt = new DateTime('now');
         $savedToHistory = (bool) $savedToHistory;
         $this->repository->saveNoteIntoHistoryQuery($id, $savedToHistory, $userId);
+        $this->activeLogs->createActivityLogQuery('set', 'notes', $id, $currentCreatedAt, $userId);
         return [
             'success'       => true,
             'saveToHistory' => $savedToHistory
@@ -139,7 +149,9 @@ class NotesService extends BaseService implements NotesServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
+        $currentCreatedAt = new DateTime('now');
         $this->repository->editNoteQuery($id, $name, $tag, $userId);
+        $this->activeLogs->createActivityLogQuery('set', 'notes', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -155,7 +167,9 @@ class NotesService extends BaseService implements NotesServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
+        $currentCreatedAt = new DateTime('now');
         $this->repository->deleteNoteQuery($id, $userId);
+        $this->activeLogs->createActivityLogQuery('set', 'notes', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
