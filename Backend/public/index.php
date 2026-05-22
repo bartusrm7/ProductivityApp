@@ -9,6 +9,7 @@ use App\Controllers\NotesController;
 use App\Controllers\TasksController;
 use App\Database\Database;
 use App\Middlewares\AuthMiddleware;
+use App\Repositories\ActivityLogRepository;
 use App\Repositories\AuthRepository;
 use App\Repositories\HabitsDataRepository;
 use App\Repositories\HabitsRepository;
@@ -51,6 +52,7 @@ $db->getConnection();
 
 // REPOSITORIES
 $authRepository = new AuthRepository($db);
+$activeLogRepository = new ActivityLogRepository($db);
 $tasksRepository = new TasksRepository($db);
 $habitsRepository = new HabitsRepository($db);
 $habitsDataRepository = new HabitsDataRepository($db);
@@ -66,7 +68,7 @@ $notesValidation = new NotesValidation();
 // SERVICES
 $jwtService = new JWTService();
 $authService = new AuthService($authRepository, $authValidation);
-$tasksService = new TasksService($tasksRepository, $tasksValidation);
+$tasksService = new TasksService($tasksRepository, $activeLogRepository, $tasksValidation);
 $habitsService = new HabitsService($habitsRepository, $habitsValidation);
 $habitsDataService = new HabitsDataService($habitsDataRepository, $habitsDataValidation);
 $notesService = new NotesService($notesRepository, $notesValidation);

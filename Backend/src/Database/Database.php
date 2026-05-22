@@ -133,4 +133,20 @@ class Database
             ON DELETE CASCADE
         )');
     }
+
+    public function createActiveLogsTable()
+    {
+        $this->pdo->exec('CREATE TABLE IF NOT EXISTS active_logs (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            action VARCHAR(255) NOT NULL, 
+            entity VARCHAR(255) NOT NULL, 
+            entity_id INT NOT NULL, 
+            created_at DATETIME NOT NULL, 
+            user_id INT,
+            CONSTRAINT fk_active_logs
+            FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE 
+        )');
+    }
 }

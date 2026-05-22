@@ -43,8 +43,8 @@ class TasksService extends BaseService implements TasksServiceInterface
         } else {
             $newCreatedAt = new DateTime($createdAt)->modify('+2 hours');
             $currentCreatedAt = new DateTime('now');
-            $newTask =  $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
-            $taskId = $newTask->getId();
+            $result =  $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
+            $taskId = $result->getId();
             $this->activeLogs->createActivityLogQuery('create', 'tasks', $taskId, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
@@ -107,7 +107,9 @@ class TasksService extends BaseService implements TasksServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
+            $currentCreatedAt = new DateTime('now');
             $this->repository->doneTaskQuery($id, $status, $userId);
+            $this->activeLogs->createActivityLogQuery('done', 'tasks', $id, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
@@ -130,7 +132,9 @@ class TasksService extends BaseService implements TasksServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
+            $currentCreatedAt = new DateTime('now');
             $this->repository->editTaskQuery($id, $name, $priority, $userId);
+            $this->activeLogs->createActivityLogQuery('edit', 'tasks', $id, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
@@ -147,7 +151,9 @@ class TasksService extends BaseService implements TasksServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         } else {
+            $currentCreatedAt = new DateTime('now');
             $this->repository->deleteTaskQuery($id, $userId);
+            $this->activeLogs->createActivityLogQuery('delete', 'tasks', $id, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
