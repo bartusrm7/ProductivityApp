@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Controllers\AuthController;
+use App\Controllers\DashboardController;
 use App\Controllers\HabitsController;
 use App\Controllers\HabitsDataController;
 use App\Controllers\NotesController;
@@ -11,17 +12,20 @@ use App\Database\Database;
 use App\Middlewares\AuthMiddleware;
 use App\Repositories\ActivityLogRepository;
 use App\Repositories\AuthRepository;
+use App\Repositories\DashboardRepository;
 use App\Repositories\HabitsDataRepository;
 use App\Repositories\HabitsRepository;
 use App\Repositories\NotesRepository;
 use App\Repositories\TasksRepository;
 use App\Services\AuthService;
+use App\Services\DashboardService;
 use App\Services\HabitsDataService;
 use App\Services\HabitsService;
 use App\Services\JWTService;
 use App\Services\NotesService;
 use App\Services\TasksService;
 use App\Validations\AuthValidation;
+use App\Validations\DashboardValidation;
 use App\Validations\HabitsDataValidation;
 use App\Validations\HabitsValidation;
 use App\Validations\NotesValidation;
@@ -53,6 +57,7 @@ $db->getConnection();
 // REPOSITORIES
 $authRepository = new AuthRepository($db);
 $activeLogRepository = new ActivityLogRepository($db);
+$dashboardRepository = new DashboardRepository($db);
 $tasksRepository = new TasksRepository($db);
 $habitsRepository = new HabitsRepository($db);
 $habitsDataRepository = new HabitsDataRepository($db);
@@ -60,6 +65,7 @@ $notesRepository = new NotesRepository($db);
 
 // VALIDATIORS
 $authValidation = new AuthValidation();
+$dashboardValidation = new DashboardValidation();
 $tasksValidation = new TasksValidation();
 $habitsValidation = new HabitsValidation();
 $habitsDataValidation = new HabitsDataValidation();
@@ -68,6 +74,7 @@ $notesValidation = new NotesValidation();
 // SERVICES
 $jwtService = new JWTService();
 $authService = new AuthService($authRepository, $authValidation);
+$dashboardService = new DashboardService($dashboardRepository, $dashboardValidation);
 $tasksService = new TasksService($tasksRepository, $activeLogRepository, $tasksValidation);
 $habitsService = new HabitsService($habitsRepository, $activeLogRepository, $habitsValidation);
 $habitsDataService = new HabitsDataService($habitsDataRepository, $activeLogRepository, $habitsDataValidation);
@@ -78,6 +85,7 @@ $authMiddleware = new AuthMiddleware($jwtService);
 
 // CONTROLLERS
 $authController = new AuthController($authService, $jwtService);
+$dashboardController = new DashboardController($dashboardService, $jwtService);
 $tasksController = new TasksController($tasksService, $jwtService);
 $habitsController = new HabitsController($habitsService, $jwtService);
 $habitsDataController = new HabitsDataController($habitsDataService, $jwtService);
@@ -85,6 +93,7 @@ $notesController = new NotesController($notesService, $jwtService);
 
 $controllers = [
     AuthController::class => $authController,
+    DashboardController::class => $dashboardController,
     TasksController::class => $tasksController,
     HabitsController::class => $habitsController,
     HabitsDataController::class => $habitsDataController,
@@ -96,6 +105,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // AUTH
     $r->addRoute('GET', '/user-name', [AuthController::class, 'getLoggedUserName']);
+
+    // DASHBOARD
+    $r->addRoute('GET', 'get-all-logs', [DashboardController::class, 'getAllLogs']);
 
     // TASKS
     $r->addRoute('GET', '/todo-tasks', [TasksController::class, 'getToDoTasks']);

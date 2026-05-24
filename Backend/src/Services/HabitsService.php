@@ -19,7 +19,6 @@ class HabitsService extends BaseService implements HabitsServiceInterface
     {
         $this->repository = $repository;
         $this->activeLogs = $activeLogs;
-
         $this->validation = $validation;
     }
 
