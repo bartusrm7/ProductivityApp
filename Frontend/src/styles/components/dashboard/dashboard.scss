@@ -4,7 +4,6 @@
 .dashboard {
 	margin: 5rem 0;
 	&__main-container {
-		margin: 1rem 0;
 		background-color: $white;
 	}
 	@include min-width(1200px) {

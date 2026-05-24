@@ -18,7 +18,7 @@ class DashboardRepository
 
     public function getAllActiveLogsQuery(int $userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM active_logs WHERE user_id = :user_id');
+        $stmt = $this->pdo->prepare('SELECT * FROM active_logs WHERE user_id = :user_id LIMIT 10');
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }

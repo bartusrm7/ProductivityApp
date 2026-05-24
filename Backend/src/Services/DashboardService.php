@@ -28,6 +28,6 @@ class DashboardService extends BaseService
             return ['errors' => $errors];
         }
         $result = $this->repository->getAllActiveLogsQuery($userId);
-        $this->successResponseWithData($result);
+        return $this->successResponseWithData($result);
     }
 }

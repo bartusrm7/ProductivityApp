@@ -138,6 +138,7 @@ class Database
     {
         $this->pdo->exec('CREATE TABLE IF NOT EXISTS active_logs (
             id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL, 
             action VARCHAR(255) NOT NULL, 
             entity VARCHAR(255) NOT NULL, 
             entity_id INT NOT NULL, 

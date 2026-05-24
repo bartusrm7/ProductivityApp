@@ -107,7 +107,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/user-name', [AuthController::class, 'getLoggedUserName']);
 
     // DASHBOARD
-    $r->addRoute('GET', 'get-all-logs', [DashboardController::class, 'getAllLogs']);
+    $r->addRoute('GET', '/get-all-logs', [DashboardController::class, 'getAllLogs']);
 
     // TASKS
     $r->addRoute('GET', '/todo-tasks', [TasksController::class, 'getToDoTasks']);

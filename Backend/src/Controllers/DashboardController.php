@@ -28,6 +28,6 @@ class DashboardController extends BaseController
         $result = $this->service->getAllLogs($userId);
         $status = $result['success'] ? 200 : 422;
 
-        $this->jsonResponse($result, $status);
+        return $this->jsonResponse($result, $status);
     }
 }

@@ -45,7 +45,7 @@ class NotesService extends BaseService implements NotesServiceInterface
         $currentCreatedAt = new DateTime('now');
         $result = $this->repository->createNewNoteQuery($name, $tag, $newCreatedAt, $userId);
         $noteId = $result->getId();
-        $this->activeLogs->createActivityLogQuery('create', 'notes', $noteId, $currentCreatedAt, $userId);
+        $this->activeLogs->createActivityLogQuery($name, 'create', 'note', $noteId, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -99,7 +99,7 @@ class NotesService extends BaseService implements NotesServiceInterface
         $important = (bool) $important;
         $currentCreatedAt = new DateTime('now');
         $this->repository->setImportantNoteQuery($id, $important, $userId);
-        $this->activeLogs->createActivityLogQuery('set', 'notes', $id, $currentCreatedAt, $userId);
+        $this->activeLogs->createActivityLogQuery('', 'set', 'note', $id, $currentCreatedAt, $userId);
         return [
             'success'   => true,
             'important' => $important
@@ -124,7 +124,7 @@ class NotesService extends BaseService implements NotesServiceInterface
         $currentCreatedAt = new DateTime('now');
         $savedToHistory = (bool) $savedToHistory;
         $this->repository->saveNoteIntoHistoryQuery($id, $savedToHistory, $userId);
-        $this->activeLogs->createActivityLogQuery('set', 'notes', $id, $currentCreatedAt, $userId);
+        $this->activeLogs->createActivityLogQuery('', 'set', 'note', $id, $currentCreatedAt, $userId);
         return [
             'success'       => true,
             'saveToHistory' => $savedToHistory
@@ -151,7 +151,7 @@ class NotesService extends BaseService implements NotesServiceInterface
         }
         $currentCreatedAt = new DateTime('now');
         $this->repository->editNoteQuery($id, $name, $tag, $userId);
-        $this->activeLogs->createActivityLogQuery('set', 'notes', $id, $currentCreatedAt, $userId);
+        $this->activeLogs->createActivityLogQuery($name, 'set', 'note', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -168,8 +168,8 @@ class NotesService extends BaseService implements NotesServiceInterface
             return ['errors' => $errors];
         }
         $currentCreatedAt = new DateTime('now');
-        $this->repository->deleteNoteQuery($id, $userId);
-        $this->activeLogs->createActivityLogQuery('set', 'notes', $id, $currentCreatedAt, $userId);
+        $result = $this->repository->deleteNoteQuery($id, $userId);
+        $this->activeLogs->createActivityLogQuery('', 'set', 'note', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 

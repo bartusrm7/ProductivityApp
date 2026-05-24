@@ -1,0 +1,13 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.display-all-logs {
+	&__log-row {
+		padding: 0.3rem 0;
+		margin: 0.4rem 0;
+		border-bottom: 1px solid $light-grey;
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+}

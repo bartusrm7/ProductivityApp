@@ -41,7 +41,7 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         $currentCreatedAt = new DateTime('now');
         $result = $this->repository->newHabitQuery($name, $newCreatedAt, $userId);
         $habitId = $result->getId();
-        $this->activeLogs->createActivityLogQuery('create', 'habits', $habitId, $currentCreatedAt, $userId);
+        $this->activeLogs->createActivityLogQuery($name, 'create', 'habit', $habitId, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -78,7 +78,7 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         }
         $currentCreatedAt = new DateTime('now');
         $this->repository->editHabitQuery($id, $name, $description, $userId);
-        $this->activeLogs->createActivityLogQuery('edit', 'habits', $id, $currentCreatedAt, $userId);
+        $this->activeLogs->createActivityLogQuery($name, 'edit', 'habit', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -96,7 +96,7 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         }
         $currentCreatedAt = new DateTime('now');
         $this->repository->deleteHabitQuery($id, $userId);
-        $this->activeLogs->createActivityLogQuery('delete', 'habits', $id, $currentCreatedAt, $userId);
+        $this->activeLogs->createActivityLogQuery('', 'delete', 'habit', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -114,7 +114,7 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         }
         $currentCreatedAt = new DateTime('now');
         $this->repository->habitStatusStartedQuery($id, $userId);
-        $this->activeLogs->createActivityLogQuery('started', 'habits', $id, $currentCreatedAt, $userId);
+        $this->activeLogs->createActivityLogQuery('', 'started', 'habit', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 

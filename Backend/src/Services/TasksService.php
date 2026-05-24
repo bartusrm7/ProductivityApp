@@ -45,7 +45,7 @@ class TasksService extends BaseService implements TasksServiceInterface
             $currentCreatedAt = new DateTime('now');
             $result =  $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
             $taskId = $result->getId();
-            $this->activeLogs->createActivityLogQuery('create', 'tasks', $taskId, $currentCreatedAt, $userId);
+            $this->activeLogs->createActivityLogQuery($name, 'create', 'task', $taskId, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
@@ -109,7 +109,7 @@ class TasksService extends BaseService implements TasksServiceInterface
         } else {
             $currentCreatedAt = new DateTime('now');
             $this->repository->doneTaskQuery($id, $status, $userId);
-            $this->activeLogs->createActivityLogQuery('done', 'tasks', $id, $currentCreatedAt, $userId);
+            $this->activeLogs->createActivityLogQuery('', 'done', 'task', $id, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
@@ -134,7 +134,7 @@ class TasksService extends BaseService implements TasksServiceInterface
         } else {
             $currentCreatedAt = new DateTime('now');
             $this->repository->editTaskQuery($id, $name, $priority, $userId);
-            $this->activeLogs->createActivityLogQuery('edit', 'tasks', $id, $currentCreatedAt, $userId);
+            $this->activeLogs->createActivityLogQuery($name, 'edit', 'task', $id, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
@@ -153,7 +153,7 @@ class TasksService extends BaseService implements TasksServiceInterface
         } else {
             $currentCreatedAt = new DateTime('now');
             $this->repository->deleteTaskQuery($id, $userId);
-            $this->activeLogs->createActivityLogQuery('delete', 'tasks', $id, $currentCreatedAt, $userId);
+            $this->activeLogs->createActivityLogQuery('', 'delete', 'task', $id, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }

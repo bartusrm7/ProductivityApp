@@ -3,8 +3,9 @@ import NavbarMenu from "../navigation/NavbarMenu";
 import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import DisplayTodayTasks from "./DisplayTodayTasks";
 import type { UserTaskData } from "../../types/tasks";
+import DisplayAllLogs from "./DisplayAllLogs";
+import DisplayTodayTasks from "./DisplayTodayTasks";
 
 export default function Dashboard() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -77,6 +78,9 @@ export default function Dashboard() {
 									<div className='d-flex justify-content-between align-items-center'>
 										<h2 className='mb-0'>Last actions</h2>
 									</div>
+									<div>
+										<DisplayAllLogs />
+									</div>
 								</div>
 							</div>
 						</div>
@@ -96,7 +100,6 @@ export default function Dashboard() {
 											</Form.Select>
 										</Form>
 									</div>
-									{/* <div>{selectedStatus && <DisplayTodayTasks taskStatus={selectedStatus} />}</div> */}
 									<div>
 										{tasksName.map((task, index) => (
 											<div key={index}>{task.name}</div>

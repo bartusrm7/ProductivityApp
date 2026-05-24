@@ -40,7 +40,7 @@ class HabitsDataService extends BaseService implements HabitsDataServiceInterfac
             if (!$isTodayDateExists) {
                 $currentCreatedAt = new DateTime('now');
                 $this->repository->setHabitThisDayDoneQuery($id, $newCheckCurrentDay);
-                $this->activeLogs->createActivityLogQuery('set', 'habits-data', $id, $currentCreatedAt, $userId);
+                $this->activeLogs->createActivityLogQuery('', 'set', 'habit data', $id, $currentCreatedAt, $userId);
                 return $this->successResponse();
             } else {
                 return [
