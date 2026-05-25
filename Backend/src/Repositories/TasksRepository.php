@@ -110,7 +110,7 @@ class TasksRepository implements TasksRepositoryInterface
 
     public function getTodayTasksQuery(string $status, int $userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE status = :status AND user_id = :user_id');
+        $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE status = :status AND user_id = :user_id AND DATE(created_at) = CURDATE()');
         $stmt->execute([':status' => $status, ':user_id' => $userId]);
         return $stmt->fetchAll();
     }

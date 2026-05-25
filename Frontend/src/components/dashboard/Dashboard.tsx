@@ -5,7 +5,6 @@ import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import type { UserTaskData } from "../../types/tasks";
 import DisplayAllLogs from "./DisplayAllLogs";
-import DisplayTodayTasks from "./DisplayTodayTasks";
 
 export default function Dashboard() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -17,6 +16,7 @@ export default function Dashboard() {
 	const [selectedStatus, setSelectedStatus] = useState<string>("");
 	const [refresh, setRefresh] = useState<number>(0);
 	const [tasksName, setTasksName] = useState<UserTaskData[]>([]);
+	const [errorTasksName, setErrorTasksName] = useState<string>("");
 
 	async function getTodayTasks() {
 		const jwt = localStorage.getItem("jwt");
@@ -30,6 +30,8 @@ export default function Dashboard() {
 		const data = await response.json();
 		if (data.success) {
 			setTasksName(data.data);
+		} else {
+			setErrorTasksName(`Tasks with ${selectedStatus} array is empty`);
 		}
 	}
 
@@ -102,7 +104,9 @@ export default function Dashboard() {
 									</div>
 									<div>
 										{tasksName.map((task, index) => (
-											<div key={index}>{task.name}</div>
+											<div className='dashboard__task-row' key={index}>
+												{task.name}
+											</div>
 										))}
 									</div>
 								</div>
