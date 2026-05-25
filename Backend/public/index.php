@@ -8,6 +8,7 @@ use App\Controllers\HabitsController;
 use App\Controllers\HabitsDataController;
 use App\Controllers\NotesController;
 use App\Controllers\TasksController;
+use App\Controllers\TasksDataController;
 use App\Database\Database;
 use App\Middlewares\AuthMiddleware;
 use App\Repositories\ActivityLogRepository;
@@ -16,6 +17,7 @@ use App\Repositories\DashboardRepository;
 use App\Repositories\HabitsDataRepository;
 use App\Repositories\HabitsRepository;
 use App\Repositories\NotesRepository;
+use App\Repositories\TasksDataRepository;
 use App\Repositories\TasksRepository;
 use App\Services\AuthService;
 use App\Services\DashboardService;
@@ -23,12 +25,14 @@ use App\Services\HabitsDataService;
 use App\Services\HabitsService;
 use App\Services\JWTService;
 use App\Services\NotesService;
+use App\Services\TasksDataService;
 use App\Services\TasksService;
 use App\Validations\AuthValidation;
 use App\Validations\DashboardValidation;
 use App\Validations\HabitsDataValidation;
 use App\Validations\HabitsValidation;
 use App\Validations\NotesValidation;
+use App\Validations\TasksDataValidation;
 use App\Validations\TasksValidation;
 use Dotenv\Dotenv;
 
@@ -59,6 +63,7 @@ $authRepository = new AuthRepository($db);
 $activeLogRepository = new ActivityLogRepository($db);
 $dashboardRepository = new DashboardRepository($db);
 $tasksRepository = new TasksRepository($db);
+$tasksDataRepository = new TasksDataRepository($db);
 $habitsRepository = new HabitsRepository($db);
 $habitsDataRepository = new HabitsDataRepository($db);
 $notesRepository = new NotesRepository($db);
@@ -67,6 +72,7 @@ $notesRepository = new NotesRepository($db);
 $authValidation = new AuthValidation();
 $dashboardValidation = new DashboardValidation();
 $tasksValidation = new TasksValidation();
+$tasksDataValidation = new TasksDataValidation();
 $habitsValidation = new HabitsValidation();
 $habitsDataValidation = new HabitsDataValidation();
 $notesValidation = new NotesValidation();
@@ -76,6 +82,7 @@ $jwtService = new JWTService();
 $authService = new AuthService($authRepository, $authValidation);
 $dashboardService = new DashboardService($dashboardRepository, $dashboardValidation);
 $tasksService = new TasksService($tasksRepository, $activeLogRepository, $tasksValidation);
+$tasksDataService = new TasksDataService($tasksDataRepository, $activeLogRepository, $tasksDataValidation);
 $habitsService = new HabitsService($habitsRepository, $activeLogRepository, $habitsValidation);
 $habitsDataService = new HabitsDataService($habitsDataRepository, $activeLogRepository, $habitsDataValidation);
 $notesService = new NotesService($notesRepository, $activeLogRepository, $notesValidation);
@@ -87,6 +94,7 @@ $authMiddleware = new AuthMiddleware($jwtService);
 $authController = new AuthController($authService, $jwtService);
 $dashboardController = new DashboardController($dashboardService, $jwtService);
 $tasksController = new TasksController($tasksService, $jwtService);
+$tasksDataController = new TasksDataController($tasksDataService, $jwtService);
 $habitsController = new HabitsController($habitsService, $jwtService);
 $habitsDataController = new HabitsDataController($habitsDataService, $jwtService);
 $notesController = new NotesController($notesService, $jwtService);
@@ -95,6 +103,7 @@ $controllers = [
     AuthController::class => $authController,
     DashboardController::class => $dashboardController,
     TasksController::class => $tasksController,
+    TasksDataController::class => $tasksDataController,
     HabitsController::class => $habitsController,
     HabitsDataController::class => $habitsDataController,
     NotesController::class => $notesController,
@@ -136,6 +145,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/done-task', [TasksController::class, 'doneTask']);
     $r->addRoute('POST', '/edit-task', [TasksController::class, 'editTask']);
     $r->addRoute('POST', '/delete-task', [TasksController::class, 'deleteTask']);
+
+    // TASKS DATA
+    $r->addRoute('POST', '/set-deadline-day', [TasksDataController::class, 'setDeadline']);
 
     // HABITS
     $r->addRoute('POST', '/create-habit', [HabitsController::class, 'newHabit']);
