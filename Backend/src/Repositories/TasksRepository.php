@@ -56,7 +56,7 @@ class TasksRepository implements TasksRepositoryInterface
 
     public function doneTaskQuery(int $id, string $status, int $userId)
     {
-        $stmt = $this->pdo->prepare("UPDATE tasks SET status = :status WHERE id = :id AND user_id = :user_id");
+        $stmt = $this->pdo->prepare("UPDATE tasks SET status = :status, created_at = NOW() WHERE id = :id AND user_id = :user_id");
         $stmt->execute([':id' => $id, ':status' => $status, ':user_id' => $userId]);
 
         return new TasksModel(

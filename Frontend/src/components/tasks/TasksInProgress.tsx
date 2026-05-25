@@ -5,6 +5,7 @@ import TaskDelete from "./TaskDelete";
 import TaskEdit from "./TaskEdit";
 import TaskDoneAsTaskDone from "./TaskDoneAsTaskDone";
 import { Button } from "react-bootstrap";
+import SetTaskDeadline from "./SetTaskDeadline";
 
 export default function TasksInProgress({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
@@ -128,7 +129,9 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 												<div className='main-task-container custom-table-row d-flex flex-wrap align-items-center border-bottom py-2' key={index}>
 													<div className='task-id col-1 fw-bold'>{index + 1}.</div>
 													<div className='task-name col-12 col-md-4'>{task.name}</div>
-													<div className='task-date col-7 col-md-3'>{new Date(task.created_at).toLocaleString()}</div>
+													<div className='task-date col-7 col-md-3'>
+														<SetTaskDeadline taskId={task.id} taskDeadline={task.deadline || ""} />
+													</div>
 													<div className={`tasks-in-progress__priority task-priority d-flex justify-content-center col-12 col-md-2 tasks__priority-name--${task.priority}`}>{task.priority}</div>
 													<div className='task-btns-container d-flex justify-content-end col-5 col-md-2'>
 														<TaskDoneAsTaskDone refreshData={refreshData} taskProp={task} />
