@@ -31,12 +31,11 @@
 	}
 	&__deadline-btn {
 		padding: 0.1rem 1.5rem;
-		background-color: $light-grey;
+		background: $light-white;
 		border: 1px solid $grey;
 		border-radius: 25px;
-		transition: 0.2s;
 		&:hover {
-			background-color: $dark-grey;
+			background: $grey;
 			color: $white;
 		}
 	}
