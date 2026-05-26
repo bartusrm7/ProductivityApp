@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Database\Database;
+use App\Repositories\Interfaces\TasksDataRepositoryInterface;
 use DateTime;
 use PDO;
 
-class TasksDataRepository
+class TasksDataRepository implements TasksDataRepositoryInterface
 {
     private PDO $pdo;
 

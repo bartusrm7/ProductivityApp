@@ -6,10 +6,11 @@ namespace App\Services;
 
 use App\Repositories\ActivityLogRepository;
 use App\Repositories\TasksDataRepository;
+use App\Services\Interfaces\TasksDataServiceInterface;
 use App\Validations\TasksDataValidation;
 use DateTime;
 
-class TasksDataService extends BaseService
+class TasksDataService extends BaseService implements TasksDataServiceInterface
 {
     private TasksDataRepository $repository;
     private ActivityLogRepository $activeLogs;
