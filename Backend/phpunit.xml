@@ -7,6 +7,9 @@
         <testsuite name="tasksTests">
             <directory>tests/Tasks</directory>
         </testsuite>
+        <testsuite name="tasksDataTests">
+            <directory>tests/TasksData</directory>
+        </testsuite>
         <testsuite name="habitsTests">
             <directory>tests/Habits</directory>
         </testsuite>

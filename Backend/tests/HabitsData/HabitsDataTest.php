@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\HabitsData;
 
 use App\Models\HabitsDataModel;
+use App\Repositories\ActivityLogRepository;
 use App\Repositories\HabitsDataRepository;
 use App\Services\HabitsDataService;
 use App\Validations\HabitsDataValidation;
@@ -15,13 +16,15 @@ class HabitsDataTest extends TestCase
 {
     private HabitsDataService $service;
     private HabitsDataRepository $repository;
+    private ActivityLogRepository $activeLog;
     private HabitsDataValidation $validation;
 
     public function setUp(): void
     {
         $this->repository = $this->createStub(HabitsDataRepository::class);
+        $this->activeLog = $this->createStub(ActivityLogRepository::class);
         $this->validation = $this->createStub(HabitsDataValidation::class);
-        $this->service = new HabitsDataService($this->repository, $this->validation);
+        $this->service = new HabitsDataService($this->repository, $this->activeLog, $this->validation);
     }
 
     public function testEmptyHabitDataId()
@@ -29,7 +32,7 @@ class HabitsDataTest extends TestCase
         $this->validation->method('emptyHabitDataId')->willReturn('Habit data ID does not exist');
         $this->repository->method('setHabitThisDayDoneQuery')->willReturn(null);
 
-        $result = $this->service->setHabitThisDayDone(0, '2022-10-09 18:39:16');
+        $result = $this->service->setHabitThisDayDone(0, '2022-10-09 18:39:16', 1);
         $this->assertEquals(['errors' => ['Habit data ID does not exist']], $result);
     }
 
@@ -38,7 +41,7 @@ class HabitsDataTest extends TestCase
         $this->validation->method('emptyCheckCurrentDay')->willReturn('Check current day is empty');
         $this->repository->method('setHabitThisDayDoneQuery')->willReturn(null);
 
-        $result = $this->service->setHabitThisDayDone(1, '');
+        $result = $this->service->setHabitThisDayDone(1, '', 1);
         $this->assertEquals(['errors' => ['Check current day is empty']], $result);
     }
 
@@ -56,8 +59,8 @@ class HabitsDataTest extends TestCase
                 $this->isInstanceOf(DateTime::class)
             );
 
-        $this->service = new HabitsDataService($repo, $this->validation);
-        $result = $this->service->setHabitThisDayDone(1, '2022-10-09 18:39:16');
+        $this->service = new HabitsDataService($repo, $this->activeLog, $this->validation);
+        $result = $this->service->setHabitThisDayDone(1, '2022-10-09 18:39:16', 1);
         $this->assertEquals(['success' => true], $result);
     }
 
@@ -87,7 +90,7 @@ class HabitsDataTest extends TestCase
             ->method('countAmountDaysDoneQuery')
             ->with(1, 1 + 1);
 
-        $this->service = new HabitsDataService($repo, $this->validation);
+        $this->service = new HabitsDataService($repo, $this->activeLog, $this->validation);
         $result = $this->service->countAmountDaysDone(1, 1);
         $this->assertEquals(['success' => true], $result);
     }

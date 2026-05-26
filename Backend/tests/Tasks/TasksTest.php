@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tasks;
 
 use App\Models\TasksModel;
+use App\Repositories\ActivityLogRepository;
 use App\Repositories\TasksRepository;
 use App\Services\TasksService;
 use App\Validations\TasksValidation;
@@ -15,13 +16,15 @@ class TasksTest extends TestCase
 {
     private TasksService $service;
     private TasksRepository $repository;
+    private ActivityLogRepository $activeLog;
     private TasksValidation $validation;
 
     public function setUp(): void
     {
         $this->repository = $this->createStub(TasksRepository::class);
+        $this->activeLog = $this->createStub(ActivityLogRepository::class);
         $this->validation = $this->createStub(TasksValidation::class);
-        $this->service = new TasksService($this->repository, $this->validation);
+        $this->service = new TasksService($this->repository, $this->activeLog, $this->validation);
     }
 
     public function testEmptyTaskName()
@@ -72,7 +75,7 @@ class TasksTest extends TestCase
         $result = $this->service->createNewTask('reading', '2026-04-24 19:40:00', 'low', 0);
         $this->assertEquals(['errors' => ['UserID is not exists']], $result);
     }
-    
+
     public function testCreateNewTask()
     {
         $repo = $this->createMock(TasksRepository::class);
@@ -88,7 +91,7 @@ class TasksTest extends TestCase
             ->method('createNewTaskQuery')
             ->willReturn($tasksModel);
 
-        $this->service = new TasksService($repo, $this->validation);
+        $this->service = new TasksService($repo, $this->activeLog, $this->validation);
         $result = $this->service->createNewTask('reading', '2026-04-24 19:40:00', 'low', 1);
         $this->assertEquals(['success' => true], $result);
     }
@@ -107,7 +110,7 @@ class TasksTest extends TestCase
             ->method('doneTaskQuery')
             ->willReturn($tasksModel);
 
-        $this->service = new TasksService($repo, $this->validation);
+        $this->service = new TasksService($repo, $this->activeLog, $this->validation);
         $result = $this->service->doneTask(1, 'todo', 1);
         $this->assertEquals(['success' => true], $result);
     }
@@ -126,7 +129,7 @@ class TasksTest extends TestCase
             ->method('editTaskQuery')
             ->willReturn($tasksModel);
 
-        $this->service = new TasksService($repo, $this->validation);
+        $this->service = new TasksService($repo, $this->activeLog,  $this->validation);
         $result = $this->service->editTask(1, 'reading', 'low', 1);
         $this->assertEquals(['success' => true], $result);
     }
@@ -144,7 +147,7 @@ class TasksTest extends TestCase
             ->method('deleteTaskQuery')
             ->willReturn($tasksModel);
 
-        $this->service = new TasksService($repo, $this->validation);
+        $this->service = new TasksService($repo, $this->activeLog,  $this->validation);
         $result = $this->service->deleteTask(1, 1);
         $this->assertEquals(['success' => true], $result);
     }
