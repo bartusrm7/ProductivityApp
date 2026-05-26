@@ -36,8 +36,8 @@ class TasksDataService extends BaseService
         }
         $newDeadline = new DateTime($deadline);
         $currentCreatedAt = new DateTime('now');
-        $this->repository->setDeadlineDate($newDeadline, $taskId);
-        $this->activeLogs->createActivityLogQuery('', 'set', 'task data', $taskId, $currentCreatedAt, 0);
-        $this->successResponse();
+        $this->repository->setDeadlineDateQuery($newDeadline, $taskId);
+        $this->activeLogs->createActivityLogQuery('', 'set', 'task data', $taskId, $currentCreatedAt, 21);
+        return $this->successResponse();
     }
 }

@@ -16,7 +16,6 @@ export default function DisplayAllLogs() {
 		const data = await response.json();
 		if (data.success) {
 			setAllLogs(data.data);
-			console.log(data.data);
 		}
 	}
 

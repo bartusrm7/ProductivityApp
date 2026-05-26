@@ -17,10 +17,10 @@ class TasksDataRepository
         $this->pdo = $db->getConnection();
     }
 
-    public function setDeadlineDate(DateTime $deadline, int $taskId)
+    public function setDeadlineDateQuery(DateTime $deadline, int $taskId)
     {
         $stmt = $this->pdo->prepare('INSERT INTO tasks_data (deadline, task_id) VALUES (:deadline, :task_id)');
-        $stmt->execute([':deadline' => $deadline, ':task_id' => $taskId]);
+        $stmt->execute([':deadline' => $deadline->format('Y-m-d 00:00:00'), ':task_id' => $taskId]);
         return $stmt->rowCount();
     }
 }

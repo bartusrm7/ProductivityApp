@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 export default function SetTaskDeadline({ taskId, taskDeadline }: { taskId: number; taskDeadline: string }) {
-	const [deadlineDate, setDeadlineDate] = useState<string>();
+	const [deadlineDate, setDeadlineDate] = useState<string>("");
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
 
@@ -26,18 +26,24 @@ export default function SetTaskDeadline({ taskId, taskDeadline }: { taskId: numb
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${jwt}`,
 				},
-				body: JSON.stringify({ id: taskId, deadline: taskDeadline }),
+				body: JSON.stringify({ taskId: taskId, deadline: deadlineDate }),
 			});
 			const data = await response.json();
+			console.log(data);
 			if (data.errors) {
 				setErrorsArray(data.errors);
 			} else {
 				setDeadlineDate(data.data);
+				handleCloseModal();
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
 		}
 	}
+
+	useEffect(() => {
+		setDeadlineDate(taskDeadline);
+	}, [taskDeadline]);
 
 	return (
 		<>
@@ -54,7 +60,7 @@ export default function SetTaskDeadline({ taskId, taskDeadline }: { taskId: numb
 						<Form onSubmit={handleSetDeadlineTime}>
 							<Form.Group className='mb-3'>
 								<Form.Floating>
-									<Form.Control value={deadlineDate || new Date().toISOString().split("T")[0]} onChange={e => setDeadlineDate(e.target.value)} type='date' placeholder='Edit deadline day...' />
+									<Form.Control value={deadlineDate || ""} onChange={e => setDeadlineDate(e.target.value)} type='date' placeholder='Edit deadline day...' />
 									<Form.Label>Deadline day</Form.Label>
 								</Form.Floating>
 							</Form.Group>
