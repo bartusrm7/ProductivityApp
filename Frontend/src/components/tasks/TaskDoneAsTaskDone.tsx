@@ -7,6 +7,7 @@ export default function TaskDoneAsTaskDone({ taskProp, refreshData }: { taskProp
 		id: 0,
 		name: "",
 		created_at: "",
+		deadline: "",
 		priority: "",
 		status: "done",
 	});

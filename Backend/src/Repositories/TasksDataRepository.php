@@ -24,4 +24,11 @@ class TasksDataRepository implements TasksDataRepositoryInterface
         $stmt->execute([':deadline' => $deadline->format('Y-m-d 00:00:00'), ':task_id' => $taskId]);
         return $stmt->rowCount();
     }
+
+    public function getDeadlineDayQuery(DateTime $deadline, int $taskId)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM tasks_data WHERE task_id = :task_id AND deadline = :deadline');
+        $stmt->execute([':deadline' => $deadline->format('Y-m-d 00:00:00'), ':task_id' => $taskId]);
+        return $stmt->fetch();
+    }
 }

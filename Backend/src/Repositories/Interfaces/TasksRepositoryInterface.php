@@ -12,4 +12,5 @@ interface TasksRepositoryInterface
     public function doneTaskQuery(int $id, string $status, int $userId);
     public function editTaskQuery(int $id, string $name, string $priority, int $userId);
     public function deleteTaskQuery(int $id, int $userId);
+    public function updateTaskFailedQuery(int $id, string $status, int $userId);
 }

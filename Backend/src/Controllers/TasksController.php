@@ -157,4 +157,22 @@ class TasksController extends BaseController
 
         $this->jsonResponse($result, $status);
     }
+
+    public function taskFailed()
+    {
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $id = $data['id'];
+        $deadline = $data['deadline'];
+        $status = $data['status'];
+
+        $result = $this->service->taskFailed($id, $deadline, $status, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
 }

@@ -81,7 +81,7 @@ $notesValidation = new NotesValidation();
 $jwtService = new JWTService();
 $authService = new AuthService($authRepository, $authValidation);
 $dashboardService = new DashboardService($dashboardRepository, $dashboardValidation);
-$tasksService = new TasksService($tasksRepository, $activeLogRepository, $tasksValidation);
+$tasksService = new TasksService($tasksRepository, $tasksDataRepository, $activeLogRepository, $tasksValidation);
 $tasksDataService = new TasksDataService($tasksDataRepository, $activeLogRepository, $tasksDataValidation);
 $habitsService = new HabitsService($habitsRepository, $activeLogRepository, $habitsValidation);
 $habitsDataService = new HabitsDataService($habitsDataRepository, $activeLogRepository, $habitsDataValidation);
@@ -94,7 +94,7 @@ $authMiddleware = new AuthMiddleware($jwtService);
 $authController = new AuthController($authService, $jwtService);
 $dashboardController = new DashboardController($dashboardService, $jwtService);
 $tasksController = new TasksController($tasksService, $jwtService);
-$tasksDataController = new TasksDataController($tasksDataService, $jwtService);
+$tasksDataController = new TasksDataController($tasksDataService);
 $habitsController = new HabitsController($habitsService, $jwtService);
 $habitsDataController = new HabitsDataController($habitsDataService, $jwtService);
 $notesController = new NotesController($notesService, $jwtService);
@@ -145,6 +145,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/done-task', [TasksController::class, 'doneTask']);
     $r->addRoute('POST', '/edit-task', [TasksController::class, 'editTask']);
     $r->addRoute('POST', '/delete-task', [TasksController::class, 'deleteTask']);
+    $r->addRoute('POST', '/failed-task', [TasksController::class, 'taskFailed']);
 
     // TASKS DATA
     $r->addRoute('POST', '/set-deadline-day', [TasksDataController::class, 'setDeadline']);

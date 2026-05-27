@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Repositories\ActivityLogRepository;
+use App\Repositories\TasksDataRepository;
 use App\Repositories\TasksRepository;
 use App\Services\Interfaces\TasksServiceInterface;
 use App\Validations\TasksValidation;
@@ -13,12 +14,14 @@ use DateTime;
 class TasksService extends BaseService implements TasksServiceInterface
 {
     private TasksRepository $repository;
+    private TasksDataRepository $taskDataRepo;
     private ActivityLogRepository $activeLogs;
     private TasksValidation $validation;
 
-    public function __construct(TasksRepository $repository, ActivityLogRepository $activeLogs, TasksValidation $validation)
+    public function __construct(TasksRepository $repository, TasksDataRepository $taskDataRepo, ActivityLogRepository $activeLogs, TasksValidation $validation)
     {
         $this->repository = $repository;
+        $this->taskDataRepo = $taskDataRepo;
         $this->activeLogs = $activeLogs;
         $this->validation = $validation;
     }
@@ -190,5 +193,33 @@ class TasksService extends BaseService implements TasksServiceInterface
             $result = $this->repository->getTodayTasksQuery($status, $userId);
             return $this->successResponseWithData($result);
         }
+    }
+
+    public function taskFailed(int $id, string $deadline, string $status, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyTaskId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyTaskStatus($status)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $newDeadline = new DateTime($deadline);
+        $currentDate = new DateTime();
+        $deadlineResult = $this->taskDataRepo->getDeadlineDayQuery($newDeadline, $id);
+
+        if ($deadlineResult && isset($deadlineResult['deadline'])) {
+            $deadlineDate = new DateTime($deadlineResult['deadline']);
+            if ($currentDate > $deadlineDate) {
+                $this->repository->updateTaskFailedQuery($id, $status, $userId);
+            }
+        }
+        return $this->successResponse();
     }
 }

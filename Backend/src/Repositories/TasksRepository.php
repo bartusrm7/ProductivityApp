@@ -43,7 +43,7 @@ class TasksRepository implements TasksRepositoryInterface
     public function getInProgressTasksQuery(int $userId)
     {
         $stmt = $this->pdo->prepare(
-            "SELECT * FROM tasks AS t
+            "SELECT t.id, t.name, t.created_at, t.priority, t.status, t.user_id, td.deadline FROM tasks AS t
             LEFT JOIN tasks_data AS td ON td.task_id = t.id
             WHERE t.user_id = :user_id
             AND t.status = 'in_progress'"
@@ -118,5 +118,12 @@ class TasksRepository implements TasksRepositoryInterface
         $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE status = :status AND user_id = :user_id AND DATE(created_at) = CURDATE()');
         $stmt->execute([':status' => $status, ':user_id' => $userId]);
         return $stmt->fetchAll();
+    }
+
+    public function updateTaskFailedQuery(int $id, string $status, int $userId)
+    {
+        $stmt = $this->pdo->prepare('UPDATE tasks SET status = :status WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':status' => $status, ':user_id' => $userId]);
+        return $stmt->rowCount();
     }
 }
