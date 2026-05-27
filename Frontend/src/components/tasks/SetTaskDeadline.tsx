@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
-export default function SetTaskDeadline({ taskId, taskDeadline }: { taskId: number; taskDeadline: string }) {
+export default function SetTaskDeadline({ taskId, taskDeadline, refreshData }: { taskId: number; taskDeadline: string; refreshData: () => void }) {
 	const [deadlineDate, setDeadlineDate] = useState<string>("");
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
@@ -35,6 +35,7 @@ export default function SetTaskDeadline({ taskId, taskDeadline }: { taskId: numb
 			} else {
 				setDeadlineDate(data.data);
 				handleCloseModal();
+				refreshData();
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);

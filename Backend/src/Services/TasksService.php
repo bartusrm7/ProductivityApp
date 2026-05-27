@@ -195,31 +195,16 @@ class TasksService extends BaseService implements TasksServiceInterface
         }
     }
 
-    public function taskFailed(int $id, string $deadline, string $status, int $userId)
+    public function taskFailed(int $userId)
     {
         $errors = [];
-        if ($error = $this->validation->emptyTaskId($id)) {
-            $errors[] = $error;
-        }
-        if ($error = $this->validation->emptyTaskStatus($status)) {
-            $errors[] = $error;
-        }
         if ($error = $this->validation->emptyUserId($userId)) {
             $errors[] = $error;
         }
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
-        $newDeadline = new DateTime($deadline);
-        $currentDate = new DateTime();
-        $deadlineResult = $this->taskDataRepo->getDeadlineDayQuery($newDeadline, $id);
-
-        if ($deadlineResult && isset($deadlineResult['deadline'])) {
-            $deadlineDate = new DateTime($deadlineResult['deadline']);
-            if ($currentDate > $deadlineDate) {
-                $this->repository->updateTaskFailedQuery($id, $status, $userId);
-            }
-        }
+        $this->repository->updateTaskFailedQuery($userId);
         return $this->successResponse();
     }
 }

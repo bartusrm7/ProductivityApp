@@ -120,10 +120,17 @@ class TasksRepository implements TasksRepositoryInterface
         return $stmt->fetchAll();
     }
 
-    public function updateTaskFailedQuery(int $id, string $status, int $userId)
+    public function updateTaskFailedQuery(int $userId)
     {
-        $stmt = $this->pdo->prepare('UPDATE tasks SET status = :status WHERE id = :id AND user_id = :user_id');
-        $stmt->execute([':id' => $id, ':status' => $status, ':user_id' => $userId]);
+        $stmt = $this->pdo->prepare(
+            "UPDATE tasks t
+            INNER JOIN tasks_data td ON td.task_id = t.id
+            SET t.status = 'failed'
+            WHERE t.user_id = :user_id
+            AND t.status = 'in_progress'
+            AND td.deadline < NOW()"
+        );
+        $stmt->execute([':user_id' => $userId]);
         return $stmt->rowCount();
     }
 }

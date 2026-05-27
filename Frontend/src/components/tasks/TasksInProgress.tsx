@@ -36,6 +36,21 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 		}
 	}
 
+	async function handleSetDeadlineTime() {
+		try {
+			const jwt = localStorage.getItem("jwt");
+			await fetch("http://productivityapp.local/failed-task", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${jwt}`,
+				},
+			});
+		} catch (error) {
+			setErrorsArray(["Server error. Try again."]);
+		}
+	}
+
 	async function sortTasksFunction() {
 		const jwt = localStorage.getItem("jwt");
 		const response = await fetch(`http://productivityapp.local/sort-tasks?status=in_progress&direction=${directionSort}&sort=${sortDataKey}`, {
@@ -66,6 +81,7 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 
 	useEffect(() => {
 		getInProgressTasks();
+		handleSetDeadlineTime();
 	}, [refreshParent, refresh]);
 
 	useEffect(() => {
@@ -130,7 +146,7 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 													<div className='task-id col-1 fw-bold'>{index + 1}.</div>
 													<div className='task-name col-12 col-md-4'>{task.name}</div>
 													<div className='task-date col-7 col-md-3'>
-														<SetTaskDeadline taskId={task.id} taskDeadline={task.deadline || ""} />
+														<SetTaskDeadline refreshData={() => setRefresh(prevState => prevState + 1)} taskId={task.id} taskDeadline={task.deadline || ""} />
 													</div>
 													<div className={`tasks-in-progress__priority task-priority d-flex justify-content-center col-12 col-md-2 tasks__priority-name--${task.priority}`}>{task.priority}</div>
 													<div className='task-btns-container d-flex justify-content-end col-5 col-md-2'>

@@ -165,12 +165,7 @@ class TasksController extends BaseController
         }
         $userId = $this->jwtservice->getUserIdFromJWT();
 
-        $data = $this->jsonInput();
-        $id = $data['id'];
-        $deadline = $data['deadline'];
-        $status = $data['status'];
-
-        $result = $this->service->taskFailed($id, $deadline, $status, $userId);
+        $result = $this->service->taskFailed($userId);
         $status = isset($result['success']) ? 200 : 422;
 
         $this->jsonResponse($result, $status);

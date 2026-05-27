@@ -10,5 +10,5 @@ interface TasksServiceInterface
     public function doneTask(int $id, string $status, int $userId);
     public function editTask(int $id,  string $status, string $priority, int $userId);
     public function deleteTask(int $id, int $userId);
-    public function taskFailed(int $id, string $deadline, string $status, int $userId);
+    public function taskFailed(int $userId);
 }
