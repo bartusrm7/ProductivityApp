@@ -59,6 +59,18 @@ class TasksRepository implements TasksRepositoryInterface
         return $stmt->fetchAll();
     }
 
+    public function getFailedTasksQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT * FROM tasks AS t 
+            INNER JOIN tasks_data AS td ON td.task_id = t.id
+            WHERE status = 'failed' 
+            AND user_id = :user_id"
+        );
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
+
     public function doneTaskQuery(int $id, string $status, int $userId)
     {
         $stmt = $this->pdo->prepare("UPDATE tasks SET status = :status, created_at = NOW() WHERE id = :id AND user_id = :user_id");
@@ -96,10 +108,10 @@ class TasksRepository implements TasksRepositoryInterface
 
     public function sortDataByStatusAndTitleQuery(array $params)
     {
-        $sql = 'SELECT * FROM tasks WHERE status = :status AND user_id = :user_id';
+        $sql = 'SELECT * FROM tasks AS t INNER JOIN tasks_data AS td ON td.task_id = t.id WHERE status = :status AND user_id = :user_id';
         $bindings = [':status' => $params['status'], ':user_id' => $params['user_id']];
 
-        $sortData = ['id', 'name', 'created_at', 'priority'];
+        $sortData = ['id', 'name', 'created_at', 'deadline', 'failed', 'priority'];
         $directionsData = ['ASC', 'DESC'];
 
         if (!empty($params['sort'])) {

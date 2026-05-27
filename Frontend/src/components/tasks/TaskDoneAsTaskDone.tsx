@@ -6,7 +6,7 @@ export default function TaskDoneAsTaskDone({ taskProp, refreshData }: { taskProp
 	const [taskData, setTaskData] = useState<UserTaskData>({
 		id: 0,
 		name: "",
-		created_at: "",
+		created_at: new Date().toLocaleDateString(),
 		deadline: "",
 		priority: "",
 		status: "done",

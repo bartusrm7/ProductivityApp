@@ -95,6 +95,20 @@ class TasksService extends BaseService implements TasksServiceInterface
         }
     }
 
+    public function getFailedTasks(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->getFailedTasksQuery($userId);
+            return $this->successResponseWithData($result);
+        }
+    }
+
     public function doneTask(int $id, string $status, int $userId)
     {
         $errors = [];

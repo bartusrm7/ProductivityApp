@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import TasksToDo from "./TasksToDo";
 import TasksInProgress from "./TasksInProgress";
 import TasksDone from "./TasksDone";
+import TasksFailed from "./TasksFailed";
 
 export default function Tasks() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -44,6 +45,11 @@ export default function Tasks() {
 				<div className='tasks__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
 						<TasksDone refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
+					</div>
+				</div>
+				<div className='tasks__main-container mx-3 rounded-3'>
+					<div className='p-3 p-md-4'>
+						<TasksFailed refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 			</div>

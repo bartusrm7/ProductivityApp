@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import type { UserTaskData } from "../../types/tasks";
-import TaskDelete from "./TaskDelete";
-import TaskEdit from "./TaskEdit";
-import TaskDoneAsTaskDone from "./TaskDoneAsTaskDone";
 import { Button } from "react-bootstrap";
-import SetTaskDeadline from "./SetTaskDeadline";
 
-export default function TasksInProgress({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
+export default function TasksFailed({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [taskData, setTaskData] = useState<UserTaskData[]>([]);
 	const [directionSort, setDirectionSort] = useState<"asc" | "desc">("asc");
 	const [sortDataKey, setSortDataKey] = useState<string>();
@@ -18,7 +14,7 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 	async function getInProgressTasks() {
 		try {
 			const jwt = localStorage.getItem("jwt");
-			const response = await fetch(`http://productivityapp.local/in-progress-tasks?status=in_progress`, {
+			const response = await fetch(`http://productivityapp.local/failed-tasks?status=failed`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
@@ -53,7 +49,7 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 
 	async function sortTasksFunction() {
 		const jwt = localStorage.getItem("jwt");
-		const response = await fetch(`http://productivityapp.local/sort-tasks?status=in_progress&direction=${directionSort}&sort=${sortDataKey}`, {
+		const response = await fetch(`http://productivityapp.local/sort-tasks?status=failed&direction=${directionSort}&sort=${sortDataKey}`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -91,18 +87,18 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 	}, [directionSort, sortDataKey]);
 
 	return (
-		<div className='tasks-in-progress'>
+		<div className='tasks-failed'>
 			<div className='my-3'>
 				<div>
 					<div className='d-flex align-items-center border-bottom pb-1'>
-						<Button className={`tasks-in-progress__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>
+						<Button className={`tasks-failed__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>
 							<IoIosArrowUp size={24} className='display-icon' />
 						</Button>
-						<h4 className='ms-2 mb-0'>In Progress</h4>
+						<h4 className='ms-2 mb-0'>Failed</h4>
 					</div>
 					<div>
 						{isMenuDisplay && (
-							<div className='tasks-in-progress__main-container'>
+							<div className='tasks-failed__main-container'>
 								{errorsArray.length > 0 ? (
 									<div>
 										{errorsArray.map((error, index) => (
@@ -126,34 +122,26 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 													{directionSort === "asc" && sortDataKey === "name" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 												</button>
 											</div>
-											<div className='d-flex align-items-center col-3'>
-												<div>Deadline</div>
-												<button className='sort-btn ms-2' onClick={handleSortFunction} value='deadline'>
-													{directionSort === "asc" && sortDataKey === "deadline" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+											<div className='d-flex align-items-center col-4'>
+												<div>Failed date</div>
+												<button className='sort-btn ms-2' onClick={handleSortFunction} value='failed_date'>
+													{directionSort === "asc" && sortDataKey === "failed_date" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 												</button>
 											</div>
-											<div className='d-flex align-items-center justify-content-center col-2'>
+											<div className='d-flex align-items-center justify-content-center col-3'>
 												<div>Priority</div>
 												<button className='sort-btn ms-2' onClick={handleSortFunction} value='priority'>
 													{directionSort === "asc" && sortDataKey === "priority" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 												</button>
 											</div>
-											<div className='col-2 text-center'>Actions</div>
 										</div>
 										<div>
 											{taskData.map((task, index) => (
 												<div className='main-task-container custom-table-row d-flex flex-wrap align-items-center border-bottom py-2' key={index}>
 													<div className='task-id col-1 fw-bold'>{index + 1}.</div>
 													<div className='task-name col-11 col-md-4'>{task.name}</div>
-													<div className='task-date col-7 col-md-3'>
-														<SetTaskDeadline refreshData={() => setRefresh(prevState => prevState + 1)} taskId={task.id} taskDeadline={task.deadline || ""} />
-													</div>
-													<div className={`tasks-in-progress__priority task-priority d-flex justify-content-center col-12 col-md-2 tasks__priority-name--${task.priority}`}>{task.priority}</div>
-													<div className='task-btns-container d-flex justify-content-end col-5 col-md-2'>
-														<TaskDoneAsTaskDone refreshData={refreshData} taskProp={task} />
-														<TaskEdit refreshData={() => setRefresh(prevState => prevState + 1)} taskProp={task} />
-														<TaskDelete refreshData={() => setRefresh(prevState => prevState + 1)} taskId={task.id} />
-													</div>
+													<div className='task-date col-7 col-md-4'>{task.deadline}</div>
+													<div className={`tasks-failed__priority task-priority m-auto d-flex justify-content-center col-12 col-md-3 tasks__priority-name--${task.priority}`}>{task.priority}</div>
 												</div>
 											))}
 										</div>
