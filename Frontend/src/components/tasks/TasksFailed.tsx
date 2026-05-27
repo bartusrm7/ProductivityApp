@@ -26,6 +26,7 @@ export default function TasksFailed({ refreshParent, refreshData }: { refreshPar
 				setErrorsArray(data.errors);
 			} else {
 				setTaskData(data.data);
+				console.log(data.data);
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
