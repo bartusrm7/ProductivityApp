@@ -5,6 +5,7 @@ import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import type { UserTaskData } from "../../types/tasks";
 import DisplayAllLogs from "./DisplayAllLogs";
+import TasksCharts from "./TasksCharts";
 
 export default function Dashboard() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -72,6 +73,26 @@ export default function Dashboard() {
 									</div>
 									<div className='mb-0 pb-0'>Board to display the most important data</div>
 								</div>
+							</div>
+						</div>
+						<div className='col-12 col-md-6'>
+							<div className='dashboard__main-container h-100 rounded-3'>
+								<div className='p-3 p-md-4'>
+									<div className='d-flex justify-content-between align-items-center'>
+										<h2 className='mb-0'>Tasks view</h2>
+									</div>
+								</div>
+								<TasksCharts />
+							</div>
+						</div>
+						<div className='col-12 col-md-6'>
+							<div className='dashboard__main-container h-100 rounded-3'>
+								<div className='p-3 p-md-4'>
+									<div className='d-flex justify-content-between align-items-center'>
+										<h2 className='mb-0'>Last actions</h2>
+									</div>
+								</div>
+								<TasksCharts />
 							</div>
 						</div>
 						<div className='col-12 col-md-6'>
