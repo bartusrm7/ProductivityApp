@@ -125,6 +125,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/failed-tasks', [TasksController::class, 'getFailedTasks']);
     $r->addRoute('GET', '/sort-tasks', [TasksController::class, 'sortTasks']);
     $r->addRoute('GET', '/get-today-tasks', [TasksController::class, 'getTodayTasks']);
+    $r->addRoute('GET', '/get-all-tasks', [TasksController::class, 'getAllTasks']);
 
     // HABITS
     $r->addRoute('GET', '/get-habits', [HabitsController::class, 'getHabits']);

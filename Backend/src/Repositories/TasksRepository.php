@@ -150,4 +150,11 @@ class TasksRepository implements TasksRepositoryInterface
         $stmt->execute([':user_id' => $userId]);
         return $stmt->rowCount();
     }
+
+    public function getAllTasksQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE user_id = :user_id');
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
 }

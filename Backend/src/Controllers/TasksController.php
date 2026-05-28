@@ -183,4 +183,17 @@ class TasksController extends BaseController
 
         $this->jsonResponse($result, $status);
     }
+
+    public function getAllTasks()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getAllTasks($userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
 }
