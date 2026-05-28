@@ -7,7 +7,7 @@ export default function TasksCharts() {
 
 	async function getTodayTasks() {
 		const jwt = localStorage.getItem("jwt");
-		const response = await fetch("http://productivityapp.local/get-tasks", {
+		const response = await fetch("http://productivityapp.local/get-all-tasks", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -44,9 +44,11 @@ export default function TasksCharts() {
 			<PieChart
 				series={[
 					{
-						startAngle: -90,
-						endAngle: 90,
-						data,
+						data: data,
+						innerRadius: 50,
+						outerRadius: 90,
+						paddingAngle: 3,
+						cornerRadius: 5,
 					},
 				]}
 				height={200}

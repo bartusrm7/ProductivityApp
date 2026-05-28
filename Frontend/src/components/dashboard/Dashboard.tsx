@@ -57,39 +57,30 @@ export default function Dashboard() {
 			<div className='dashboard'>
 				<div className='container-fluid'>
 					<div className='row g-3'>
-						<div className='col-12'>
+						<div className='col-12 col-md-5'>
 							<div className='dashboard__main-container h-100 rounded-3'>
 								<div className='p-3 p-md-4 mb-0'>
 									<div className='d-flex justify-content-between align-items-center'>
 										<h2 className='mb-0'>Dashboard</h2>
-										<div>
-											<Link to='/tasks'>
-												<Button className='dashboard__link-btn custom-btn new-task-link-btn mb-0 me-2'>Add new task</Button>
-											</Link>
-											<Link to='/habits'>
-												<Button className='dashboard__link-btn custom-btn new-habit-link-btn mb-0'>Add new habit</Button>
-											</Link>
-										</div>
 									</div>
-									<div className='mb-0 pb-0'>Board to display the most important data</div>
+									<div className='my-2'>Board to display the most important data</div>
+
+									<div className="my-4">
+										<Link to='/tasks'>
+											<Button className='dashboard__link-btn custom-btn new-task-link-btn mb-0 me-2'>Add new task</Button>
+										</Link>
+										<Link to='/habits'>
+											<Button className='dashboard__link-btn custom-btn new-habit-link-btn mb-0'>Add new habit</Button>
+										</Link>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div className='col-12 col-md-6'>
+						<div className='col-12 col-md-7'>
 							<div className='dashboard__main-container h-100 rounded-3'>
 								<div className='p-3 p-md-4'>
 									<div className='d-flex justify-content-between align-items-center'>
-										<h2 className='mb-0'>Tasks view</h2>
-									</div>
-								</div>
-								<TasksCharts />
-							</div>
-						</div>
-						<div className='col-12 col-md-6'>
-							<div className='dashboard__main-container h-100 rounded-3'>
-								<div className='p-3 p-md-4'>
-									<div className='d-flex justify-content-between align-items-center'>
-										<h2 className='mb-0'>Last actions</h2>
+										<h2 className='mb-0'>All tasks view</h2>
 									</div>
 								</div>
 								<TasksCharts />
