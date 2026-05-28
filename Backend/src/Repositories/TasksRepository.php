@@ -127,8 +127,13 @@ class TasksRepository implements TasksRepositoryInterface
 
     public function getTodayTasksQuery(string $status, int $userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE status = :status AND user_id = :user_id AND DATE(created_at) = CURDATE()');
-        $stmt->execute([':status' => $status, ':user_id' => $userId]);
+        if ($status === 'in_progress') {
+            $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE status = 'in_progress' AND user_id = :user_id");
+            $stmt->execute([':user_id' => $userId]);
+        } else {
+            $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE status = :status AND user_id = :user_id AND DATE(created_at) = CURDATE()');
+            $stmt->execute([':status' => $status, ':user_id' => $userId]);
+        }
         return $stmt->fetchAll();
     }
 
