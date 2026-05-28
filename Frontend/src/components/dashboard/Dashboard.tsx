@@ -13,7 +13,7 @@ export default function Dashboard() {
 		{ key: "in_progress", name: "In Progress" },
 		{ key: "done", name: "Done" },
 	]);
-	const [selectedStatus, setSelectedStatus] = useState<string>("");
+	const [selectedStatus, setSelectedStatus] = useState<string>("in_progress");
 	const [refresh, setRefresh] = useState<number>(0);
 	const [tasksName, setTasksName] = useState<UserTaskData[]>([]);
 	const [errorTasksName, setErrorTasksName] = useState<string>("");
@@ -92,8 +92,7 @@ export default function Dashboard() {
 									<div className='d-flex justify-content-between align-items-center'>
 										<h2 className='mb-0'>Today tasks</h2>
 										<Form>
-											<Form.Select onClick={handleGetTaskStatus}>
-												<option value=''></option>
+											<Form.Select defaultValue='in_progress' onClick={handleGetTaskStatus}>
 												{tasksStatus.map((status, index) => (
 													<option key={index} value={status.key}>
 														{status.name}
