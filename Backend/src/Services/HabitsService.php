@@ -100,6 +100,23 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         return $this->successResponse();
     }
 
+    public function sortHabits(array $params, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyStatus($params['status'])) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->sortHabitsDataQuery($params);
+            return $this->successResponseWithData($result);
+        }
+    }
+
     public function habitStatusStarted(int $id, int $userId)
     {
         $errors = [];

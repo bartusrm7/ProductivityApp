@@ -82,6 +82,25 @@ class HabitsController extends BaseController
         $this->jsonResponse($result, $status);
     }
 
+    public function sortHabits()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+        $params = [
+            'status'        => $_GET['status'] ?? null,
+            'sort'          => $_GET['sort'] ?? null,
+            'direction'     => $_GET['direction'] ?? null,
+            'user_id'       => $userId
+        ];
+
+        $result = $this->service->sortHabits($params, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+        
+        $this->jsonResponse($result, $status);
+    }
+
     public function habitStatusStarted()
     {
         if (!$this->requestMethod('POST')) {

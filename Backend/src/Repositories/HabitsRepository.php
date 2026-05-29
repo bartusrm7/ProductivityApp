@@ -35,7 +35,7 @@ class HabitsRepository implements HabitsRepositoryInterface
 
     public function getAllHabitsQuery(int $userId)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM habits WHERE status != 'started' AND user_id = :user_id");
+        $stmt = $this->pdo->prepare("SELECT * FROM habits WHERE status = 'in_progress' AND user_id = :user_id");
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
@@ -59,6 +59,25 @@ class HabitsRepository implements HabitsRepositoryInterface
         $stmt = $this->pdo->prepare('DELETE FROM habits WHERE id = :id AND user_id = :user_id');
         $stmt->execute([':id' => $id, ':user_id' => $userId]);
         return $stmt->rowCount();
+    }
+
+    public function sortHabitsDataQuery(array $params)
+    {
+        $sql = 'SELECT * FROM habits AS h LEFT JOIN habits_data AS hd ON hd.habit_id = h.id WHERE user_id = :user_id AND h.status = :status';
+        $bindings = [':status' => $params['status'], ':user_id' => $params['user_id']];
+
+        $sortData = ['id', 'name', 'description', 'created_at', 'status', 'streak_days', 'check_current_day', 'amount_days_done'];
+        $directionsData = ['ASC', 'DESC'];
+
+        if (!empty($params['sort'])) {
+            $sort = in_array($params['sort'], $sortData) ? $params['sort'] : 'name';
+            $direction = in_array(strtoupper($params['direction'] ?? 'ASC'), $directionsData) ? strtoupper($params['direction']) : 'ASC';
+            $sql .= " ORDER BY $sort $direction";
+        }
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($bindings);
+        return $stmt->fetchAll();
     }
 
     public function habitStatusStartedQuery(int $id, int $userId)

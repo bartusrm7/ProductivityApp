@@ -2,10 +2,38 @@
 @use "../../mixins" as *;
 
 .display-habits {
+	&__display-tasks-btn {
+		transition: 0.3s;
+	}
+	.open {
+		transform: rotate(180deg);
+	}
 	&__main-container {
+		transition: 0.3s ease;
 		border-radius: 5px;
 		&:hover {
 			background-color: $light-grey;
+		}
+	}
+	&__main-container .open {
+		transform: translateY(100%);
+		&:hover {
+			transform: translateY(-100%);
+		}
+	}
+	@include min-width(768px) {
+		&__priority {
+			max-width: 300px !important;
+		}
+	}
+	&__deadline-btn {
+		padding: 0.1rem 1.5rem;
+		background: $light-white;
+		border: 1px solid $grey;
+		border-radius: 25px;
+		&:hover {
+			background: $grey;
+			color: $white;
 		}
 	}
 	&__name {

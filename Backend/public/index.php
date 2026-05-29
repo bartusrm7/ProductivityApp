@@ -130,6 +130,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     // HABITS
     $r->addRoute('GET', '/get-habits', [HabitsController::class, 'getHabits']);
     $r->addRoute('GET', '/get-started-habits', [HabitsController::class, 'getStartedHabits']);
+    $r->addRoute('GET', '/sort-habits', [HabitsController::class, 'sortHabits']);
 
     // NOTES
     $r->addRoute('GET', '/get-notes', [NotesController::class, 'getNotes']);
