@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { UserNotesDataJoined } from "../../types/notes";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoIosStar, IoIosStarOutline } from "react-icons/io";
 
 export default function DisplaySavedToHistoryNotes({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [notesData, setNotesData] = useState<UserNotesDataJoined[]>([]);
@@ -24,7 +24,7 @@ export default function DisplaySavedToHistoryNotes({ refreshParent, refreshData 
 
 	async function sortSavedHistoryNotes() {
 		const jwt = localStorage.getItem("jwt");
-		const response = await fetch(`http://productivityapp.local/sort-notes?direction=${directionSort}&sort=${sortDataKey}`, {
+		const response = await fetch(`http://productivityapp.local/sort-notes?saved_to_history=1&direction=${directionSort}&sort=${sortDataKey}`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -34,7 +34,7 @@ export default function DisplaySavedToHistoryNotes({ refreshParent, refreshData 
 		const data = await response.json();
 		if (data.success) {
 			setNotesData(data.data);
-			refreshData();
+			console.log(data.data);
 		}
 	}
 
@@ -60,7 +60,7 @@ export default function DisplaySavedToHistoryNotes({ refreshParent, refreshData 
 	}, [directionSort, sortDataKey]);
 
 	return (
-		<div className='display-note w-100'>
+		<div className='display-saved-note w-100'>
 			<div className='d-flex align-items-center'>
 				<h4 className='ms-2 mb-0'>History notes</h4>
 			</div>
@@ -71,13 +71,14 @@ export default function DisplaySavedToHistoryNotes({ refreshParent, refreshData 
 						{directionSort === "asc" && sortDataKey === "id" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 					</button>
 				</div>
-				<div className='col-3'>
+				<div className='col-1'></div>
+				<div className='col-4'>
 					Note
 					<button className='sort-btn' onClick={handleSortFunction} value='name'>
 						{directionSort === "asc" && sortDataKey === "name" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 					</button>
 				</div>
-				<div className='col-2'>
+				<div className='col-3'>
 					Tag
 					<button className='sort-btn' onClick={handleSortFunction} value='tag'>
 						{directionSort === "asc" && sortDataKey === "tag" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
@@ -85,18 +86,18 @@ export default function DisplaySavedToHistoryNotes({ refreshParent, refreshData 
 				</div>
 				<div className='col-2'>
 					Date
-					<button className='sort-btn' onClick={handleSortFunction} value='created_at'>
-						{directionSort === "asc" && sortDataKey === "created_at" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+					<button className='sort-btn' onClick={handleSortFunction} value='date_saved'>
+						{directionSort === "asc" && sortDataKey === "date_saved" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 					</button>
 				</div>
-				<div className='col-3 text-center'>Actions</div>
 			</div>
 			{notesData.map((note, index) => (
-				<div className='display-note__main-container custom-table-row d-flex flex-wrap align-items-center border-bottom' key={index}>
-					<div className='display-note__id col-1 d-none d-md-block fw-bold'>{index + 1}.</div>
-					<div className='display-note__name col-11 col-md-3'>{note.name}</div>
-					<div className='display-note__tag col-9 col-md-2'>{note.tag}</div>
-					<div className='display-note__created_at col-7 col-md-2'>{note.date_saved}</div>
+				<div className='display-saved-note__main-container custom-table-row d-flex flex-wrap align-items-center border-bottom' key={index}>
+					<div className='display-saved-note__id col-1 d-none d-md-block fw-bold'>{index + 1}.</div>
+					<div className='display-saved-note__important col-1 col-md-1'>{note.important ? <IoIosStar size={24} color='#caae11' /> : <IoIosStarOutline size={24} color='#b6b6b6' />}</div>
+					<div className='display-saved-note__name col-11 col-md-4'>{note.name}</div>
+					<div className='display-saved-note__tag col-9 col-md-3'>{note.tag}</div>
+					<div className='display-saved-note__date_saved col-7 col-md-2'>{note.date_saved}</div>
 				</div>
 			))}
 		</div>

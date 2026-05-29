@@ -136,11 +136,12 @@ class NotesController extends BaseController
         }
         $userId = $this->jwtservice->getUserIdFromJWT();
         $params = [
-            'sort'      => $_GET['sort'] ?? null,
-            'direction' => $_GET['direction'] ?? null,
-            'user_id'   => $userId
+            'saved_to_history' => $_GET['saved_to_history'] ?? null,
+            'sort'             => $_GET['sort'] ?? null,
+            'direction'        => $_GET['direction'] ?? null,
+            'user_id'          => $userId
         ];
-
+        
         $result = $this->service->sortNotes($params, $userId);
         $status = isset($result['success']) ? 200 : 422;
 
