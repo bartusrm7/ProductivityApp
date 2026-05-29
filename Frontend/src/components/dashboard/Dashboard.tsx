@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import type { UserTaskData } from "../../types/tasks";
 import DisplayAllLogs from "./DisplayAllLogs";
 import TasksCharts from "./TasksCharts";
+import HabitStreaks from "./HabitStreaks";
 
 export default function Dashboard() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -57,7 +58,7 @@ export default function Dashboard() {
 			<div className='dashboard'>
 				<div className='container-fluid'>
 					<div className='row g-3'>
-						<div className='col-12 col-md-5'>
+						<div className='col-12 col-md-3'>
 							<div className='dashboard__main-container h-100 rounded-3'>
 								<div className='p-3 p-md-4 mb-0'>
 									<div className='d-flex justify-content-between align-items-center'>
@@ -65,7 +66,7 @@ export default function Dashboard() {
 									</div>
 									<div className='my-2'>Board to display the most important data</div>
 
-									<div className="my-4">
+									<div className='my-4'>
 										<Link to='/tasks'>
 											<Button className='dashboard__link-btn custom-btn new-task-link-btn mb-0 me-2'>Add new task</Button>
 										</Link>
@@ -76,14 +77,28 @@ export default function Dashboard() {
 								</div>
 							</div>
 						</div>
-						<div className='col-12 col-md-7'>
+						<div className='col-12 col-md-4'>
+							<div className='dashboard__main-container h-100 rounded-3'>
+								<div className='p-3 p-md-4'>
+									<div className='d-flex justify-content-between align-items-center'>
+										<h2 className='mb-0'>Habit streaks</h2>
+									</div>
+									<div>
+										<HabitStreaks />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className='col-12 col-md-5'>
 							<div className='dashboard__main-container h-100 rounded-3'>
 								<div className='p-3 p-md-4'>
 									<div className='d-flex justify-content-between align-items-center'>
 										<h2 className='mb-0'>All tasks view</h2>
 									</div>
+									<div>
+										<TasksCharts />
+									</div>
 								</div>
-								<TasksCharts />
 							</div>
 						</div>
 						<div className='col-12 col-md-6'>
