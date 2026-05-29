@@ -131,6 +131,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/get-habits', [HabitsController::class, 'getHabits']);
     $r->addRoute('GET', '/get-started-habits', [HabitsController::class, 'getStartedHabits']);
     $r->addRoute('GET', '/sort-habits', [HabitsController::class, 'sortHabits']);
+    $r->addRoute('GET', '/get-current-habits-streak', [HabitsController::class, 'getCurrentHabitStreaks']);
+    $r->addRoute('GET', '/get-best-habits-streak', [HabitsController::class, 'getBestHabitStreaks']);
 
     // NOTES
     $r->addRoute('GET', '/get-notes', [NotesController::class, 'getNotes']);

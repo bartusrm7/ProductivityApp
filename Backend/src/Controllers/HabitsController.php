@@ -97,7 +97,7 @@ class HabitsController extends BaseController
 
         $result = $this->service->sortHabits($params, $userId);
         $status = isset($result['success']) ? 200 : 422;
-        
+
         $this->jsonResponse($result, $status);
     }
 
@@ -126,6 +126,32 @@ class HabitsController extends BaseController
         $status = $_GET['status'];
 
         $result = $this->service->getStartedHabits($status, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
+
+    public function getCurrentHabitStreaks()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getCurrentHabitStreaks($userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
+
+    public function getBestHabitStreaks()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getBestHabitStreaks($userId);
         $status = isset($result['success']) ? 200 : 422;
 
         $this->jsonResponse($result, $status);

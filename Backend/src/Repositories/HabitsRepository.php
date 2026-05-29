@@ -100,4 +100,31 @@ class HabitsRepository implements HabitsRepositoryInterface
         $stmt->execute([':status' => $status, ':user_id' => $userId]);
         return $stmt->fetchAll();
     }
+
+    public function getCurrentHabitStreaksQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT h.name, hd.streak_days FROM habits AS h
+            INNER JOIN habits_data AS hd ON hd.habit_id = h.id
+            WHERE h.user_id = :user_id
+            AND hd.check_current_day = CURDATE()
+            ORDER BY hd.streak_days DESC
+            LIMIT 1'
+        );
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetch();
+    }
+
+    public function getBestOverallHabitStreaksQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT h.name, hd.streak_days FROM habits AS h
+            INNER JOIN habits_data AS hd ON hd.habit_id = h.id
+            WHERE h.user_id = :user_id
+            ORDER BY hd.streak_days DESC
+            LIMIT 1'
+        );
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetch();
+    }
 }

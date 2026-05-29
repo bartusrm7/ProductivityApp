@@ -151,4 +151,30 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         $result = $this->repository->getHabitsWithStartedStatusQuery($status, $userId);
         return $this->successResponseWithData($result);
     }
+
+    public function getCurrentHabitStreaks(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $result = $this->repository->getCurrentHabitStreaksQuery($userId);
+        return $this->successResponseWithData($result);
+    }
+
+    public function getBestHabitStreaks(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $result = $this->repository->getBestOverallHabitStreaksQuery($userId);
+        return $this->successResponseWithData($result);
+    }
 }
