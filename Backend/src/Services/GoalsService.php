@@ -48,4 +48,17 @@ class GoalsService extends BaseService implements GoalsServiceInterface
         $this->activeLogs->createActivityLogQuery($name, 'create', 'goal', $goalId, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
+
+    public function getGoals(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $result = $this->repository->getGoalsQuery($userId);
+        return $this->successResponseWithData($result);
+    }
 }

@@ -36,4 +36,11 @@ class GoalsRepository implements GoalsRepositoryInterface
             new DateTime
         );
     }
+
+    public function getGoalsQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM goals WHERE user_id = :user_id');
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
 }

@@ -2,6 +2,7 @@ import Sidebar from "../navigation/Sidebar";
 import NavbarMenu from "../navigation/NavbarMenu";
 import { useEffect, useState } from "react";
 import CreateGoal from "./CreateGoal";
+import DisplayGoals from "./DisplayGoals";
 
 export default function Goals() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -26,6 +27,11 @@ export default function Goals() {
 							<h2 className='mb-0'>My goals</h2>
 							<CreateGoal show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
+					</div>
+				</div>
+				<div className='goals__main-container mx-3 rounded-3'>
+					<div className='p-3 p-md-4'>
+						<DisplayGoals refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 			</div>

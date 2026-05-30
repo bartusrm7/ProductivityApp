@@ -148,6 +148,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/get-saved-notes', [NotesController::class, 'getSavedToHistoryNotes']);
     $r->addRoute('GET', '/sort-notes', [NotesController::class, 'sortNotes']);
 
+    // GOALS
+    $r->addRoute('GET', '/get-goals', [GoalsController::class, 'getGoals']);
+
     // POST
 
     // AUTH

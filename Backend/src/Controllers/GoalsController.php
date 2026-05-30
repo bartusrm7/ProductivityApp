@@ -35,4 +35,17 @@ class GoalsController extends BaseController
 
         $this->jsonResponse($result, $status);
     }
+
+    public function getGoals()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getGoals($userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
 }
