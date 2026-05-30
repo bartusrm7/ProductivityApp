@@ -1,0 +1,13 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.goals {
+	margin: 5rem 0;
+	&__main-container {
+		margin: 1rem 0;
+		background-color: $white;
+	}
+	@include min-width(1200px) {
+		margin-left: 220px;
+	}
+}

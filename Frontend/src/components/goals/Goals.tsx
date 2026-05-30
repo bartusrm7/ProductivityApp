@@ -1,6 +1,7 @@
 import Sidebar from "../navigation/Sidebar";
 import NavbarMenu from "../navigation/NavbarMenu";
 import { useEffect, useState } from "react";
+import CreateGoal from "./CreateGoal";
 
 export default function Goals() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -23,7 +24,7 @@ export default function Goals() {
 					<div className='p-3 p-md-4'>
 						<div className='d-flex justify-content-between align-items-center'>
 							<h2 className='mb-0'>My goals</h2>
-							{/* <CreateHabit show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} refreshData={() => setRefresh(prevState => prevState + 1)} /> */}
+							<CreateGoal show={showModal} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
 					</div>
 				</div>
