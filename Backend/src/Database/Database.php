@@ -134,6 +134,25 @@ class Database
         )');
     }
 
+    public function createGoalsTable()
+    {
+        $this->pdo->exec("CREATE TABLE IF NOT EXISTS goals (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL, 
+            description VARCHAR(255) NOT NULL, 
+            status VARCHAR(255) NOT NULL DEFAULT 'in_progress', 
+            type VARCHAR(255) NOT NULL, 
+            progress INT, 
+            created_at DATETIME NOT NULL, 
+            deadline DATETIME NOT NULL, 
+            user_id INT,
+            CONSTRAINT fk_user_goals
+            FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE 
+        )");
+    }
+
     public function createActiveLogsTable()
     {
         $this->pdo->exec('CREATE TABLE IF NOT EXISTS active_logs (

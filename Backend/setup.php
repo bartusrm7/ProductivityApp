@@ -16,3 +16,5 @@ $db->createHabitsTable();
 $db->createHabitsDataTable();
 $db->createNotesTable();
 $db->createNotesHistoryTable();
+$db->createGoalsTable();
+$db->createActiveLogsTable();
