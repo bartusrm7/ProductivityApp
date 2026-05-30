@@ -20,7 +20,7 @@ class GoalsController extends BaseController
 
     public function createGoal()
     {
-        if (!$this->requestMethod('GET')) {
+        if (!$this->requestMethod('POST')) {
             $this->jsonResponseMethodNotAllowed();
         }
         $userId = $this->jwtservice->getUserIdFromJWT();
