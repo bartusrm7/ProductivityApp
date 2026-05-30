@@ -6,6 +6,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Tasks from "./components/tasks/Tasks";
 import Habits from "./components/habits/Habits";
 import Notes from "./components/notes/Notes";
+import Goals from "./components/goals/Goals";
 
 export default function App() {
 	return (
@@ -42,6 +43,14 @@ export default function App() {
 					element={
 						<ProtectedRoute>
 							<Notes />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path='/goals'
+					element={
+						<ProtectedRoute>
+							<Goals />
 						</ProtectedRoute>
 					}
 				/>
