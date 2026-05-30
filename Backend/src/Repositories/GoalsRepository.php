@@ -6,10 +6,11 @@ namespace App\Repositories;
 
 use App\Database\Database;
 use App\Models\GoalsModel;
+use App\Repositories\Interfaces\GoalsRepositoryInterface;
 use DateTime;
 use PDO;
 
-class GoalsRepository
+class GoalsRepository implements GoalsRepositoryInterface
 {
     private PDO $pdo;
 
