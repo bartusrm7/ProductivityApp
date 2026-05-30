@@ -92,7 +92,7 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 
 	return (
 		<div className='tasks-in-progress'>
-			<div className='my-3'>
+			<div>
 				<div>
 					<div className='d-flex align-items-center border-bottom pb-1'>
 						<Button className={`tasks-in-progress__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>

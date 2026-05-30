@@ -70,7 +70,7 @@ export default function TasksToDo({ refreshParent, refreshData }: { refreshParen
 
 	return (
 		<div className='tasks-todo'>
-			<div className='my-3'>
+			<div>
 				<div>
 					<div className='d-flex align-items-center border-bottom pb-1'>
 						<button className={`tasks-todo__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>

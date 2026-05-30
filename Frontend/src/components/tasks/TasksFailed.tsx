@@ -89,7 +89,7 @@ export default function TasksFailed({ refreshParent, refreshData }: { refreshPar
 
 	return (
 		<div className='tasks-failed'>
-			<div className='my-3'>
+			<div>
 				<div>
 					<div className='d-flex align-items-center border-bottom pb-1'>
 						<Button className={`tasks-failed__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>
