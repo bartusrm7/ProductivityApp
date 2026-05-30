@@ -142,7 +142,7 @@ class Database
             description VARCHAR(255) NOT NULL, 
             status VARCHAR(255) NOT NULL DEFAULT 'in_progress', 
             type VARCHAR(255) NOT NULL, 
-            progress INT, 
+            progress FLOAT, 
             created_at DATETIME NOT NULL, 
             deadline DATETIME NOT NULL, 
             user_id INT,

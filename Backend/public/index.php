@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
+use App\Controllers\GoalsController;
 use App\Controllers\HabitsController;
 use App\Controllers\HabitsDataController;
 use App\Controllers\NotesController;
@@ -14,6 +15,7 @@ use App\Middlewares\AuthMiddleware;
 use App\Repositories\ActivityLogRepository;
 use App\Repositories\AuthRepository;
 use App\Repositories\DashboardRepository;
+use App\Repositories\GoalsRepository;
 use App\Repositories\HabitsDataRepository;
 use App\Repositories\HabitsRepository;
 use App\Repositories\NotesRepository;
@@ -21,6 +23,7 @@ use App\Repositories\TasksDataRepository;
 use App\Repositories\TasksRepository;
 use App\Services\AuthService;
 use App\Services\DashboardService;
+use App\Services\GoalsService;
 use App\Services\HabitsDataService;
 use App\Services\HabitsService;
 use App\Services\JWTService;
@@ -29,6 +32,7 @@ use App\Services\TasksDataService;
 use App\Services\TasksService;
 use App\Validations\AuthValidation;
 use App\Validations\DashboardValidation;
+use App\Validations\GoalsValidation;
 use App\Validations\HabitsDataValidation;
 use App\Validations\HabitsValidation;
 use App\Validations\NotesValidation;
@@ -67,6 +71,7 @@ $tasksDataRepository = new TasksDataRepository($db);
 $habitsRepository = new HabitsRepository($db);
 $habitsDataRepository = new HabitsDataRepository($db);
 $notesRepository = new NotesRepository($db);
+$goalsRepository = new GoalsRepository($db);
 
 // VALIDATIORS
 $authValidation = new AuthValidation();
@@ -76,6 +81,7 @@ $tasksDataValidation = new TasksDataValidation();
 $habitsValidation = new HabitsValidation();
 $habitsDataValidation = new HabitsDataValidation();
 $notesValidation = new NotesValidation();
+$goalsValidation = new GoalsValidation();
 
 // SERVICES
 $jwtService = new JWTService();
@@ -86,6 +92,7 @@ $tasksDataService = new TasksDataService($tasksDataRepository, $activeLogReposit
 $habitsService = new HabitsService($habitsRepository, $activeLogRepository, $habitsValidation);
 $habitsDataService = new HabitsDataService($habitsDataRepository, $activeLogRepository, $habitsDataValidation);
 $notesService = new NotesService($notesRepository, $activeLogRepository, $notesValidation);
+$goalsService = new GoalsService($goalsRepository, $activeLogRepository, $goalsValidation);
 
 // MIDDLEWARES
 $authMiddleware = new AuthMiddleware($jwtService);
@@ -98,6 +105,7 @@ $tasksDataController = new TasksDataController($tasksDataService);
 $habitsController = new HabitsController($habitsService, $jwtService);
 $habitsDataController = new HabitsDataController($habitsDataService, $jwtService);
 $notesController = new NotesController($notesService, $jwtService);
+$goalsController = new GoalsController($goalsService, $jwtService);
 
 $controllers = [
     AuthController::class => $authController,
@@ -107,6 +115,7 @@ $controllers = [
     HabitsController::class => $habitsController,
     HabitsDataController::class => $habitsDataController,
     NotesController::class => $notesController,
+    GoalsController::class => $goalsController,
 ];
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
@@ -172,6 +181,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/save-note-to-history', [NotesController::class, 'saveNoteIntoHistory']);
     $r->addRoute('POST', '/edit-note', [NotesController::class, 'editNote']);
     $r->addRoute('POST', '/delete-note', [NotesController::class, 'deleteNote']);
+
+    // GOALS
+    $r->addRoute('POST', '/create-goal', [GoalsController::class, 'createGoal']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
