@@ -28,7 +28,7 @@ export default function DisplayGoals({ refreshParent, refreshData }: { refreshPa
 
 	async function sortGoalsFunction() {
 		const jwt = localStorage.getItem("jwt");
-		const response = await fetch(`http://productivityapp.local/sort-goals?sort=${sortDataKey}&direction=${directionSort}`, {
+		const response = await fetch(`http://productivityapp.local/sort-goals?status=in_progress&sort=${sortDataKey}&direction=${directionSort}`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -82,7 +82,7 @@ export default function DisplayGoals({ refreshParent, refreshData }: { refreshPa
 							</button>
 						</div>
 						<div className='col-2'>
-							goal
+							Goal
 							<button className='sort-btn ms-2' onClick={handleSortFunction} value='name'>
 								{directionSort === "asc" && sortDataKey === "name" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 							</button>

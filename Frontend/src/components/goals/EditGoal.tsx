@@ -21,7 +21,7 @@ export default function EditGoal({ goalProp, refreshData }: { goalProp: UserGoal
 		e.preventDefault();
 		try {
 			const jwt = localStorage.getItem("jwt");
-			const response = await fetch("http://productivityapp.local/edit-Goal", {
+			const response = await fetch("http://productivityapp.local/edit-goal", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",

@@ -48,4 +48,41 @@ class GoalsController extends BaseController
 
         $this->jsonResponse($result, $status);
     }
+
+    public function editGoal()
+    {
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $id = $data['id'];
+        $name = $data['name'];
+        $description = $data['description'];
+
+        $result = $this->service->editGoal($id, $name, $description, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
+
+    public function sortGoals()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+        $params = [
+            'status'        => $_GET['status'] ?? null,
+            'sort'          => $_GET['sort'] ?? null,
+            'direction'     => $_GET['direction'] ?? null,
+            'user_id'       => $userId
+        ];
+
+        $result = $this->service->sortGoals($params, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
 }

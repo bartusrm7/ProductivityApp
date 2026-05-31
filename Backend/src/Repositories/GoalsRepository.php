@@ -43,4 +43,40 @@ class GoalsRepository implements GoalsRepositoryInterface
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
+
+    public function editGoalQuery(int $id, string $name, string $description, int $userId)
+    {
+        $stmt = $this->pdo->prepare('UPDATE goals SET name = :name, description = :description WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':name' => $name, ':description' => $description, ':user_id' => $userId]);
+
+        return new GoalsModel(
+            $id,
+            $name,
+            $description,
+            '',
+            '',
+            0,
+            new DateTime,
+            new DateTime
+        );
+    }
+
+    public function sortGoalsDataQuery(array $params)
+    {
+        $sql = 'SELECT * FROM goals WHERE user_id = :user_id';
+        $bindings = [':user_id' => $params['user_id']];
+
+        $sortData = ['id', 'name', 'description', 'status', 'created_at', 'deadline'];
+        $directionsData = ['ASC', 'DESC'];
+
+        if (!empty($params['sort'])) {
+            $sort = in_array($params['sort'], $sortData) ? $params['sort'] : 'name';
+            $direction = in_array(strtoupper($params['direction'] ?? 'ASC'), $directionsData) ? strtoupper($params['direction']) : 'ASC';
+            $sql .= " ORDER BY $sort $direction";
+        }
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($bindings);
+        return $stmt->fetchAll();
+    }
 }
