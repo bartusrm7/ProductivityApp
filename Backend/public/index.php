@@ -185,10 +185,11 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/save-note-to-history', [NotesController::class, 'saveNoteIntoHistory']);
     $r->addRoute('POST', '/edit-note', [NotesController::class, 'editNote']);
     $r->addRoute('POST', '/delete-note', [NotesController::class, 'deleteNote']);
-    
+
     // GOALS
     $r->addRoute('POST', '/create-goal', [GoalsController::class, 'createGoal']);
     $r->addRoute('POST', '/edit-goal', [GoalsController::class, 'editGoal']);
+    $r->addRoute('POST', '/delete-goal', [GoalsController::class, 'deleteGoal']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];

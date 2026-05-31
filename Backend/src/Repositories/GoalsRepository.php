@@ -61,6 +61,13 @@ class GoalsRepository implements GoalsRepositoryInterface
         );
     }
 
+    public function deleteGoalQuery(int $id, int $userId)
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM goals WHERE id = :id AND user_id = :user_id');
+        $stmt->execute([':id' => $id, ':user_id' => $userId]);
+        return $stmt->rowCount();
+    }
+
     public function sortGoalsDataQuery(array $params)
     {
         $sql = 'SELECT * FROM goals WHERE user_id = :user_id';

@@ -81,6 +81,22 @@ class GoalsService extends BaseService implements GoalsServiceInterface
         return $this->successResponse();
     }
 
+    public function deleteGoal(int $id, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyGoalId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $this->repository->deleteGoalQuery($id, $userId);
+        return $this->successResponse();
+    }
+
     public function sortGoals(array $params, int $userId)
     {
         $errors = [];

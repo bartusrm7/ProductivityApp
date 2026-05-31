@@ -67,6 +67,22 @@ class GoalsController extends BaseController
         $this->jsonResponse($result, $status);
     }
 
+    public function deleteGoal()
+    {
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $id = $data['id'];
+
+        $result = $this->service->deleteGoal($id, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
+
     public function sortGoals()
     {
         if (!$this->requestMethod('GET')) {
