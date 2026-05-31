@@ -44,6 +44,13 @@ class GoalsRepository implements GoalsRepositoryInterface
         return $stmt->fetchAll();
     }
 
+    public function doneGoalQuery(int $id, int $userId)
+    {
+        $stmt = $this->pdo->prepare("UPDATE goals SET status = 'done' WHERE id = :id AND user_id = :user_id");
+        $stmt->execute([':id' => $id, ':user_id' => $userId]);
+        return $stmt->rowCount();
+    }
+
     public function editGoalQuery(int $id, string $name, string $description, int $userId)
     {
         $stmt = $this->pdo->prepare('UPDATE goals SET name = :name, description = :description WHERE id = :id AND user_id = :user_id');

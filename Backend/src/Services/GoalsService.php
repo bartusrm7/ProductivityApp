@@ -62,6 +62,22 @@ class GoalsService extends BaseService implements GoalsServiceInterface
         return $this->successResponseWithData($result);
     }
 
+    public function doneGoal(int $id, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyGoalId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $this->repository->doneGoalQuery($id, $userId);
+        return $this->successResponse();
+    }
+
     public function editGoal(int $id, string $name, string $description, int $userId)
     {
         $errors = [];

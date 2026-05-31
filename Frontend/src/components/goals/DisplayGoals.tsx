@@ -3,6 +3,7 @@ import type { UserGoalsData } from "../../types/goals";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import EditGoal from "./EditGoal";
 import DeleteGoal from "./DeleteGoal";
+import DoneGoal from "./DoneGoal";
 
 export default function DisplayGoals({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [goalsData, setGoalsData] = useState<UserGoalsData[]>([]);
@@ -116,6 +117,7 @@ export default function DisplayGoals({ refreshParent, refreshData }: { refreshPa
 							<div className='display-goals__deadline col-8 col-md-2'>{goal.deadline}</div>
 							<div className='display-goals__progress col-8 col-md-2'>{goal.progress}</div>
 							<div className='display-goals__buttons-container d-flex justify-content-center col-4 col-md-2'>
+								<DoneGoal goalId={goal.id} refreshData={() => setRefresh(prevState => prevState + 1)} />
 								<EditGoal goalProp={goal} refreshData={() => setRefresh(prevState => prevState + 1)} />
 								<DeleteGoal goalId={goal.id} refreshData={() => setRefresh(prevState => prevState + 1)} />
 							</div>

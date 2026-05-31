@@ -188,6 +188,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // GOALS
     $r->addRoute('POST', '/create-goal', [GoalsController::class, 'createGoal']);
+    $r->addRoute('POST', '/done-goal', [GoalsController::class, 'doneGoal']);
     $r->addRoute('POST', '/edit-goal', [GoalsController::class, 'editGoal']);
     $r->addRoute('POST', '/delete-goal', [GoalsController::class, 'deleteGoal']);
 });
