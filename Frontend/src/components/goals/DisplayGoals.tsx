@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { UserGoalsData } from "../../types/goals";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import EditGoal from "./EditGoal";
 
 export default function DisplayGoals({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [goalsData, setGoalsData] = useState<UserGoalsData[]>([]);
@@ -93,15 +94,15 @@ export default function DisplayGoals({ refreshParent, refreshData }: { refreshPa
 							</button>
 						</div>
 						<div className='col-2'>
-							Progress
-							<button className='sort-btn ms-2' onClick={handleSortFunction} value='progress'>
-								{directionSort === "asc" && sortDataKey === "progress" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
-							</button>
-						</div>
-						<div className='col-2'>
 							Deadline
 							<button className='sort-btn ms-2' onClick={handleSortFunction} value='deadline'>
 								{directionSort === "asc" && sortDataKey === "deadline" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
+							</button>
+						</div>
+						<div className='col-2'>
+							Progress
+							<button className='sort-btn ms-2' onClick={handleSortFunction} value='progress'>
+								{directionSort === "asc" && sortDataKey === "progress" ? <IoIosArrowUp className='sort-icon' size={24} /> : <IoIosArrowDown className='sort-icon' size={24} />}
 							</button>
 						</div>
 						<div className='col-2 text-center'>Actions</div>
@@ -110,9 +111,12 @@ export default function DisplayGoals({ refreshParent, refreshData }: { refreshPa
 						<div className='display-goals__main-container custom-table-row d-flex flex-wrap align-items-center border-bottom' key={index}>
 							<div className='display-goals__id col-1 d-none d-md-block fw-bold'>{index + 1}.</div>
 							<div className='display-goals__name display-goal__name-row col-12 col-md-2'>{goal.name}</div>
-							<div className='display-goals__description col-12 col-md-2'>{goal.description}</div>
+							<div className='display-goals__description col-12 col-md-3'>{goal.description}</div>
 							<div className='display-goals__deadline col-8 col-md-2'>{goal.deadline}</div>
-							<div className='display-goals__buttons-container d-flex justify-content-center col-4 col-md-2'></div>
+							<div className='display-goals__progress col-8 col-md-2'>{goal.progress}</div>
+							<div className='display-goals__buttons-container d-flex justify-content-center col-4 col-md-2'>
+								<EditGoal goalProp={goal} refreshData={() => setRefresh(prevState => prevState + 1)} />
+							</div>
 						</div>
 					))}
 				</div>
