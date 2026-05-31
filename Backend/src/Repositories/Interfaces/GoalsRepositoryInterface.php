@@ -12,4 +12,5 @@ interface GoalsRepositoryInterface
     public function doneGoalQuery(int $id, int $userId);
     public function editGoalQuery(int $id, string $name, string $description, int $userId);
     public function deleteGoalQuery(int $id, int $userId);
+    public function setDeadlineDayQuery(DateTime $deadline, int $userId);
 }

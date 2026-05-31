@@ -74,7 +74,9 @@ class GoalsService extends BaseService implements GoalsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
+        $currentCreatedAt = new DateTime('now');
         $this->repository->doneGoalQuery($id, $userId);
+        $this->activeLogs->createActivityLogQuery('', 'done', 'goal', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -93,7 +95,9 @@ class GoalsService extends BaseService implements GoalsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
+        $currentCreatedAt = new DateTime('now');
         $this->repository->editGoalQuery($id, $name, $description, $userId);
+        $this->activeLogs->createActivityLogQuery($name, 'edit', 'goal', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -109,7 +113,9 @@ class GoalsService extends BaseService implements GoalsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
+        $currentCreatedAt = new DateTime('now');
         $this->repository->deleteGoalQuery($id, $userId);
+        $this->activeLogs->createActivityLogQuery('', 'delete', 'goal', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -127,5 +133,24 @@ class GoalsService extends BaseService implements GoalsServiceInterface
         }
         $result = $this->repository->sortGoalsDataQuery($params);
         return $this->successResponseWithData($result);
+    }
+
+    public function setDeadline(string $deadline, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyDeadline($deadline)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $currentCreatedAt = new DateTime('now');
+        $newDeadline = new DateTime($deadline);
+        $this->repository->setDeadlineDayQuery($newDeadline, $userId);
+        $this->activeLogs->createActivityLogQuery('', 'set', 'goal', 0, $currentCreatedAt, $userId);
+        return $this->successResponse();
     }
 }

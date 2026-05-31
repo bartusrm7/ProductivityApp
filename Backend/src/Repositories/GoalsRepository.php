@@ -75,6 +75,13 @@ class GoalsRepository implements GoalsRepositoryInterface
         return $stmt->rowCount();
     }
 
+    public function setDeadlineDayQuery(DateTime $deadline, int $userId)
+    {
+        $stmt = $this->pdo->prepare('INSERT INTO (deadline, user_id) VALUES (:deadline, :user_id) ON DUPLICATE KEY UPDATE deadline = VALUES (deadline)');
+        $stmt->execute([':deadline' => $deadline->format('Y-m-d 23:59:59'), ':user_id' => $userId]);
+        return $stmt->rowCount();
+    }
+
     public function sortGoalsDataQuery(array $params)
     {
         $sql = 'SELECT * FROM goals WHERE user_id = :user_id';
