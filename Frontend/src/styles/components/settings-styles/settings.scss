@@ -1,0 +1,25 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.settings {
+	margin: 5rem 0;
+	&__main-container {
+		margin: 1rem 0;
+		background-color: $white;
+	}
+	@include min-width(1200px) {
+		margin-left: 220px;
+	}
+	&__user-data-container {
+		max-width: 700px;
+        margin: auto;
+    }
+	&__user-account-preview {
+        margin-bottom: 2rem;
+		text-align: center;
+	}
+	&__item-name {
+		color: $dark-grey;
+		font-weight: bold;
+	}
+}

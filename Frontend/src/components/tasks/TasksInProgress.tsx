@@ -4,7 +4,6 @@ import type { UserTaskData } from "../../types/tasks";
 import TaskDelete from "./TaskDelete";
 import TaskEdit from "./TaskEdit";
 import TaskDoneAsTaskDone from "./TaskDoneAsTaskDone";
-import { Button } from "react-bootstrap";
 import SetTaskDeadline from "./SetTaskDeadline";
 
 export default function TasksInProgress({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
@@ -95,9 +94,9 @@ export default function TasksInProgress({ refreshParent, refreshData }: { refres
 			<div>
 				<div>
 					<div className='d-flex align-items-center border-bottom pb-1'>
-						<Button className={`tasks-in-progress__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>
+						<button className={`tasks-in-progress__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>
 							<IoIosArrowUp size={24} className='display-icon' />
-						</Button>
+						</button>
 						<h4 className='ms-2 mb-0'>In Progress</h4>
 					</div>
 					<div>
