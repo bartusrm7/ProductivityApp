@@ -1,7 +1,7 @@
 @use "../../global" as *;
 @use "../../mixins" as *;
 
-.display-started-habit {
+.display-goals {
 	&__display-tasks-btn {
 		transition: 0.3s;
 	}
@@ -26,9 +26,7 @@
 			max-width: 300px !important;
 		}
 	}
-	&__name,
-	&__streak_days,
-	&__amount_days_done {
+	&__name {
 		font-weight: bold;
 	}
 	@include max-width(768px) {
@@ -38,24 +36,20 @@
 		&__name {
 			order: 2;
 		}
-		&__streak_days {
-			padding-right: 10px;
+		&__description {
 			order: 3;
 		}
-		&__amount_days_done {
-			order: 4;
-		}
-		&__description {
+		&__deadline {
 			order: 5;
 		}
-		&__created_at {
-			order: 6;
+		&__progress {
+			order: 4;
 		}
 		&__actions-btn {
-			order: 7;
+			order: 6;
 		}
 		&__buttons-container {
-			order: 8;
+			order: 7;
 		}
 	}
 }

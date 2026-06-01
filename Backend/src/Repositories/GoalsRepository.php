@@ -37,9 +37,16 @@ class GoalsRepository implements GoalsRepositoryInterface
         );
     }
 
-    public function getGoalsQuery(int $userId)
+    public function getGoalsInProgressQuery(int $userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM goals WHERE user_id = :user_id');
+        $stmt = $this->pdo->prepare("SELECT * FROM goals WHERE status = 'in_progress' AND user_id = :user_id");
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
+
+    public function getGoalsDoneQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM goals WHERE status = 'done' AND user_id = :user_id");
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
@@ -84,8 +91,8 @@ class GoalsRepository implements GoalsRepositoryInterface
 
     public function sortGoalsDataQuery(array $params)
     {
-        $sql = 'SELECT * FROM goals WHERE user_id = :user_id';
-        $bindings = [':user_id' => $params['user_id']];
+        $sql = 'SELECT * FROM goals WHERE status = :status AND user_id = :user_id';
+        $bindings = [':status' => $params['status'], ':user_id' => $params['user_id']];
 
         $sortData = ['id', 'name', 'description', 'status', 'created_at', 'deadline'];
         $directionsData = ['ASC', 'DESC'];

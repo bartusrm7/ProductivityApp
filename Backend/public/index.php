@@ -149,7 +149,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/sort-notes', [NotesController::class, 'sortNotes']);
 
     // GOALS
-    $r->addRoute('GET', '/get-goals', [GoalsController::class, 'getGoals']);
+    $r->addRoute('GET', '/get-goals-in-progress', [GoalsController::class, 'getGoalsInProgress']);
+    $r->addRoute('GET', '/get-goals-done', [GoalsController::class, 'getGoalsDone']);
     $r->addRoute('GET', '/sort-goals', [GoalsController::class, 'sortGoals']);
 
     // POST

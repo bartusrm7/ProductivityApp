@@ -14,7 +14,7 @@ export default function DisplayGoals({ refreshParent, refreshData }: { refreshPa
 
 	async function getGoalsData() {
 		const jwt = localStorage.getItem("jwt");
-		const response = await fetch("http://productivityapp.local/get-goals", {
+		const response = await fetch("http://productivityapp.local/get-goals-in-progress", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -115,7 +115,7 @@ export default function DisplayGoals({ refreshParent, refreshData }: { refreshPa
 							<div className='display-goals__name display-goal__name-row col-12 col-md-2'>{goal.name}</div>
 							<div className='display-goals__description col-12 col-md-3'>{goal.description}</div>
 							<div className='display-goals__deadline col-8 col-md-2'>{goal.deadline}</div>
-							<div className='display-goals__progress col-8 col-md-2'>{goal.progress}</div>
+							<div className='display-goals__progress col-12 col-md-2'>{goal.progress}</div>
 							<div className='display-goals__buttons-container d-flex justify-content-center col-4 col-md-2'>
 								<DoneGoal goalId={goal.id} refreshData={() => setRefresh(prevState => prevState + 1)} />
 								<EditGoal goalProp={goal} refreshData={() => setRefresh(prevState => prevState + 1)} />

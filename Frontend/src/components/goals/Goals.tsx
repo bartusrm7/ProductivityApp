@@ -3,6 +3,7 @@ import NavbarMenu from "../navigation/NavbarMenu";
 import { useEffect, useState } from "react";
 import CreateGoal from "./CreateGoal";
 import DisplayGoals from "./DisplayGoals";
+import DisplayGoalsDone from "./DisplayGoalsDone";
 
 export default function Goals() {
 	const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -32,6 +33,11 @@ export default function Goals() {
 				<div className='goals__main-container mx-3 rounded-3'>
 					<div className='p-3 p-md-4'>
 						<DisplayGoals refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
+					</div>
+				</div>
+				<div className='goals__main-container mx-3 rounded-3'>
+					<div className='p-3 p-md-4'>
+						<DisplayGoalsDone refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 					</div>
 				</div>
 			</div>

@@ -49,7 +49,7 @@ class GoalsService extends BaseService implements GoalsServiceInterface
         return $this->successResponse();
     }
 
-    public function getGoals(int $userId)
+    public function getGoalsInProgress(int $userId)
     {
         $errors = [];
         if ($error = $this->validation->emptyUserId($userId)) {
@@ -58,7 +58,20 @@ class GoalsService extends BaseService implements GoalsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
-        $result = $this->repository->getGoalsQuery($userId);
+        $result = $this->repository->getGoalsInProgressQuery($userId);
+        return $this->successResponseWithData($result);
+    }
+
+    public function getGoalsDone(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $result = $this->repository->getGoalsDoneQuery($userId);
         return $this->successResponseWithData($result);
     }
 

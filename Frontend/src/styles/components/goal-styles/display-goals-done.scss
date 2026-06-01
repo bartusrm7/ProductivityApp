@@ -1,7 +1,7 @@
 @use "../../global" as *;
 @use "../../mixins" as *;
 
-.display-started-habit {
+.display-goals-done {
 	&__display-tasks-btn {
 		transition: 0.3s;
 	}
@@ -26,9 +26,7 @@
 			max-width: 300px !important;
 		}
 	}
-	&__name,
-	&__streak_days,
-	&__amount_days_done {
+	&__name {
 		font-weight: bold;
 	}
 	@include max-width(768px) {

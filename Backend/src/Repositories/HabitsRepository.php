@@ -63,7 +63,7 @@ class HabitsRepository implements HabitsRepositoryInterface
 
     public function sortHabitsDataQuery(array $params)
     {
-        $sql = 'SELECT * FROM habits AS h LEFT JOIN habits_data AS hd ON hd.habit_id = h.id WHERE user_id = :user_id AND h.status = :status';
+        $sql = 'SELECT * FROM habits AS h LEFT JOIN habits_data AS hd ON hd.habit_id = h.id WHERE h.status = :status AND user_id = :user_id';
         $bindings = [':status' => $params['status'], ':user_id' => $params['user_id']];
 
         $sortData = ['id', 'name', 'description', 'created_at', 'status', 'streak_days', 'check_current_day', 'amount_days_done'];
