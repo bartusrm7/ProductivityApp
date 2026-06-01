@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Interfaces;
+namespace App\Services;
 
 use App\Repositories\ActivityLogRepository;
 use App\Repositories\SettingsRepository;
