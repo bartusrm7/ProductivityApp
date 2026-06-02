@@ -7,5 +7,5 @@ namespace App\Services\Interfaces;
 
 interface SettingsServiceInterface
 {
-    public function updateAvatar(int $id, string $avatar);
+    public function updateAvatar(int $id, array $avatar);
 }

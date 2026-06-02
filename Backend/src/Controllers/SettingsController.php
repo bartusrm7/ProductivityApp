@@ -24,13 +24,24 @@ class SettingsController extends BaseController
             $this->jsonResponseMethodNotAllowed();
         }
         $userId = $this->jwtservice->getUserIdFromJWT();
-
-        $data = $this->jsonInput();
-        $avatar = $data['avatar'];
+        $avatar = $_FILES['avatar'];
 
         $result = $this->service->updateAvatar($userId, $avatar);
         $status = $result['success'] ? 200 : 422;
 
         return $this->jsonResponse($result, $status);
+    }
+
+    public function displayUserAvatar()
+    {
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->displayUserAvatar($userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
     }
 }

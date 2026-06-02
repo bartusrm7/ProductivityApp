@@ -24,7 +24,7 @@ class SettingsValidation
             return 'Password input field is empty';
         }
     }
-    public function emptyAvatarField(string $avatar)
+    public function emptyAvatarField(array $avatar)
     {
         if (empty($avatar)) {
             return 'Avatar data does not available';

@@ -18,11 +18,28 @@ class SettingsRepository implements SettingsRepositoryInterface
         $this->pdo = $db->getConnection();
     }
 
-    public function updateAvatarQuery(int $id, string $avatar)
+    public function updateAvatarQuery(int $id, array $avatar)
     {
-        $stmt = $this->pdo->prepare('UPDATE users SET avatar = :avatar WHERE id = :id');
-        $stmt->execute([':id' => $id, ':avatar' => $avatar]);
+        $avatarFileName = uniqid() . '.' . pathinfo($avatar['name'], PATHINFO_EXTENSION);
+        $avatarTmp = $avatar['tmp_name'];
+        $newAvatarFile = 'uploads/' . $avatarFileName;
+        if (!move_uploaded_file($avatarTmp, $newAvatarFile)) {
+            return [
+                'success' => false,
+                'errors'  => 'Upload file failed'
+            ];
+        };
 
-        return new UserModel($id, '', '', $avatar);
+        $stmt = $this->pdo->prepare('UPDATE users SET avatar = :avatar WHERE id = :id');
+        $stmt->execute([':id' => $id, ':avatar' => $newAvatarFile]);
+
+        return new UserModel($id, '', '', $newAvatarFile);
+    }
+
+    public function displayUserAvatarQuery(int $id)
+    {
+        $stmt = $this->pdo->prepare('SELECT avatar FROM users WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch();
     }
 }

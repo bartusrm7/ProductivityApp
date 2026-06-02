@@ -24,7 +24,7 @@ class SettingsService extends BaseService implements SettingsServiceInterface
         $this->validation = $validation;
     }
 
-    public function updateAvatar(int $id, string $avatar)
+    public function updateAvatar(int $id, array $avatar)
     {
         $errors = [];
         if ($error = $this->validation->emptyUserId($id)) {
@@ -41,5 +41,18 @@ class SettingsService extends BaseService implements SettingsServiceInterface
         $userName = $result->getName();
         $this->activityLog->createActivityLogQuery($userName, 'set', 'setting', 0, $currentCreatedAt, $id);
         return $this->successResponse();
+    }
+
+    public function displayUserAvatar(int $id)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($id)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $result = $this->repository->displayUserAvatarQuery($id);
+        return $this->successResponseWithData($result);
     }
 }

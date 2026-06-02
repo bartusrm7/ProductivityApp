@@ -161,6 +161,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/get-goals-in-progress', [GoalsController::class, 'getGoalsInProgress']);
     $r->addRoute('GET', '/get-goals-done', [GoalsController::class, 'getGoalsDone']);
     $r->addRoute('GET', '/sort-goals', [GoalsController::class, 'sortGoals']);
+    
+    // SETTINGS
+    $r->addRoute('GET', '/user-avatar', [SettingsController::class, 'displayUserAvatar']);
 
     // POST
 
