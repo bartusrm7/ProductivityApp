@@ -34,7 +34,7 @@ class SettingsController extends BaseController
 
     public function displayUserAvatar()
     {
-        if (!$this->requestMethod('POST')) {
+        if (!$this->requestMethod('GET')) {
             $this->jsonResponseMethodNotAllowed();
         }
         $userId = $this->jwtservice->getUserIdFromJWT();

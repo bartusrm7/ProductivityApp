@@ -6,6 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 
 export default function Settings() {
 	const [userName, setUserName] = useState<string | null>("");
+	const [userAvatar, setUserAvatar] = useState<string | null>("");
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -17,7 +18,6 @@ export default function Settings() {
 		const response = await fetch("http://productivityapp.local/user-name", {
 			method: "GET",
 			headers: {
-				"Content-Type": "application/json",
 				Authorization: `Bearer ${jwt}`,
 			},
 		});
@@ -25,9 +25,26 @@ export default function Settings() {
 		setUserName(data.name);
 	}
 
+	async function getUserAvatar() {
+		const jwt = localStorage.getItem("jwt");
+		const response = await fetch("http://productivityapp.local/user-avatar", {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		const data = await response.json();
+		console.log(data.data.avatar);
+		setUserAvatar(data.data.avatar);
+	}
+
 	useEffect(() => {
 		getUserName();
 	}, [userName]);
+
+	useEffect(() => {
+		getUserAvatar();
+	}, [userAvatar]);
 
 	useEffect(() => {
 		document.title = "ProductivityApp - Settings";
@@ -48,7 +65,7 @@ export default function Settings() {
 				<div className='settings__main-container mx-3 rounded-3'>
 					<div className='settings__user-data-container p-3 p-md-4'>
 						<div className='settings__user-account-preview'>
-							<FaUserCircle size={80} />
+							{userAvatar ? <img className='settings__user-avatar-img' src={`http://productivityapp.local/${userAvatar}`} alt='' /> : <FaUserCircle size={80} />}
 							<div>{userName}</div>
 						</div>
 
