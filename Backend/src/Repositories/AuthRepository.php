@@ -47,6 +47,13 @@ class AuthRepository implements AuthRepositoryInterface
         );
     }
 
+    public function getUserNameQuery(int $id)
+    {
+        $stmt = $this->pdo->prepare('SELECT name FROM users WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch();
+    }
+
     public function getUserAvatarQuery(int $id)
     {
         $stmt = $this->pdo->prepare('SELECT avatar FROM users WHERE id = :id');

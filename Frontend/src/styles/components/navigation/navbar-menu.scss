@@ -14,6 +14,14 @@
 		width: calc(100% - 220px);
 		margin-left: 220px;
 	}
+	&__user-name-row {
+		color: $dark-grey;
+		font-weight: bold;
+	}
+	&__user-email-row {
+		color: $grey;
+		font-size: 0.8rem;
+	}
 	&__user-avatar-img {
 		width: 50px;
 		height: 50px;

@@ -131,7 +131,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     // GET
 
     // AUTH
-    $r->addRoute('GET', '/user-name', [AuthController::class, 'getLoggedUserName']);
+    $r->addRoute('GET', '/user-name', [AuthController::class, 'getName']);
+    $r->addRoute('GET', '/user-email', [AuthController::class, 'getLoggedUserEmail']);
     $r->addRoute('GET', '/get-user-avatar', [AuthController::class, 'getAvatar']);
 
     // DASHBOARD

@@ -73,9 +73,25 @@ class AuthService implements AuthServiceInterface
             return [
                 'success' => true,
                 'id'      => $user->getId(),
-                'name'    => $user->getName()
+                'email'   => $user->getEmail(),
             ];
         }
+    }
+
+    public function getName(int $id)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($id)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $userName = $this->repository->getUserNameQuery($id);
+        return [
+            'success' => true,
+            'data'    => $userName
+        ];
     }
 
     public function getAvatar(int $id)

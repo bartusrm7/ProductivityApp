@@ -50,8 +50,8 @@ class AuthController extends BaseController
         $result = $this->service->userLogin($email, $password);
         if (isset($result['success'])) {
             $userId = $result['id'];
-            $name = $result['name'];
-            $token = $this->jwtService->generateToken($name, $userId);
+            $email = $result['email'];
+            $token = $this->jwtService->generateToken($email, $userId);
             http_response_code(200);
             echo json_encode(['data' => $result, 'token' => $token]);
         } else {
@@ -61,10 +61,28 @@ class AuthController extends BaseController
         }
     }
 
-    public function getLoggedUserName()
+    public function getLoggedUserEmail()
     {
-        $userName = $this->jwtService->getUserNameFromJWT();
-        echo json_encode($userName);
+        $userEmail = $this->jwtService->getUserEmailFromJWT();
+        echo json_encode($userEmail);
+    }
+
+    public function getName()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtService->getUserIdFromJWT();
+
+        $result = $this->service->getName($userId);
+        if (isset($result['success'])) {
+            http_response_code(200);
+            echo json_encode(['data' => $result]);
+        } else {
+            http_response_code(422);
+            echo json_encode($result);
+            return;
+        }
     }
 
     public function getAvatar()

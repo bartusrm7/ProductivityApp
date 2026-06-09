@@ -31,7 +31,6 @@ export default function HabitStreaks() {
 		const data = await response.json();
 		if (data.success) {
 			setBestHabitStreaks(data.data.streak_days);
-			console.log(data);
 		}
 	}
 

@@ -4,8 +4,22 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 
 export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: string; onToggleMenu: () => void }) {
+	const [userEmail, setUserEmail] = useState<string | null>("");
 	const [userName, setUserName] = useState<string | null>("");
 	const [userAvatar, setUserAvatar] = useState<string | null>("");
+
+	async function getUserEmail() {
+		const jwt = localStorage.getItem("jwt");
+		const response = await fetch("http://productivityapp.local/user-email", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		const data = await response.json();
+		setUserEmail(data.email);
+	}
 
 	async function getUserName() {
 		const jwt = localStorage.getItem("jwt");
@@ -17,7 +31,7 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 			},
 		});
 		const data = await response.json();
-		setUserName(data.name);
+		setUserName(data.data.data.name);
 	}
 
 	async function getUserAvatar() {
@@ -34,6 +48,7 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 	}
 
 	useEffect(() => {
+		getUserEmail();
 		getUserName();
 		getUserAvatar();
 	}, []);
@@ -41,12 +56,12 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 	return (
 		<>
 			<div className='navbar-menu d-flex justify-content-between'>
-				<div className='d-flex justify-content-between align-items-center w-100'>
+				<div className='d-flex justify-content-between align-items-center w-100 px-3'>
 					<div>{pageName}</div>
 					<div className='d-flex align-items-center'>
 						<div className='me-2 d-block'>
-							<div>{userName}</div>
-							<div className=''>user</div>
+							<div className='navbar-menu__user-name-row'>{userName}</div>
+							<div className='navbar-menu__user-email-row'>{userEmail}</div>
 						</div>
 						{userAvatar ? <img className='navbar-menu__user-avatar-img' src={`http://productivityapp.local/${userAvatar}`} alt='' /> : <FaRegUserCircle size={80} />}
 					</div>
