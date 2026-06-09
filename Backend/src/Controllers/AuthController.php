@@ -66,4 +66,22 @@ class AuthController extends BaseController
         $userName = $this->jwtService->getUserNameFromJWT();
         echo json_encode($userName);
     }
+
+    public function getAvatar()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtService->getUserIdFromJWT();
+
+        $result = $this->service->getAvatar($userId);
+        if (isset($result['success'])) {
+            http_response_code(200);
+            echo json_encode(['avatar' => $result]);
+        } else {
+            http_response_code(422);
+            echo json_encode($result);
+            return;
+        }
+    }
 }
