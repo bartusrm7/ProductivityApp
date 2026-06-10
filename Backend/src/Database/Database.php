@@ -41,7 +41,8 @@ class Database
             name VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL,
             password VARCHAR(255) NOT NULL,
-            avatar VARCHAR(255)
+            avatar VARCHAR(255),
+            reminders TINYINT(1) NOT NULL DEFAULT 1
         )');
     }
 
