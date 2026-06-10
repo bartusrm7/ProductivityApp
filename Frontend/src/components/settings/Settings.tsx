@@ -10,11 +10,7 @@ export default function Settings() {
 	const [userName, setUserName] = useState<string | null>("");
 	const [userAvatar, setUserAvatar] = useState<string | null>("");
 	const [showMenu, setShowMenu] = useState<boolean>(false);
-	const [showModal, setShowModal] = useState<boolean>(false);
 	const [refresh, setRefresh] = useState<number>(0);
-
-	const handleCloseModal = () => setShowModal(false);
-	const handleOpenModal = () => setShowModal(true);
 
 	async function getUserName() {
 		const jwt = localStorage.getItem("jwt");
@@ -69,7 +65,7 @@ export default function Settings() {
 					<div className='settings__user-data-container p-3 p-md-4'>
 						<div className='settings__user-account-preview'>
 							{userAvatar ? <img className='settings__user-avatar-img' src={`http://productivityapp.local/${userAvatar}`} alt='' /> : <FaUserCircle size={80} />}
-							<div className="mt-2">{userName}</div>
+							<div className='mt-2'>{userName}</div>
 						</div>
 
 						<div className='d-flex justify-content-between'>

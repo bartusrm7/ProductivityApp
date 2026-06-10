@@ -2,17 +2,18 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 
 export default function Reminders({ refreshData }: { refreshParent: number; refreshData: () => void }) {
-	const [remindersData, setRemindersData] = useState<boolean>(false);
+	const [remindersData, setRemindersData] = useState<boolean>(true);
 
 	async function handleToggleReminderButton() {
-		const reminderNewValue = setRemindersData(!remindersData);
+		const reminderNewValue = !remindersData;
+		setRemindersData(reminderNewValue);
 		const jwt = localStorage.getItem("jwt");
-		const response = await fetch("http://productivityapp.local/set-reminders", {
+		const response = await fetch("http://productivityapp.local/update-reminders", {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${jwt}`,
 			},
-			body: JSON.stringify(reminderNewValue),
+			body: JSON.stringify({ reminders: reminderNewValue }),
 		});
 		const data = await response.json();
 		if (data.success) {
