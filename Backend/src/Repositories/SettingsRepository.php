@@ -53,4 +53,11 @@ class SettingsRepository implements SettingsRepositoryInterface
 
         return new UserModel($id, $name, '', '');
     }
+
+    public function setReminderNotificationsQuery(int $id, int $reminders)
+    {
+        $stmt = $this->pdo->prepare('UPDATE users SET reminders = :reminders WHERE id = :id');
+        $stmt->execute([':id' => $id, ':reminders' => $reminders]);
+        return $stmt->rowCount();
+    }
 }

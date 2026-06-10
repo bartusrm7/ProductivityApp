@@ -60,4 +60,20 @@ class SettingsController extends BaseController
 
         $this->jsonResponse($result, $status);
     }
+
+    public function setReminders()
+    {
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $reminders = $data['reminders'];
+
+        $result = $this->service->setReminders($userId, $reminders);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
 }
