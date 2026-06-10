@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Notes;
 
 use App\Models\NotesModel;
+use App\Repositories\ActivityLogRepository;
 use App\Repositories\NotesRepository;
 use App\Services\NotesService;
 use App\Validations\NotesValidation;
@@ -15,15 +16,17 @@ use PHPUnit\Framework\TestCase;
 class NotesTest extends TestCase
 {
     private NotesService $service;
-    private NotesValidation $validation;
     private NotesRepository $repository;
+    private ActivityLogRepository $activeLog;
+    private NotesValidation $validation;
 
     #[Override]
     public function setUp(): void
     {
         $this->repository = $this->createStub(NotesRepository::class);
+        $this->activeLog = $this->createStub(ActivityLogRepository::class);
         $this->validation = $this->createStub(NotesValidation::class);
-        $this->service = new NotesService($this->repository, $this->validation);
+        $this->service = new NotesService($this->repository, $this->activeLog, $this->validation);
     }
 
     public function testEmptyNoteName()
@@ -72,12 +75,12 @@ class NotesTest extends TestCase
         $this->validation->method('emptyUserId')->willReturn(null);
 
         $createdAt = new DateTime();
-        $notesModel = new NotesModel(1, 'note', 'sport', $createdAt, false);
+        $notesModel = new NotesModel(1, 'note', 'sport', $createdAt, false, false);
         $repo->expects($this->once())
             ->method('createNewNoteQuery')
             ->willReturn($notesModel);
 
-        $this->service = new NotesService($repo, $this->validation);
+        $this->service = new NotesService($repo, $this->activeLog, $this->validation);
         $result = $this->service->createNote('note', 'sport', '2022-10-09 18:39:16', 1);
         $this->assertEquals(['success' => true], $result);
     }
@@ -91,13 +94,13 @@ class NotesTest extends TestCase
         $this->validation->method('emptyUserId')->willReturn(null);
 
         $createdAt = new DateTime();
-        $notesModel = new NotesModel(1, 'note', 'sport', $createdAt, true);
+        $notesModel = new NotesModel(1, 'note', 'sport', $createdAt, true, true);
         $repo->expects($this->once())
             ->method('setImportantNoteQuery')
             ->willReturn($notesModel);
 
-        $this->service = new NotesService($repo, $this->validation);
+        $this->service = new NotesService($repo, $this->activeLog, $this->validation);
         $result = $this->service->setImportantNote(1, true, 1);
-        $this->assertEquals(['success' => true], $result);
+        $this->assertEquals(['success' => true, 'important' => true], $result);
     }
 }

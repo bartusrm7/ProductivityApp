@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Habits;
 
 use App\Models\HabitsModel;
+use App\Repositories\ActivityLogRepository;
 use App\Repositories\HabitsRepository;
 use App\Services\HabitsService;
 use App\Validations\HabitsValidation;
@@ -15,14 +16,16 @@ class HabitsTest extends TestCase
 {
     private HabitsService $service;
     private HabitsRepository $repository;
+    private ActivityLogRepository $activeLog;
     private HabitsValidation $validation;
 
 
     public function setUp(): void
     {
         $this->repository = $this->createStub(HabitsRepository::class);
+        $this->activeLog = $this->createStub(ActivityLogRepository::class);
         $this->validation = $this->createStub(HabitsValidation::class);
-        $this->service = new HabitsService($this->repository, $this->validation);
+        $this->service = new HabitsService($this->repository, $this->activeLog, $this->validation);
     }
 
     public function testEmptyHabitName()
@@ -75,7 +78,7 @@ class HabitsTest extends TestCase
             ->method('newHabitQuery')
             ->willReturn($habitsModel);
 
-        $this->service = new HabitsService($repo, $this->validation);
+        $this->service = new HabitsService($repo, $this->activeLog, $this->validation);
         $result = $this->service->newHabit('reading book everyday', '2022-10-09 18:39:16', 1);
         $this->assertEquals(['success' => true], $result);
     }
@@ -94,7 +97,7 @@ class HabitsTest extends TestCase
             ->method('editHabitQuery')
             ->willReturn($habitsModel);
 
-        $this->service = new HabitsService($repo, $this->validation);
+        $this->service = new HabitsService($repo, $this->activeLog, $this->validation);
         $result = $this->service->editHabit(1, 'reading book everyday', '', 1);
         $this->assertEquals(['success' => true], $result);
     }
@@ -109,7 +112,7 @@ class HabitsTest extends TestCase
             ->method('deleteHabitQuery')
             ->with(1, 1);
 
-        $this->service = new HabitsService($repo, $this->validation);
+        $this->service = new HabitsService($repo, $this->activeLog, $this->validation);
         $result = $this->service->deleteHabit(1,  1);
         $this->assertEquals(['success' => true], $result);
     }
@@ -124,7 +127,7 @@ class HabitsTest extends TestCase
             ->method('habitStatusStartedQuery')
             ->with(1, 1);
 
-        $this->service = new HabitsService($repo, $this->validation);
+        $this->service = new HabitsService($repo, $this->activeLog, $this->validation);
         $result = $this->service->habitStatusStarted(1, 1);
         $this->assertEquals(['success' => true], $result);
     }

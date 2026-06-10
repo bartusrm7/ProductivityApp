@@ -23,11 +23,12 @@ class HabitsDataController extends BaseController
         if (!$this->requestMethod('POST')) {
             $this->jsonResponseMethodNotAllowed();
         }
+        $userId = $this->jwtservice->getUserIdFromJWT();
         $data = $this->jsonInput();
         $id = $data['id'];
         $checkCurrentDay = $data['checkCurrentDay'];
 
-        $result = $this->service->setHabitThisDayDone($id, $checkCurrentDay);
+        $result = $this->service->setHabitThisDayDone($id, $checkCurrentDay, $userId);
         $status = isset($result['success']) ? 200 : 422;
 
         $this->jsonResponse($result, $status);

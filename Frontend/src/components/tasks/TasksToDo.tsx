@@ -70,7 +70,7 @@ export default function TasksToDo({ refreshParent, refreshData }: { refreshParen
 
 	return (
 		<div className='tasks-todo'>
-			<div className='my-3'>
+			<div>
 				<div>
 					<div className='d-flex align-items-center border-bottom pb-1'>
 						<button className={`tasks-todo__display-tasks-btn display-btn ${isMenuDisplay ? "open" : ""}`} onClick={() => setIsMenuDisplay(prevState => !prevState)}>
@@ -121,7 +121,7 @@ export default function TasksToDo({ refreshParent, refreshData }: { refreshParen
 										{taskData.map((task, index) => (
 											<div className='main-task-container custom-table-row d-flex flex-wrap align-items-center border-bottom' key={index}>
 												<div className='task-id col-1 fw-bold'>{index + 1}.</div>
-												<div className='task-name col-12 col-md-4'>{task.name}</div>
+												<div className='task-name col-11 col-md-4'>{task.name}</div>
 												<div className='task-date col-7 col-md-3'>{new Date(task.created_at).toLocaleString()}</div>
 												<div className={`tasks-todo__priority task-priority d-flex justify-content-center col-12 col-md-2 tasks__priority-name--${task.priority}`}>{task.priority}</div>
 												<div className='task-btns-container d-flex justify-content-end col-5 col-md-2'>

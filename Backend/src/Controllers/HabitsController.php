@@ -82,6 +82,25 @@ class HabitsController extends BaseController
         $this->jsonResponse($result, $status);
     }
 
+    public function sortHabits()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+        $params = [
+            'status'        => $_GET['status'] ?? null,
+            'sort'          => $_GET['sort'] ?? null,
+            'direction'     => $_GET['direction'] ?? null,
+            'user_id'       => $userId
+        ];
+
+        $result = $this->service->sortHabits($params, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
+
     public function habitStatusStarted()
     {
         if (!$this->requestMethod('POST')) {
@@ -107,6 +126,32 @@ class HabitsController extends BaseController
         $status = $_GET['status'];
 
         $result = $this->service->getStartedHabits($status, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
+
+    public function getCurrentHabitStreaks()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getCurrentHabitStreaks($userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
+
+    public function getBestHabitStreaks()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getBestHabitStreaks($userId);
         $status = isset($result['success']) ? 200 : 422;
 
         $this->jsonResponse($result, $status);

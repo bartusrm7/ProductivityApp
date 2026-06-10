@@ -9,6 +9,7 @@ export default function TaskEdit({ taskProp, refreshData }: { taskProp: UserTask
 		id: 0,
 		name: "",
 		created_at: "",
+		deadline: "",
 		priority: "",
 		status: "",
 	});

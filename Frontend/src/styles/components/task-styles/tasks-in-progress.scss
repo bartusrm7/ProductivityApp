@@ -29,4 +29,14 @@
 			max-width: 200px !important;
 		}
 	}
+	&__deadline-btn {
+		padding: 0.1rem 1.5rem;
+		background: $light-white;
+		border: 1px solid $grey;
+		border-radius: 25px;
+		&:hover {
+			background: $grey;
+			color: $white;
+		}
+	}
 }

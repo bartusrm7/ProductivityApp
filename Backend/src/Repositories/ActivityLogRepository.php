@@ -17,9 +17,9 @@ class ActivityLogRepository
         $this->pdo = $db->getConnection();
     }
 
-    public function createActivityLogQuery(string $action, string $entity, int $entityId, DateTime $createdAt, int $userId)
+    public function createActivityLogQuery(string $name, string $action, string $entity, int $entityId, DateTime $createdAt, int $userId)
     {
-        $stmt = $this->pdo->prepare('INSERT INTO active_logs (action, entity, entity_id, created_at, user_id) VALUES (:action, :entity, :entity_id, :created_at, :user_id)');
-        $stmt->execute([':action' => $action, ':entity' => $entity, ':entity_id' => $entityId, ':created_at' => $createdAt->format('Y-m-d H:i:s'), ':user_id' => $userId]);
+        $stmt = $this->pdo->prepare('INSERT INTO active_logs (name, action, entity, entity_id, created_at, user_id) VALUES (:name, :action, :entity, :entity_id, :created_at, :user_id)');
+        $stmt->execute([':name' => $name, ':action' => $action, ':entity' => $entity, ':entity_id' => $entityId, ':created_at' => $createdAt->format('Y-m-d H:i:s'), ':user_id' => $userId]);
     }
 }

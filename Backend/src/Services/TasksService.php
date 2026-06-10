@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Repositories\ActivityLogRepository;
+use App\Repositories\TasksDataRepository;
 use App\Repositories\TasksRepository;
 use App\Services\Interfaces\TasksServiceInterface;
 use App\Validations\TasksValidation;
@@ -13,12 +14,14 @@ use DateTime;
 class TasksService extends BaseService implements TasksServiceInterface
 {
     private TasksRepository $repository;
+    private TasksDataRepository $taskDataRepo;
     private ActivityLogRepository $activeLogs;
     private TasksValidation $validation;
 
-    public function __construct(TasksRepository $repository, ActivityLogRepository $activeLogs, TasksValidation $validation)
+    public function __construct(TasksRepository $repository, TasksDataRepository $taskDataRepo, ActivityLogRepository $activeLogs, TasksValidation $validation)
     {
         $this->repository = $repository;
+        $this->taskDataRepo = $taskDataRepo;
         $this->activeLogs = $activeLogs;
         $this->validation = $validation;
     }
@@ -45,7 +48,7 @@ class TasksService extends BaseService implements TasksServiceInterface
             $currentCreatedAt = new DateTime('now');
             $result =  $this->repository->createNewTaskQuery($name, $newCreatedAt, $priority, $userId);
             $taskId = $result->getId();
-            $this->activeLogs->createActivityLogQuery('create', 'tasks', $taskId, $currentCreatedAt, $userId);
+            $this->activeLogs->createActivityLogQuery($name, 'create', 'task', $taskId, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
@@ -92,6 +95,20 @@ class TasksService extends BaseService implements TasksServiceInterface
         }
     }
 
+    public function getFailedTasks(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->getFailedTasksQuery($userId);
+            return $this->successResponseWithData($result);
+        }
+    }
+
     public function doneTask(int $id, string $status, int $userId)
     {
         $errors = [];
@@ -109,7 +126,7 @@ class TasksService extends BaseService implements TasksServiceInterface
         } else {
             $currentCreatedAt = new DateTime('now');
             $this->repository->doneTaskQuery($id, $status, $userId);
-            $this->activeLogs->createActivityLogQuery('done', 'tasks', $id, $currentCreatedAt, $userId);
+            $this->activeLogs->createActivityLogQuery('', 'done', 'task', $id, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
@@ -134,7 +151,7 @@ class TasksService extends BaseService implements TasksServiceInterface
         } else {
             $currentCreatedAt = new DateTime('now');
             $this->repository->editTaskQuery($id, $name, $priority, $userId);
-            $this->activeLogs->createActivityLogQuery('edit', 'tasks', $id, $currentCreatedAt, $userId);
+            $this->activeLogs->createActivityLogQuery($name, 'edit', 'task', $id, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
@@ -153,7 +170,7 @@ class TasksService extends BaseService implements TasksServiceInterface
         } else {
             $currentCreatedAt = new DateTime('now');
             $this->repository->deleteTaskQuery($id, $userId);
-            $this->activeLogs->createActivityLogQuery('delete', 'tasks', $id, $currentCreatedAt, $userId);
+            $this->activeLogs->createActivityLogQuery('', 'delete', 'task', $id, $currentCreatedAt, $userId);
             return $this->successResponse();
         }
     }
@@ -190,5 +207,31 @@ class TasksService extends BaseService implements TasksServiceInterface
             $result = $this->repository->getTodayTasksQuery($status, $userId);
             return $this->successResponseWithData($result);
         }
+    }
+
+    public function taskFailed(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $this->repository->updateTaskFailedQuery($userId);
+        return $this->successResponse();
+    }
+
+    public function getAllTasks(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $result = $this->repository->getAllTasksQuery($userId);
+        return $this->successResponseWithData($result);
     }
 }

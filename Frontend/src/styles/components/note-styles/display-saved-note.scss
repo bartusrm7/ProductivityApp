@@ -1,0 +1,46 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.display-saved-note {
+	&__main-container {
+		border-radius: 5px;
+		&:hover {
+			background-color: $light-grey;
+		}
+	}
+	&__name {
+		font-weight: bold;
+	}
+	&__important-btn {
+		background: none;
+		color: gray;
+		border: none;
+		padding: 0;
+		margin: 0;
+		z-index: 10;
+		&:hover {
+			background: none;
+			color: rgb(207, 169, 0);
+		}
+		&:focus {
+			background: none !important;
+		}
+	}
+	@include max-width(768px) {
+		&__id {
+			order: 1;
+		}
+		&__important {
+			order: 3;
+		}
+		&__name {
+			order: 2;
+		}
+		&__tag {
+			order: 4;
+		}
+		&__date_saved {
+			order: 5;
+		}
+	}
+}

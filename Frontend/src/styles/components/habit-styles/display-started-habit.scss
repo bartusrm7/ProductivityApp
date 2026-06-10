@@ -1,10 +1,29 @@
 @use "../../global" as *;
 @use "../../mixins" as *;
+
 .display-started-habit {
+	&__display-tasks-btn {
+		transition: 0.3s;
+	}
+	.open {
+		transform: rotate(180deg);
+	}
 	&__main-container {
+		transition: 0.3s ease;
 		border-radius: 5px;
 		&:hover {
 			background-color: $light-grey;
+		}
+	}
+	&__main-container .open {
+		transform: translateY(100%);
+		&:hover {
+			transform: translateY(-100%);
+		}
+	}
+	@include min-width(768px) {
+		&__priority {
+			max-width: 300px !important;
 		}
 	}
 	&__name,
@@ -20,7 +39,7 @@
 			order: 2;
 		}
 		&__streak_days {
-			padding-right: 10px ;
+			padding-right: 10px;
 			order: 3;
 		}
 		&__amount_days_done {

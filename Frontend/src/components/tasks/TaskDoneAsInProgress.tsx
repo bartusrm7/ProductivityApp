@@ -7,6 +7,7 @@ export default function TaskDoneAsInProgress({ taskProp, refreshData }: { taskPr
 		id: 0,
 		name: "",
 		created_at: "",
+		deadline: "",
 		priority: "",
 		status: "in progress",
 	});

@@ -1,0 +1,55 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.display-goals {
+	&__display-tasks-btn {
+		transition: 0.3s;
+	}
+	.open {
+		transform: rotate(180deg);
+	}
+	&__main-container {
+		transition: 0.3s ease;
+		border-radius: 5px;
+		&:hover {
+			background-color: $light-grey;
+		}
+	}
+	&__main-container .open {
+		transform: translateY(100%);
+		&:hover {
+			transform: translateY(-100%);
+		}
+	}
+	@include min-width(768px) {
+		&__priority {
+			max-width: 300px !important;
+		}
+	}
+	&__name {
+		font-weight: bold;
+	}
+	@include max-width(768px) {
+		&__id {
+			order: 1;
+		}
+		&__name {
+			order: 2;
+		}
+		&__description {
+			order: 3;
+		}
+		&__deadline {
+			order: 5;
+		}
+		&__progress {
+			order: 4;
+		}
+		&__actions-btn {
+			order: 6;
+		}
+		&__buttons-container {
+			order: 7;
+		}
+	}
+}

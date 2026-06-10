@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Repositories\ActivityLogRepository;
 use App\Repositories\HabitsRepository;
 use App\Services\Interfaces\HabitsServiceInterface;
 use App\Validations\HabitsValidation;
@@ -12,10 +13,12 @@ use DateTime;
 class HabitsService extends BaseService implements HabitsServiceInterface
 {
     private HabitsRepository $repository;
+    private ActivityLogRepository $activeLogs;
     private HabitsValidation $validation;
-    public function __construct(HabitsRepository $repository, HabitsValidation $validation)
+    public function __construct(HabitsRepository $repository, ActivityLogRepository $activeLogs, HabitsValidation $validation)
     {
         $this->repository = $repository;
+        $this->activeLogs = $activeLogs;
         $this->validation = $validation;
     }
 
@@ -34,9 +37,11 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
-
         $newCreatedAt = new DateTime($createdAt)->modify('+2 hours');
-        $this->repository->newHabitQuery($name, $newCreatedAt, $userId);
+        $currentCreatedAt = new DateTime('now');
+        $result = $this->repository->newHabitQuery($name, $newCreatedAt, $userId);
+        $habitId = $result->getId();
+        $this->activeLogs->createActivityLogQuery($name, 'create', 'habit', $habitId, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -49,7 +54,6 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
-
         $result = $this->repository->getAllHabitsQuery($userId);
         return $this->successResponseWithData($result);
     }
@@ -72,8 +76,9 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
-
+        $currentCreatedAt = new DateTime('now');
         $this->repository->editHabitQuery($id, $name, $description, $userId);
+        $this->activeLogs->createActivityLogQuery($name, 'edit', 'habit', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
 
@@ -89,9 +94,27 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
-
+        $currentCreatedAt = new DateTime('now');
         $this->repository->deleteHabitQuery($id, $userId);
+        $this->activeLogs->createActivityLogQuery('', 'delete', 'habit', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
+    }
+
+    public function sortHabits(array $params, int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyStatus($params['status'])) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        } else {
+            $result = $this->repository->sortHabitsDataQuery($params);
+            return $this->successResponseWithData($result);
+        }
     }
 
     public function habitStatusStarted(int $id, int $userId)
@@ -106,10 +129,12 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         if (!empty($errors)) {
             return ['errors' => $errors];
         }
-
+        $currentCreatedAt = new DateTime('now');
         $this->repository->habitStatusStartedQuery($id, $userId);
+        $this->activeLogs->createActivityLogQuery('', 'started', 'habit', $id, $currentCreatedAt, $userId);
         return $this->successResponse();
     }
+
     public function getStartedHabits(string $status, int $userId)
     {
         $errors = [];
@@ -124,6 +149,32 @@ class HabitsService extends BaseService implements HabitsServiceInterface
         }
 
         $result = $this->repository->getHabitsWithStartedStatusQuery($status, $userId);
+        return $this->successResponseWithData($result);
+    }
+
+    public function getCurrentHabitStreaks(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $result = $this->repository->getCurrentHabitStreaksQuery($userId);
+        return $this->successResponseWithData($result);
+    }
+
+    public function getBestHabitStreaks(int $userId)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($userId)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $result = $this->repository->getBestOverallHabitStreaksQuery($userId);
         return $this->successResponseWithData($result);
     }
 }

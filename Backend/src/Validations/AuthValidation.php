@@ -6,6 +6,12 @@ namespace App\Validations;
 
 class AuthValidation
 {
+    public function emptyUserId(int $id)
+    {
+        if (empty($id)) {
+            return 'User ID does not exists';
+        }
+    }
     public function emptyNameField(string $name)
     {
         if (empty($name)) {

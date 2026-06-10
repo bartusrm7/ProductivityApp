@@ -42,7 +42,12 @@ class TasksRepository implements TasksRepositoryInterface
 
     public function getInProgressTasksQuery(int $userId)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE status = 'in_progress' AND user_id = :user_id");
+        $stmt = $this->pdo->prepare(
+            "SELECT t.id, t.name, t.created_at, t.priority, t.status, t.user_id, td.deadline FROM tasks AS t
+            LEFT JOIN tasks_data AS td ON td.task_id = t.id
+            WHERE t.user_id = :user_id
+            AND t.status = 'in_progress'"
+        );
         $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
@@ -54,9 +59,21 @@ class TasksRepository implements TasksRepositoryInterface
         return $stmt->fetchAll();
     }
 
+    public function getFailedTasksQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT * FROM tasks AS t 
+            INNER JOIN tasks_data AS td ON td.task_id = t.id
+            WHERE status = 'failed' 
+            AND user_id = :user_id"
+        );
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
+
     public function doneTaskQuery(int $id, string $status, int $userId)
     {
-        $stmt = $this->pdo->prepare("UPDATE tasks SET status = :status WHERE id = :id AND user_id = :user_id");
+        $stmt = $this->pdo->prepare("UPDATE tasks SET status = :status, created_at = NOW() WHERE id = :id AND user_id = :user_id");
         $stmt->execute([':id' => $id, ':status' => $status, ':user_id' => $userId]);
 
         return new TasksModel(
@@ -91,10 +108,10 @@ class TasksRepository implements TasksRepositoryInterface
 
     public function sortDataByStatusAndTitleQuery(array $params)
     {
-        $sql = 'SELECT * FROM tasks WHERE status = :status AND user_id = :user_id';
+        $sql = 'SELECT * FROM tasks AS t INNER JOIN tasks_data AS td ON td.task_id = t.id WHERE status = :status AND user_id = :user_id';
         $bindings = [':status' => $params['status'], ':user_id' => $params['user_id']];
 
-        $sortData = ['id', 'name', 'created_at', 'priority'];
+        $sortData = ['id', 'name', 'created_at', 'deadline', 'failed', 'priority'];
         $directionsData = ['ASC', 'DESC'];
 
         if (!empty($params['sort'])) {
@@ -110,8 +127,34 @@ class TasksRepository implements TasksRepositoryInterface
 
     public function getTodayTasksQuery(string $status, int $userId)
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE status = :status AND user_id = :user_id');
-        $stmt->execute([':status' => $status, ':user_id' => $userId]);
+        if ($status === 'in_progress') {
+            $stmt = $this->pdo->prepare("SELECT * FROM tasks WHERE status = 'in_progress' AND user_id = :user_id");
+            $stmt->execute([':user_id' => $userId]);
+        } else {
+            $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE status = :status AND user_id = :user_id AND DATE(created_at) = CURDATE()');
+            $stmt->execute([':status' => $status, ':user_id' => $userId]);
+        }
+        return $stmt->fetchAll();
+    }
+
+    public function updateTaskFailedQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare(
+            "UPDATE tasks t
+            INNER JOIN tasks_data td ON td.task_id = t.id
+            SET t.status = 'failed'
+            WHERE t.user_id = :user_id
+            AND t.status = 'in_progress'
+            AND td.deadline < NOW()"
+        );
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->rowCount();
+    }
+
+    public function getAllTasksQuery(int $userId)
+    {
+        $stmt = $this->pdo->prepare('SELECT * FROM tasks WHERE user_id = :user_id');
+        $stmt->execute([':user_id' => $userId]);
         return $stmt->fetchAll();
     }
 }

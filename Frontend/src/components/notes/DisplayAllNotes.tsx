@@ -67,7 +67,7 @@ export default function DisplayAllNotes({ refreshParent, refreshData }: { refres
 
 	async function sortNotesFunction() {
 		const jwt = localStorage.getItem("jwt");
-		const response = await fetch(`http://productivityapp.local/sort-notes?direction=${directionSort}&sort=${sortDataKey}`, {
+		const response = await fetch(`http://productivityapp.local/sort-notes?saved_to_history=0&direction=${directionSort}&sort=${sortDataKey}`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

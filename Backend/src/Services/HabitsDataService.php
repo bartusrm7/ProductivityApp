@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Repositories\ActivityLogRepository;
 use App\Repositories\HabitsDataRepository;
 use App\Services\Interfaces\HabitsDataServiceInterface;
 use App\Validations\HabitsDataValidation;
@@ -12,15 +13,17 @@ use DateTime;
 class HabitsDataService extends BaseService implements HabitsDataServiceInterface
 {
     private HabitsDataRepository $repository;
+    private ActivityLogRepository $activeLogs;
     private HabitsDataValidation $validation;
 
-    public function __construct(HabitsDataRepository $repository, HabitsDataValidation $validation)
+    public function __construct(HabitsDataRepository $repository, ActivityLogRepository $activeLogs, HabitsDataValidation $validation)
     {
         $this->repository = $repository;
+        $this->activeLogs = $activeLogs;
         $this->validation = $validation;
     }
 
-    public function setHabitThisDayDone(int $id, string $checkCurrentDay)
+    public function setHabitThisDayDone(int $id, string $checkCurrentDay, int $userId)
     {
         $errors = [];
         if ($error = $this->validation->emptyHabitDataId($id)) {
@@ -35,7 +38,9 @@ class HabitsDataService extends BaseService implements HabitsDataServiceInterfac
             $newCheckCurrentDay = new DateTime($checkCurrentDay)->modify('+2 hours');
             $isTodayDateExists = $this->repository->isHabitCurrentDateExistsTodayQuery($id, $newCheckCurrentDay);
             if (!$isTodayDateExists) {
+                $currentCreatedAt = new DateTime('now');
                 $this->repository->setHabitThisDayDoneQuery($id, $newCheckCurrentDay);
+                $this->activeLogs->createActivityLogQuery('', 'set', 'habit data', $id, $currentCreatedAt, $userId);
                 return $this->successResponse();
             } else {
                 return [
@@ -73,7 +78,7 @@ class HabitsDataService extends BaseService implements HabitsDataServiceInterfac
                     'message' => 'Habit already checked today'
                 ];
             }
-            
+
             if ($yesterday->format('Y-m-d') === $lastCheckDay->format('Y-m-d')) {
                 $newStreakDays = $currectStreakDays + 1;
             } else {

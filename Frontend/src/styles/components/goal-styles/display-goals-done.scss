@@ -1,0 +1,59 @@
+@use "../../global" as *;
+@use "../../mixins" as *;
+
+.display-goals-done {
+	&__display-tasks-btn {
+		transition: 0.3s;
+	}
+	.open {
+		transform: rotate(180deg);
+	}
+	&__main-container {
+		transition: 0.3s ease;
+		border-radius: 5px;
+		&:hover {
+			background-color: $light-grey;
+		}
+	}
+	&__main-container .open {
+		transform: translateY(100%);
+		&:hover {
+			transform: translateY(-100%);
+		}
+	}
+	@include min-width(768px) {
+		&__priority {
+			max-width: 300px !important;
+		}
+	}
+	&__name {
+		font-weight: bold;
+	}
+	@include max-width(768px) {
+		&__id {
+			order: 1;
+		}
+		&__name {
+			order: 2;
+		}
+		&__streak_days {
+			padding-right: 10px;
+			order: 3;
+		}
+		&__amount_days_done {
+			order: 4;
+		}
+		&__description {
+			order: 5;
+		}
+		&__created_at {
+			order: 6;
+		}
+		&__actions-btn {
+			order: 7;
+		}
+		&__buttons-container {
+			order: 8;
+		}
+	}
+}

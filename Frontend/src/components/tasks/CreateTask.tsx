@@ -7,6 +7,7 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal, re
 		id: 0,
 		name: "",
 		created_at: new Date().toISOString(),
+		deadline: "",
 		priority: "",
 		status: "",
 	});
@@ -34,6 +35,7 @@ export default function CreateTask({ show, handleOpenModal, handleCloseModal, re
 					id: 0,
 					name: "",
 					created_at: new Date().toISOString(),
+					deadline: "",
 					priority: "",
 					status: "",
 				});
