@@ -55,4 +55,22 @@ class SettingsService extends BaseService implements SettingsServiceInterface
         $result = $this->repository->displayUserAvatarQuery($id);
         return $this->successResponseWithData($result);
     }
+
+    public function updateUserName(string $name, int $id)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($id)) {
+            $errors[] = $error;
+        }
+        if ($error = $this->validation->emptyNameField($name)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $currentCreatedAt = new DateTime('now');
+        $this->repository->updateUserNameQuery($name, $id);
+        $this->activityLog->createActivityLogQuery($name, 'set', 'setting', 0, $currentCreatedAt, $id);
+        return $this->successResponse();
+    }
 }

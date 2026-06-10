@@ -8,4 +8,5 @@ namespace App\Services\Interfaces;
 interface SettingsServiceInterface
 {
     public function updateAvatar(int $id, array $avatar);
+    public function updateUserName(string $name, int $id);
 }

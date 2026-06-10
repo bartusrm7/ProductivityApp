@@ -209,6 +209,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // SETTINGS
     $r->addRoute('POST', '/set-avatar', [SettingsController::class, 'updateAvatar']);
+    $r->addRoute('POST', '/update-user-name', [SettingsController::class, 'updateUserName']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];

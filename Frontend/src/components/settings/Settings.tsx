@@ -3,6 +3,7 @@ import Sidebar from "../navigation/Sidebar";
 import NavbarMenu from "../navigation/NavbarMenu";
 import AddAvatar from "./AddAvatar";
 import { FaUserCircle } from "react-icons/fa";
+import UpdateUserName from "./UpdateUserName";
 
 export default function Settings() {
 	const [userName, setUserName] = useState<string | null>("");
@@ -75,7 +76,7 @@ export default function Settings() {
 						</div>
 						<div className='d-flex justify-content-between'>
 							<div className='settings__item-name'>Name</div>
-							<AddAvatar />
+							<UpdateUserName />
 						</div>
 						<div className='d-flex justify-content-between'>
 							<div className='settings__item-name'>Password</div>

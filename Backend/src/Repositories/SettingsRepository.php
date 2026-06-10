@@ -42,4 +42,12 @@ class SettingsRepository implements SettingsRepositoryInterface
         $stmt->execute([':id' => $id]);
         return $stmt->fetch();
     }
+
+    public function updateUserNameQuery(string $name, int $id)
+    {
+        $stmt = $this->pdo->prepare('UPDATE users SET name = :name WHERE id = :id');
+        $stmt->execute([':name' => $name, ':id' => $id]);
+
+        return new UserModel($id, $name, '', '');
+    }
 }

@@ -44,4 +44,20 @@ class SettingsController extends BaseController
 
         $this->jsonResponse($result, $status);
     }
+
+    public function updateUserName()
+    {
+        if (!$this->requestMethod('POST')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $data = $this->jsonInput();
+        $name = $data['name'];
+
+        $result = $this->service->updateUserName($name, $userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
 }
