@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
-export default function AddAvatar() {
+export default function AddAvatar({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [avatarData, setAvatarData] = useState<File | null>(null);
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
@@ -39,6 +39,7 @@ export default function AddAvatar() {
 			});
 			const data = await response.json();
 			if (data.success) {
+				refreshData();
 				setShowModal(false);
 			} else {
 				setErrorsArray(data.data);
@@ -47,6 +48,8 @@ export default function AddAvatar() {
 			setErrorsArray(["Server error. Try again."]);
 		}
 	}
+
+	useEffect(() => {}, [refreshParent]);
 
 	return (
 		<div>

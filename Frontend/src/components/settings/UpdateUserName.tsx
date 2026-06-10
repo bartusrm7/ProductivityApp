@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import type { UserSettingsData } from "../../types/settings";
 
-export default function UpdateUserName() {
+export default function UpdateUserName({ refreshParent, refreshData }: { refreshParent: number; refreshData: () => void }) {
 	const [userData, setUserData] = useState<UserSettingsData>({ id: 0, name: "", password: "" });
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [errorsArray, setErrorsArray] = useState<string[]>([]);
@@ -30,11 +30,16 @@ export default function UpdateUserName() {
 			const data = await response.json();
 			if (data.errors) {
 				setErrorsArray(data.errors);
+			} else {
+				refreshData();
+				setShowModal(false);
 			}
 		} catch (error) {
 			setErrorsArray(["Server error. Try again."]);
 		}
 	}
+
+	useEffect(() => {}, [refreshParent]);
 
 	return (
 		<div>

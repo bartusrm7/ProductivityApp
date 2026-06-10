@@ -22,18 +22,21 @@ class SettingsRepository implements SettingsRepositoryInterface
     {
         $avatarFileName = uniqid() . '.' . pathinfo($avatar['name'], PATHINFO_EXTENSION);
         $avatarTmp = $avatar['tmp_name'];
-        $newAvatarFile = 'uploads/' . $avatarFileName;
-        if (!move_uploaded_file($avatarTmp, $newAvatarFile)) {
+
+        $absolutePath = __DIR__ . '/uploads/' . $avatarFileName;
+        $relativePath = 'uploads/' . $avatarFileName;
+
+        if (!move_uploaded_file($avatarTmp, $absolutePath)) {
             return [
                 'success' => false,
                 'errors'  => 'Upload file failed'
             ];
-        };
+        }
 
         $stmt = $this->pdo->prepare('UPDATE users SET avatar = :avatar WHERE id = :id');
-        $stmt->execute([':id' => $id, ':avatar' => $newAvatarFile]);
+        $stmt->execute([':id' => $id, ':avatar' => $relativePath]);
 
-        return new UserModel($id, '', '', $newAvatarFile);
+        return new UserModel($id, '', '', $relativePath);
     }
 
     public function displayUserAvatarQuery(int $id)

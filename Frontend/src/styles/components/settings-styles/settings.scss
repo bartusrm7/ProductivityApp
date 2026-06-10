@@ -28,3 +28,38 @@
 		border-radius: 50%;
 	}
 }
+
+.toggle-modern {
+	width: 48px;
+	height: 26px;
+	border-radius: 20px;
+	padding: 0;
+	border: none;
+	background: #d1d1d1;
+	position: relative;
+	display: flex;
+	align-items: center;
+	transition: background 0.2s ease;
+}
+
+.toggle-modern .knob {
+	width: 20px;
+	height: 20px;
+	background: white;
+	border-radius: 50%;
+	position: absolute;
+	left: 3px;
+	transition: transform 0.2s ease;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-modern.active {
+	background: #68e600;
+	&:hover {
+		background: $low;
+	}
+}
+
+.toggle-modern.active .knob {
+	transform: translateX(22px);
+}

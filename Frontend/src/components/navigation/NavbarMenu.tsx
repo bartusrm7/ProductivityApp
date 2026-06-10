@@ -57,7 +57,7 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 		<>
 			<div className='navbar-menu d-flex justify-content-between'>
 				<div className='d-flex justify-content-between align-items-center w-100 px-3'>
-					<div>{pageName}</div>
+					<div className='navbar-menu__page-name'>{pageName}</div>
 					<div className='d-flex align-items-center'>
 						<div className='me-2 d-block'>
 							<div className='navbar-menu__user-name-row'>{userName}</div>

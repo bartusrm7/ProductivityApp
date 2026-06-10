@@ -4,12 +4,14 @@ import NavbarMenu from "../navigation/NavbarMenu";
 import AddAvatar from "./AddAvatar";
 import { FaUserCircle } from "react-icons/fa";
 import UpdateUserName from "./UpdateUserName";
+import Reminders from "./Reminders";
 
 export default function Settings() {
 	const [userName, setUserName] = useState<string | null>("");
 	const [userAvatar, setUserAvatar] = useState<string | null>("");
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
+	const [refresh, setRefresh] = useState<number>(0);
 
 	const handleCloseModal = () => setShowModal(false);
 	const handleOpenModal = () => setShowModal(true);
@@ -23,7 +25,9 @@ export default function Settings() {
 			},
 		});
 		const data = await response.json();
-		setUserName(data.name);
+		if (data.data.success) {
+			setUserName(data.data.data.name);
+		}
 	}
 
 	async function getUserAvatar() {
@@ -35,17 +39,15 @@ export default function Settings() {
 			},
 		});
 		const data = await response.json();
-		console.log(data.data.avatar);
-		setUserAvatar(data.data.avatar);
+		if (data.success) {
+			setUserAvatar(data.data.avatar);
+		}
 	}
 
 	useEffect(() => {
 		getUserName();
-	}, [userName]);
-
-	useEffect(() => {
 		getUserAvatar();
-	}, [userAvatar]);
+	}, [refresh]);
 
 	useEffect(() => {
 		document.title = "ProductivityApp - Settings";
@@ -67,28 +69,24 @@ export default function Settings() {
 					<div className='settings__user-data-container p-3 p-md-4'>
 						<div className='settings__user-account-preview'>
 							{userAvatar ? <img className='settings__user-avatar-img' src={`http://productivityapp.local/${userAvatar}`} alt='' /> : <FaUserCircle size={80} />}
-							<div>{userName}</div>
+							<div className="mt-2">{userName}</div>
 						</div>
 
 						<div className='d-flex justify-content-between'>
 							<div className='settings__item-name'>Avatar</div>
-							<AddAvatar />
+							<AddAvatar refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
 						<div className='d-flex justify-content-between'>
 							<div className='settings__item-name'>Name</div>
-							<UpdateUserName />
+							<UpdateUserName refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
 						<div className='d-flex justify-content-between'>
 							<div className='settings__item-name'>Password</div>
-							<AddAvatar />
-						</div>
-						<div className='d-flex justify-content-between'>
-							<div className='settings__item-name'>Dashboard Widgets</div>
-							<AddAvatar />
+							<AddAvatar refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
 						<div className='d-flex justify-content-between'>
 							<div className='settings__item-name'>Reminders</div>
-							<AddAvatar />
+							<Reminders refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
 					</div>
 				</div>
