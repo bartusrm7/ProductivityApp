@@ -76,4 +76,17 @@ class SettingsController extends BaseController
 
         $this->jsonResponse($result, $status);
     }
+
+    public function getRemindersState()
+    {
+        if (!$this->requestMethod('GET')) {
+            $this->jsonResponseMethodNotAllowed();
+        }
+        $userId = $this->jwtservice->getUserIdFromJWT();
+
+        $result = $this->service->getRemindersState($userId);
+        $status = isset($result['success']) ? 200 : 422;
+
+        $this->jsonResponse($result, $status);
+    }
 }

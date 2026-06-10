@@ -166,6 +166,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // SETTINGS
     $r->addRoute('GET', '/user-avatar', [SettingsController::class, 'displayUserAvatar']);
+    $r->addRoute('GET', '/reminders-state', [SettingsController::class, 'getRemindersState']);
 
     // POST
 

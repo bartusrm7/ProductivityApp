@@ -60,4 +60,11 @@ class SettingsRepository implements SettingsRepositoryInterface
         $stmt->execute([':id' => $id, ':reminders' => $reminders]);
         return $stmt->rowCount();
     }
+
+    public function getRemindersStateQuery(int $id)
+    {
+        $stmt = $this->pdo->prepare('SELECT reminders FROM users WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch();
+    }
 }

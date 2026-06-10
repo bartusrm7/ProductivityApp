@@ -9,6 +9,7 @@ import Reminders from "./Reminders";
 export default function Settings() {
 	const [userName, setUserName] = useState<string | null>("");
 	const [userAvatar, setUserAvatar] = useState<string | null>("");
+	const [reminderState, setReminderState] = useState<boolean>(true);
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [refresh, setRefresh] = useState<number>(0);
 
@@ -40,9 +41,24 @@ export default function Settings() {
 		}
 	}
 
+	async function getReminderState() {
+		const jwt = localStorage.getItem("jwt");
+		const response = await fetch("http://productivityapp.local/reminders-state", {
+			method: "GET",
+			headers: {
+				Authorization: `Bearer ${jwt}`,
+			},
+		});
+		const data = await response.json();
+		if (data.success) {
+			setReminderState(data.data.reminders);
+		}
+	}
+
 	useEffect(() => {
 		getUserName();
 		getUserAvatar();
+		getReminderState();
 	}, [refresh]);
 
 	useEffect(() => {
@@ -82,7 +98,7 @@ export default function Settings() {
 						</div>
 						<div className='d-flex justify-content-between'>
 							<div className='settings__item-name'>Reminders</div>
-							<Reminders refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
+							<Reminders remindersState={reminderState} />
 						</div>
 					</div>
 				</div>

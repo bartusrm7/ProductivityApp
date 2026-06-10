@@ -89,4 +89,17 @@ class SettingsService extends BaseService implements SettingsServiceInterface
         $this->activityLog->createActivityLogQuery('', 'set', 'setting', 0, $currentCreatedAt, $id);
         return $this->successResponse();
     }
+
+    public function getRemindersState(int $id)
+    {
+        $errors = [];
+        if ($error = $this->validation->emptyUserId($id)) {
+            $errors[] = $error;
+        }
+        if (!empty($errors)) {
+            return ['errors' => $errors];
+        }
+        $result = $this->repository->getRemindersStateQuery($id);
+        return $this->successResponseWithData($result);
+    }
 }
