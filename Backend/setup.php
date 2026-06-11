@@ -18,3 +18,4 @@ $db->createNotesTable();
 $db->createNotesHistoryTable();
 $db->createGoalsTable();
 $db->createActiveLogsTable();
+$db->createReadLogsTable();

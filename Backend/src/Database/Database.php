@@ -171,4 +171,16 @@ class Database
             ON DELETE CASCADE 
         )');
     }
+
+    public function createReadLogsTable(){
+        $this->pdo->exec('CREATE TABLE IF NOT EXISTS read_logs (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            is_read TINYINT(1) NOT NULL DEFAULT 0,
+            log_id INT,
+            CONSTRAINT fk_read_logs
+            FOREIGN KEY (log_id)
+            REFERENCES active_logs(id)
+            ON DELETE CASCADE
+        )');
+    }
 }
