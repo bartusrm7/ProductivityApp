@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { IoIosNotifications } from "react-icons/io";
+import { IoIosNotificationsOff } from "react-icons/io";
 
 export default function Reminders({ remindersState }: { remindersState: boolean }) {
 	const [remindersData, setRemindersData] = useState<boolean>(remindersState);
@@ -7,7 +9,7 @@ export default function Reminders({ remindersState }: { remindersState: boolean 
 	async function handleToggleReminderButton() {
 		const reminderNewValue = !remindersData;
 		setRemindersData(reminderNewValue);
-		
+
 		const jwt = localStorage.getItem("jwt");
 		await fetch("http://productivityapp.local/update-reminders", {
 			method: "POST",
@@ -23,8 +25,16 @@ export default function Reminders({ remindersState }: { remindersState: boolean 
 	}, [remindersState]);
 
 	return (
-		<Button className={`toggle-modern ${remindersData ? "active" : ""}`} onClick={handleToggleReminderButton}>
-			<div className='knob'></div>
-		</Button>
+		<>
+			{remindersData ? (
+				<Button className='reminders-true' onClick={handleToggleReminderButton}>
+					<IoIosNotifications size={24} />
+				</Button>
+			) : (
+				<Button className='reminders-false' onClick={handleToggleReminderButton}>
+					<IoIosNotificationsOff size={24} />
+				</Button>
+			)}
+		</>
 	);
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
+import { IoIosNotifications } from "react-icons/io";
 
 export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: string; onToggleMenu: () => void }) {
 	const [userEmail, setUserEmail] = useState<string | null>("");
@@ -59,6 +60,10 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 				<div className='d-flex justify-content-between align-items-center w-100 px-3'>
 					<div className='navbar-menu__page-name'>{pageName}</div>
 					<div className='d-flex align-items-center'>
+						<div className='navbar-menu__message-wrapper me-3'>
+							<IoIosNotifications size={24} className='navbar-menu__message-btn' />
+							<span className='navbar-menu__badge'>3</span>
+						</div>
 						<div className='me-2 d-block'>
 							<div className='navbar-menu__user-name-row'>{userName}</div>
 							<div className='navbar-menu__user-email-row'>{userEmail}</div>

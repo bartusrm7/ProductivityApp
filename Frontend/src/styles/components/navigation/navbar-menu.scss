@@ -3,28 +3,71 @@
 
 .navbar-menu {
 	position: fixed;
+	top: 0;
 	right: 0;
-	padding: 0.5rem 1rem;
-	margin-bottom: 100px;
 	width: 100%;
+	padding: 0.75rem 1.25rem;
 	background-color: $white;
-	border-bottom: 1px solid $just-blue;
-	box-shadow: 0px 1px 10px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	z-index: 100;
 	@include min-width(1200px) {
 		width: calc(100% - 220px);
 		margin-left: 220px;
 	}
-	&__user-name-row {
+	&__page-name {
+		font-size: 1.25rem;
+		font-weight: 600;
 		color: $dark-grey;
-		font-weight: bold;
+	}
+	&__message-wrapper {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		margin-right: 1rem;
+	}
+	&__message-btn {
+		cursor: pointer;
+		transition: 0.2s;
+		&:hover {
+			color: $grey;
+		}
+	}
+	&__badge {
+		position: absolute;
+		top: -6px;
+		right: -6px;
+		background: #ff3b30;
+		color: $white;
+		font-size: 10px;
+		font-weight: 700;
+		padding: 2px 5px;
+		border-radius: 999px;
+		min-width: 18px;
+		height: 18px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+		pointer-events: none;
+	}
+	&__user-name-row {
+		font-weight: 600;
+		color: $dark-grey;
+		line-height: 1.1;
 	}
 	&__user-email-row {
 		color: $grey;
-		font-size: 0.8rem;
+		font-size: 0.75rem;
+		line-height: 1.1;
 	}
 	&__user-avatar-img {
-		width: 50px;
-		height: 50px;
+		width: 45px;
+		height: 45px;
 		border-radius: 50%;
+		object-fit: cover;
+		margin-left: 0.75rem;
+		border: 2px solid rgba(0, 0, 0, 0.05);
 	}
 }

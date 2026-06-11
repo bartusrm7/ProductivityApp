@@ -84,19 +84,19 @@ export default function Settings() {
 							<div className='mt-2'>{userName}</div>
 						</div>
 
-						<div className='d-flex justify-content-between'>
+						<div className='settings__item'>
 							<div className='settings__item-name'>Avatar</div>
 							<AddAvatar refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
-						<div className='d-flex justify-content-between'>
+						<div className='settings__item'>
 							<div className='settings__item-name'>Name</div>
 							<UpdateUserName refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
-						<div className='d-flex justify-content-between'>
+						<div className='settings__item'>
 							<div className='settings__item-name'>Password</div>
 							<AddAvatar refreshParent={refresh} refreshData={() => setRefresh(prevState => prevState + 1)} />
 						</div>
-						<div className='d-flex justify-content-between'>
+						<div className='settings__item'>
 							<div className='settings__item-name'>Reminders</div>
 							<Reminders remindersState={reminderState} />
 						</div>
