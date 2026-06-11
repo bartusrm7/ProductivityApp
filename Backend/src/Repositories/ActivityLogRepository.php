@@ -22,4 +22,11 @@ class ActivityLogRepository
         $stmt = $this->pdo->prepare('INSERT INTO active_logs (name, action, entity, entity_id, created_at, user_id) VALUES (:name, :action, :entity, :entity_id, :created_at, :user_id)');
         $stmt->execute([':name' => $name, ':action' => $action, ':entity' => $entity, ':entity_id' => $entityId, ':created_at' => $createdAt->format('Y-m-d H:i:s'), ':user_id' => $userId]);
     }
+
+    public function setLogsAsReadedQuery(int $id)
+    {
+        $stmt = $this->pdo->prepare('UPDATE read_logs SET read = 1 WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetchAll();
+    }
 }

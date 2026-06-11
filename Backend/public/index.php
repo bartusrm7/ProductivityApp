@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Controllers\ActiveLogsController;
 use App\Controllers\AuthController;
 use App\Controllers\DashboardController;
 use App\Controllers\GoalsController;
@@ -23,6 +24,7 @@ use App\Repositories\NotesRepository;
 use App\Repositories\SettingsRepository;
 use App\Repositories\TasksDataRepository;
 use App\Repositories\TasksRepository;
+use App\Services\ActiveLogsService;
 use App\Services\AuthService;
 use App\Services\DashboardService;
 use App\Services\GoalsService;
@@ -68,7 +70,7 @@ $db->getConnection();
 
 // REPOSITORIES
 $authRepository = new AuthRepository($db);
-$activeLogRepository = new ActivityLogRepository($db);
+$activeLogsRepository = new ActivityLogRepository($db);
 $dashboardRepository = new DashboardRepository($db);
 $tasksRepository = new TasksRepository($db);
 $tasksDataRepository = new TasksDataRepository($db);
@@ -92,20 +94,22 @@ $settingsValidation = new SettingsValidation();
 // SERVICES
 $jwtService = new JWTService();
 $authService = new AuthService($authRepository, $authValidation);
+$activeLogsService = new ActiveLogsService($activeLogsRepository);
 $dashboardService = new DashboardService($dashboardRepository, $dashboardValidation);
-$tasksService = new TasksService($tasksRepository, $tasksDataRepository, $activeLogRepository, $tasksValidation);
-$tasksDataService = new TasksDataService($tasksDataRepository, $activeLogRepository, $tasksDataValidation);
-$habitsService = new HabitsService($habitsRepository, $activeLogRepository, $habitsValidation);
-$habitsDataService = new HabitsDataService($habitsDataRepository, $activeLogRepository, $habitsDataValidation);
-$notesService = new NotesService($notesRepository, $activeLogRepository, $notesValidation);
-$goalsService = new GoalsService($goalsRepository, $activeLogRepository, $goalsValidation);
-$settingsService = new SettingsService($settingsRepository, $activeLogRepository, $settingsValidation);
+$tasksService = new TasksService($tasksRepository, $tasksDataRepository, $activeLogsRepository, $tasksValidation);
+$tasksDataService = new TasksDataService($tasksDataRepository, $activeLogsRepository, $tasksDataValidation);
+$habitsService = new HabitsService($habitsRepository, $activeLogsRepository, $habitsValidation);
+$habitsDataService = new HabitsDataService($habitsDataRepository, $activeLogsRepository, $habitsDataValidation);
+$notesService = new NotesService($notesRepository, $activeLogsRepository, $notesValidation);
+$goalsService = new GoalsService($goalsRepository, $activeLogsRepository, $goalsValidation);
+$settingsService = new SettingsService($settingsRepository, $activeLogsRepository, $settingsValidation);
 
 // MIDDLEWARES
 $authMiddleware = new AuthMiddleware($jwtService);
 
 // CONTROLLERS
 $authController = new AuthController($authService, $jwtService);
+$activeLogsController = new ActiveLogsController($activeLogsService);
 $dashboardController = new DashboardController($dashboardService, $jwtService);
 $tasksController = new TasksController($tasksService, $jwtService);
 $tasksDataController = new TasksDataController($tasksDataService);
@@ -117,6 +121,7 @@ $settingsController = new SettingsController($settingsService, $jwtService);
 
 $controllers = [
     AuthController::class => $authController,
+    ActiveLogsController::class => $activeLogsController,
     DashboardController::class => $dashboardController,
     TasksController::class => $tasksController,
     TasksDataController::class => $tasksDataController,
@@ -134,6 +139,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/user-name', [AuthController::class, 'getName']);
     $r->addRoute('GET', '/user-email', [AuthController::class, 'getLoggedUserEmail']);
     $r->addRoute('GET', '/get-user-avatar', [AuthController::class, 'getAvatar']);
+
+    // ACTIVE LOGS
+    $r->addRoute('GET', '/readed-notification', [ActiveLogsController::class, 'setNotificationAsReaded']);
 
     // DASHBOARD
     $r->addRoute('GET', '/get-all-logs', [DashboardController::class, 'getAllLogs']);
