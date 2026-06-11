@@ -29,4 +29,16 @@ class ActivityLogRepository
         $stmt->execute([':id' => $id]);
         return $stmt->fetchAll();
     }
+
+    public function getNoReadedLogsQuery(int $userId) {
+        $stmt =$this->pdo->prepare(
+            'SELECT al.* FROM active_logs AS al
+            LEFT JOIN read_logs AS rl ON rl.log_id = al.id
+            WHERE al.user_id = :user_id
+            AND rl.log_id IS NULL
+            ORDER BY al.created_at DESC'
+        );
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll();
+    }
 }

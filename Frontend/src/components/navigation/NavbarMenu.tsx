@@ -10,7 +10,7 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 	const [userName, setUserName] = useState<string | null>("");
 	const [userAvatar, setUserAvatar] = useState<string | null>("");
 	const [remindersState, setRemindersState] = useState<number>();
-	const [allLogs, setAllLogs] = useState<UserActiveLogsData[]>([]);
+	const [noReadedLogs, setNoReadedLogs] = useState<UserActiveLogsData[]>([]);
 	const [showLogs, setShowLogs] = useState(false);
 
 	async function getUserEmail() {
@@ -65,9 +65,9 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 		setRemindersState(data.data.reminders);
 	}
 
-	async function getAllLogs() {
+	async function getNoReadedLogs() {
 		const jwt = localStorage.getItem("jwt");
-		const response = await fetch("http://productivityapp.local/get-all-logs", {
+		const response = await fetch("http://productivityapp.local/get-no-readed-logs", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -76,25 +76,12 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 		});
 		const data = await response.json();
 		if (data.success) {
-			setAllLogs(data.data);
+			setNoReadedLogs(data.data);
 		}
 	}
 
-	// const displayLogMessage = (log: UserActiveLogsData) => {
-	// 	switch (log.action) {
-	// 		case "create":
-	// 			return `Created new ${log.name} ${log.entity} at ${log.created_at.slice(0, 10)}`;
-	// 		case "edit":
-	// 			return `Edited ${log.name} ${log.entity} at ${log.created_at.slice(0, 10)}`;
-	// 		case "set":
-	// 			return `Set ${log.name} ${log.entity} at ${log.created_at.slice(0, 10)}`;
-	// 		case "done":
-	// 			return `Done ${log.name} ${log.entity} at ${log.created_at.slice(0, 10)}`;
-	// 	}
-	// };
-
 	useEffect(() => {
-		getAllLogs();
+		getNoReadedLogs();
 	}, []);
 
 	useEffect(() => {
@@ -113,7 +100,7 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 						{remindersState ? (
 							<div className='navbar-menu__message-wrapper me-3' onClick={() => setShowLogs(prevState => !prevState)}>
 								<IoIosNotifications size={24} className='navbar-menu__message-btn' />
-								<div className='navbar-menu__badge'>{allLogs.length}</div>
+								<div className='navbar-menu__badge'>{noReadedLogs.length}</div>
 							</div>
 						) : null}
 						<div className='me-2 d-block'>
@@ -130,10 +117,10 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 			<hr className='m-0 px-3' />
 			{showLogs && (
 				<div className='navbar-menu__logs-dropdown'>
-					{allLogs.length === 0 ? (
+					{noReadedLogs.length === 0 ? (
 						<div className='navbar-menu__log-empty'>No notifications</div>
 					) : (
-						allLogs.slice(0, 10).map(log => (
+						noReadedLogs.map(log => (
 							<div key={log.id} className='navbar-menu__log-item'>
 								<div className='navbar-menu__log-title'>
 									{log.action} {log.entity} {log.name}

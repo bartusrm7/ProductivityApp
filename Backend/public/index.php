@@ -35,6 +35,7 @@ use App\Services\NotesService;
 use App\Services\SettingsService;
 use App\Services\TasksDataService;
 use App\Services\TasksService;
+use App\Validations\ActiveLogsValidation;
 use App\Validations\AuthValidation;
 use App\Validations\DashboardValidation;
 use App\Validations\GoalsValidation;
@@ -82,6 +83,7 @@ $settingsRepository = new SettingsRepository($db);
 
 // VALIDATIORS
 $authValidation = new AuthValidation();
+$activeLogsValidation = new ActiveLogsValidation();
 $dashboardValidation = new DashboardValidation();
 $tasksValidation = new TasksValidation();
 $tasksDataValidation = new TasksDataValidation();
@@ -94,7 +96,7 @@ $settingsValidation = new SettingsValidation();
 // SERVICES
 $jwtService = new JWTService();
 $authService = new AuthService($authRepository, $authValidation);
-$activeLogsService = new ActiveLogsService($activeLogsRepository);
+$activeLogsService = new ActiveLogsService($activeLogsRepository, $activeLogsValidation);
 $dashboardService = new DashboardService($dashboardRepository, $dashboardValidation);
 $tasksService = new TasksService($tasksRepository, $tasksDataRepository, $activeLogsRepository, $tasksValidation);
 $tasksDataService = new TasksDataService($tasksDataRepository, $activeLogsRepository, $tasksDataValidation);
@@ -109,7 +111,7 @@ $authMiddleware = new AuthMiddleware($jwtService);
 
 // CONTROLLERS
 $authController = new AuthController($authService, $jwtService);
-$activeLogsController = new ActiveLogsController($activeLogsService);
+$activeLogsController = new ActiveLogsController($activeLogsService, $jwtService);
 $dashboardController = new DashboardController($dashboardService, $jwtService);
 $tasksController = new TasksController($tasksService, $jwtService);
 $tasksDataController = new TasksDataController($tasksDataService);
@@ -142,6 +144,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // ACTIVE LOGS
     $r->addRoute('GET', '/readed-notification', [ActiveLogsController::class, 'setNotificationAsReaded']);
+    $r->addRoute('GET', '/get-no-readed-logs', [ActiveLogsController::class, 'getNoReadedLogs']);
 
     // DASHBOARD
     $r->addRoute('GET', '/get-all-logs', [DashboardController::class, 'getAllLogs']);
