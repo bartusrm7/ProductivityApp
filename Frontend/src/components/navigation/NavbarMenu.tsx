@@ -13,6 +13,7 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 	const [noReadedLogs, setNoReadedLogs] = useState<UserActiveLogsData[]>([]);
 	const [logsIds, setLogsIds] = useState<number[]>([]);
 	const [showLogs, setShowLogs] = useState(false);
+	const [refresh, setRefresh] = useState<number>(0);
 
 	async function getUserEmail() {
 		const jwt = localStorage.getItem("jwt");
@@ -85,7 +86,7 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 
 	useEffect(() => {
 		getNoReadedLogs();
-	}, []);
+	}, [refresh]);
 
 	useEffect(() => {
 		getUserEmail();
@@ -102,8 +103,8 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 					<div className='d-flex align-items-center'>
 						{remindersState ? (
 							<div className='navbar-menu__message-wrapper me-3' onClick={() => setShowLogs(prevState => !prevState)}>
-								<Notifications logsIds={logsIds} />
-								<div className='navbar-menu__badge'>{noReadedLogs.length}</div>
+								<Notifications logsIds={logsIds} refreshData={() => setRefresh(prevState => prevState + 1)} />
+								{logsIds.length > 0 && <div className='navbar-menu__badge'>{noReadedLogs.length}</div>}
 							</div>
 						) : null}
 						<div className='me-2 d-block'>
