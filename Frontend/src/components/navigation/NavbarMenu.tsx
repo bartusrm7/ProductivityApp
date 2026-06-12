@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
-import { IoIosNotifications } from "react-icons/io";
 import type { UserActiveLogsData } from "../../types/dashboard";
+import Notifications from "../dashboard/Notifications";
 
 export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: string; onToggleMenu: () => void }) {
 	const [userEmail, setUserEmail] = useState<string | null>("");
@@ -11,6 +11,7 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 	const [userAvatar, setUserAvatar] = useState<string | null>("");
 	const [remindersState, setRemindersState] = useState<number>();
 	const [noReadedLogs, setNoReadedLogs] = useState<UserActiveLogsData[]>([]);
+	const [logsIds, setLogsIds] = useState<number[]>([]);
 	const [showLogs, setShowLogs] = useState(false);
 
 	async function getUserEmail() {
@@ -75,7 +76,9 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 			},
 		});
 		const data = await response.json();
+		const uploadData: UserActiveLogsData[] = data.data;
 		if (data.success) {
+			setLogsIds(uploadData.map(data => data.id));
 			setNoReadedLogs(data.data);
 		}
 	}
@@ -99,7 +102,7 @@ export default function NavbarMenu({ pageName, onToggleMenu }: { pageName: strin
 					<div className='d-flex align-items-center'>
 						{remindersState ? (
 							<div className='navbar-menu__message-wrapper me-3' onClick={() => setShowLogs(prevState => !prevState)}>
-								<IoIosNotifications size={24} className='navbar-menu__message-btn' />
+								<Notifications logsIds={logsIds} />
 								<div className='navbar-menu__badge'>{noReadedLogs.length}</div>
 							</div>
 						) : null}

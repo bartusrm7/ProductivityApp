@@ -143,7 +143,6 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/get-user-avatar', [AuthController::class, 'getAvatar']);
 
     // ACTIVE LOGS
-    $r->addRoute('GET', '/readed-notification', [ActiveLogsController::class, 'setNotificationAsReaded']);
     $r->addRoute('GET', '/get-no-readed-logs', [ActiveLogsController::class, 'getNoReadedLogs']);
 
     // DASHBOARD
@@ -184,6 +183,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     // AUTH
     $r->addRoute('POST', '/sign-up', [AuthController::class, 'userRegistration']);
     $r->addRoute('POST', '/sign-in', [AuthController::class, 'userLogin']);
+
+    // ACTIVE LOGS
+    $r->addRoute('POST', '/readed-notification', [ActiveLogsController::class, 'setNotificationAsReaded']);
 
     // TASKS
     $r->addRoute('POST', '/create-task', [TasksController::class, 'createNewTask']);

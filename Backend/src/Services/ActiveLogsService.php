@@ -18,9 +18,11 @@ class ActiveLogsService extends BaseService
         $this->validation = $validation;
     }
 
-    public function setLogsAsReaded(int $id)
+    public function setLogsAsReaded(array $ids)
     {
-        $this->repository->setLogsAsReadedQuery($id);
+        foreach ($ids as $id) {
+            $this->repository->setLogsAsReadedQuery($id);
+        }
         return $this->successResponse();
     }
 
